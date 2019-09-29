@@ -1,2 +1,2 @@
 # mrbeam
-A simple beam calculator. Easy to Use!
+A simple beam calculator. \n Easy to Use!
