@@ -63,7 +63,7 @@ export default {
       console.log(this.points.filter(point => point.id !== id));
     },
     generator(context, count) {
-      let points = BeamService.generator(count);
+      let points = BeamService.generate(count);
       context.commit("SET_POINTS", points);
     },
     calculate(context) {
