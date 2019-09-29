@@ -2,8 +2,8 @@
   <div id="app">
     <b-navbar>
       <template slot="start">
-        <b-navbar-item href="/">Home</b-navbar-item>
-        <b-navbar-item href="/about">About</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ path: '/' }">Home</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ path: '/newbeam' }">New Beam</b-navbar-item>
       </template>
 
       <template slot="end">
