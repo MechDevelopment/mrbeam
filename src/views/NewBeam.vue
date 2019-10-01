@@ -41,9 +41,49 @@
         </b-table-column>
       </template>
       <template slot="footer">
-        <div class="buttons">
+        <!-- <div class="buttons">
           <b-button type="is-primary" icon-pack="fas" icon-right="plus">Add Element</b-button>
           <b-button icon-pack="fas" icon-right="calculator">Calculate Beam</b-button>
+        </div>-->
+        <div class="container">
+          <div class="columns is-centered">
+            <div class="column is-half-desktop">
+              <form>
+                <b-field>
+                  <b-select placeholder="Select a type">
+                    <option value="1">Bulma</option>
+                    <option value="2">Vue.js</option>
+                    <option value="3">Buefy</option>
+                  </b-select>
+                </b-field>
+
+                <b-field>
+                  <b-radio native-value="on-border">On Border</b-radio>
+                  <b-radio native-value="inside">Inside</b-radio>
+                </b-field>
+
+                <b-field>
+                  <b-input placeholder="X-coordinate" type="number"></b-input>
+                  <b-select placeholder="Meters">
+                    <option>Sm</option>
+                    <option>Mm</option>
+                  </b-select>
+                </b-field>
+
+                <b-field>
+                  <b-input placeholder="Load" type="number"></b-input>
+                  <b-select placeholder="N/m">
+                    <option>N/sm</option>
+                    <option>kN/m</option>
+                  </b-select>
+                </b-field>
+                <div class="buttons">
+                  <b-button type="is-primary submit" icon-pack="fas" icon-right="plus">Add Element</b-button>
+                  <b-button icon-pack="fas" icon-right="calculator" type="is-text">Calculate Beam</b-button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </template>
 
