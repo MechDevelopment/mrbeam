@@ -10,94 +10,95 @@
     </div>
   </section>-->
   <section class="section">
-    <b-table
-      :data="isEmpty ? [] : data"
-      :bordered="isBordered"
-      :striped="isStriped"
-      :narrowed="isNarrowed"
-      :hoverable="isHoverable"
-      :loading="isLoading"
-      :focusable="isFocusable"
-      :mobile-cards="hasMobileCards"
-    >
-      <template slot-scope="props">
-        <b-table-column field="id" label="№" width="40" numeric>{{ props.row.id }}</b-table-column>
+    <div class="container">
+      <div class="columns">
+        <div class="column is-two-thirds">
+          <b-table
+            :data="isEmpty ? [] : data"
+            :bordered="isBordered"
+            :striped="isStriped"
+            :narrowed="isNarrowed"
+            :hoverable="isHoverable"
+            :loading="isLoading"
+            :focusable="isFocusable"
+            :mobile-cards="hasMobileCards"
+          >
+            <template slot-scope="props">
+              <b-table-column field="id" label="№" width="40" numeric>{{ props.row.id }}</b-table-column>
 
-        <b-table-column field="first_name" label="Element">{{ props.row.first_name }}</b-table-column>
+              <b-table-column field="first_name" label="Element">{{ props.row.first_name }}</b-table-column>
 
-        <b-table-column field="last_name" label="X-coordinate">{{ props.row.last_name }}</b-table-column>
+              <b-table-column field="last_name" label="X-coordinate">{{ props.row.last_name }}</b-table-column>
 
-        <b-table-column field="load" label="Load" numeric>344</b-table-column>
+              <b-table-column field="load" label="Load" numeric>344</b-table-column>
 
-        <b-table-column field="date" label="Date" centered>
-          <span class="tag is-success">{{ new Date(props.row.date).toLocaleDateString() }}</span>
-        </b-table-column>
+              <b-table-column field="date" label="Date" centered>
+                <span class="tag is-success">{{ new Date(props.row.date).toLocaleDateString() }}</span>
+              </b-table-column>
 
-        <b-table-column label="Gender">
-          <span>
-            <b-icon pack="fas" :icon="props.row.gender === 'Male' ? 'mars' : 'venus'"></b-icon>
-            {{ props.row.gender }}
-          </span>
-        </b-table-column>
-      </template>
-      <template slot="footer">
-        <!-- <div class="buttons">
-          <b-button type="is-primary" icon-pack="fas" icon-right="plus">Add Element</b-button>
-          <b-button icon-pack="fas" icon-right="calculator">Calculate Beam</b-button>
-        </div>-->
-        <div class="container">
-          <div class="columns is-centered">
-            <div class="column is-half-desktop">
-              <form>
-                <b-field>
-                  <b-select placeholder="Select a type">
-                    <option value="1">Bulma</option>
-                    <option value="2">Vue.js</option>
-                    <option value="3">Buefy</option>
-                  </b-select>
-                </b-field>
-
-                <b-field>
-                  <b-radio native-value="on-border">On Border</b-radio>
-                  <b-radio native-value="inside">Inside</b-radio>
-                </b-field>
-
-                <b-field>
-                  <b-input placeholder="X-coordinate" type="number"></b-input>
-                  <b-select placeholder="Meters">
-                    <option>Sm</option>
-                    <option>Mm</option>
-                  </b-select>
-                </b-field>
-
-                <b-field>
-                  <b-input placeholder="Load" type="number"></b-input>
-                  <b-select placeholder="N/m">
-                    <option>N/sm</option>
-                    <option>kN/m</option>
-                  </b-select>
-                </b-field>
-                <div class="buttons">
-                  <b-button type="is-primary submit" icon-pack="fas" icon-right="plus">Add Element</b-button>
-                  <b-button icon-pack="fas" icon-right="calculator" type="is-text">Calculate Beam</b-button>
+              <b-table-column label="Gender">
+                <span>
+                  <b-icon pack="fas" :icon="props.row.gender === 'Male' ? 'mars' : 'venus'"></b-icon>
+                  {{ props.row.gender }}
+                </span>
+              </b-table-column>
+            </template>
+            <template slot="empty">
+              <section class="section">
+                <div class="content has-text-grey has-text-centered">
+                  <p>
+                    <b-icon icon="emoticon-sad" size="is-large"></b-icon>
+                  </p>
+                  <p>Nothing here.</p>
                 </div>
-              </form>
-            </div>
-          </div>
+              </section>
+            </template>
+          </b-table>
         </div>
-      </template>
+        <div class="column">
+          <form>
+            <b-field>
+              <b-select placeholder="Select a type">
+                <option value="1">Bulma</option>
+                <option value="2">Vue.js</option>
+                <option value="3">Buefy</option>
+              </b-select>
+            </b-field>
 
-      <template slot="empty">
-        <section class="section">
-          <div class="content has-text-grey has-text-centered">
-            <p>
-              <b-icon icon="emoticon-sad" size="is-large"></b-icon>
-            </p>
-            <p>Nothing here.</p>
-          </div>
-        </section>
-      </template>
-    </b-table>
+            <b-field>
+              <b-radio native-value="on-border">On Border</b-radio>
+              <b-radio native-value="inside">Inside</b-radio>
+            </b-field>
+
+            <b-field>
+              <b-input placeholder="X-coordinate" type="number"></b-input>
+              <b-select placeholder="Meters">
+                <option>Sm</option>
+                <option>Mm</option>
+              </b-select>
+            </b-field>
+
+            <b-field>
+              <b-input placeholder="Load" type="number"></b-input>
+              <b-select placeholder="N/m">
+                <option>N/sm</option>
+                <option>kN/m</option>
+              </b-select>
+            </b-field>
+
+            <div class="buttons">
+              <b-button
+                class="button"
+                type="is-primary submit"
+                icon-pack="fas"
+                icon-right="plus"
+              >Add Element</b-button>
+              <b-button icon-pack="fas" icon-right="calculator" type="is-light">Calculate Beam</b-button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 
