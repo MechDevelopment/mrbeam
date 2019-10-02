@@ -21,7 +21,7 @@
             :hoverable="isHoverable"
             :loading="isLoading"
             :focusable="isFocusable"
-            :mobile-cards="hasMobileCards"
+            :mobile-cards="false"
           >
             <template slot-scope="props">
               <b-table-column field="id" label="№" width="40" numeric>{{ props.row.id }}</b-table-column>
@@ -91,8 +91,8 @@
                 class="button"
                 type="is-primary submit"
                 icon-pack="fas"
-                icon-right="plus"
-              >Add Element</b-button>
+                icon-left="arrow-left"
+              >Add Point</b-button>
               <b-button icon-pack="fas" icon-right="calculator" type="is-light">Calculate Beam</b-button>
             </div>
           </form>
