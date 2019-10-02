@@ -10,6 +10,7 @@
     </div>
   </section>-->
   <section class="section">
+    <h2>{{test}}</h2>
     <div class="container">
       <div class="columns">
         <div class="column is-two-thirds">
@@ -93,7 +94,12 @@
                 icon-pack="fas"
                 icon-left="arrow-left"
               >Add Point</b-button>
-              <b-button icon-pack="fas" icon-right="calculator" type="is-light">Calculate Beam</b-button>
+              <b-button
+                icon-pack="fas"
+                icon-right="calculator"
+                type="is-light"
+                @click="test"
+              >Calculate Beam</b-button>
             </div>
           </form>
         </div>
@@ -103,6 +109,8 @@
 </template>
 
 <script>
+import fem from "../services/FiniteElementMethod.js";
+
 export default {
   data() {
     const data = [
@@ -154,6 +162,11 @@ export default {
       isLoading: false,
       hasMobileCards: true
     };
+  },
+  methods: {
+    test: function() {
+      fem();
+    }
   }
 };
 </script>

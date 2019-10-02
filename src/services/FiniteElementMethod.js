@@ -18,4 +18,9 @@ element = {
 function FEM(points, elements){
     
 }
+
 */
+
+export default function() {
+  console.log("Finite Elements");
+}
