@@ -10,7 +10,6 @@
     </div>
   </section>-->
   <section class="section">
-    <h2>{{test}}</h2>
     <div class="container">
       <div class="columns">
         <div class="column is-two-thirds">

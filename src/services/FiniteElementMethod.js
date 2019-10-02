@@ -5,9 +5,9 @@
 //     atan2, chain, derivative, e, evaluate, log, pi, pow, round, sqrt
 //   } from 'mathjs'
 
-const mj = require('mathjs')
-const nj = require('numjs')
-console.log(nj.zeros([3,6]))
+const mj = require("mathjs");
+const nj = require("numjs");
+console.log(nj.zeros([3, 6]));
 /*
 point = {
     coordinates: [0, 0],
