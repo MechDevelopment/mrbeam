@@ -1,13 +1,177 @@
 // Here i will create beam calculations!!!
-
-// import * from 'mathjs'
-// import {
-//     atan2, chain, derivative, e, evaluate, log, pi, pow, round, sqrt
-//   } from 'mathjs'
-
-const mj = require('mathjs')
 const nj = require('numjs')
-console.log(nj.zeros([3,6]))
+
+FEM()
+
+function FEM() {
+    /// FEM: init function
+    var point_1 = {
+		coordinates: [0, 0],
+        defenitions: [0, 0, 0],
+        load: [0, 0],
+        moment: 0,
+        joint: false,
+	}
+	
+	var point_2 = {
+		coordinates: [0, 0],
+        defenitions: [0, 0, 0],
+        load: [0, 0],
+        moment: 0,
+        joint: false,
+	}
+    
+    let M1 = nj.array([[1, 1, -1], [1, -1, 1], [-1, 1, 1]])
+    let f1 = nj.array([4, 2, 0])
+
+    let M2 = nj.array([[2, 5, 4, 1], [1, 3, 2, 1], [2, 10, 9, 7], [3, 8, 9, 2]])
+    let f2 = nj.array([20, 11, 40, 37])
+    console.log(Solve(M1,f1)); // 3 2 1
+
+    console.log(Solve(M2,f2)); // 1 2 2 0
+    /*
+    BuildEasySolution(point_1, point_2)
+    
+    let M = nj.array([[2, 5, 4, 1], [1, 3, 2, 1], [2, 10, 9, 7], [3, 8, 9, 2]])
+    let f = nj.array([20, 11, 40, 37])
+
+    
+    return BuildEasySolution(point_1, point_2)
+    */
+}
+
+
+
+
+function BuildEasySolution(point_1, point_2){
+
+	
+	// Длина между точками элемента
+    let length = distance(point_1["point"],point_2["point"])
+    
+	// Создание локальной (совпадает с глобальной) матрицы жесткости
+	let GM = LocalMatrix(length)
+	GM = GM.multiply(320.0)
+	
+	// Создание вектора узловых сил
+	let VP = [point_1["power"].x, point_1["power"].y, point_2["power"].x, point_2["power"].y]
+	
+	
+	let DGM = GM.slice()
+	// Учет граничных условий или закрепления
+	if (point_1["defenition"][0]){
+        Def(DGM, 0)
+    }
+	if (point_1["defenition"][1]){
+        Def(DGM, 1)
+    }
+	if (point_2["defenition"][0]){
+        Def(DGM, 2)
+    }
+	if (point_2["defenition"][1]){
+        Def(DGM, 3)
+    }
+	
+	// Решение матричного уравнения MG * VX = VP
+	console.log(GM)
+	console.log(VP)
+	
+	// Перемещение и повороты
+	var VS = Solve(DGM, VP)
+	console.log(VS)
+	
+	// Продольные силы и моменты
+
+	console.log(nj.multiply(GM, VS))
+}
+	
+	
+function Def(M, elem){
+	for (let i = 0; i < M.size(); i++){
+		for (let j = 0; j < M.size(); j++){
+			if (j == elem || i == elem){
+                M[i][j] = 0
+            }
+        }
+    }
+	M[elem][elem] = 1
+	
+	return M
+}
+
+function LocalMatrix(l){
+	return nj.array([
+[12.0/l/l/l, 6.0/l/l, -12.0/l/l/l, 6.0/l/l],
+[6.0/l/l, 4.0/l, -6.0/l/l, 2.0/l],
+[-12.0/l/l/l, -6.0/l/l, 12.0/l/l/l, -6.0/l/l],
+[6.0/l/l, 2.0/l, -6.0/l/l, 4.0/l]])
+}
+
+function distance(point1, point2) {
+    return nj.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2);
+}
+
+function Solve(M, f){
+	// Константы
+    let a = nj.array(M.slice());
+	let n = a.size;
+	let flag;
+    
+    a.add(f)
+	// Составляем СЛАУ
+	// for (i = 0; i < n; i++){
+    //     console.log(a.get(i))
+    //     console.log(f.get(i))
+	// 	a[i].push(f[i]);
+    // }
+
+    console.log(a)
+
+	// Вычисления
+	for (i = 0; i < n; i++){
+		// Идем по диагонали
+		if (a[i][i] != 1){
+			// Убираем 0
+			if (a[i][i] == 0){
+				flag = true;
+				for (j = i + 1; j < n - 1; j++){
+					if (a[j][i] != 0){
+						let ai = a[i];
+						a[i] = a[j];
+						a[j] = ai;
+                        flag = false;
+                    }
+                }
+				 // Выводим null, если нельзя убрать 0
+				 if (flag){
+                     return null;
+                 }
+            }
+			// Убираем число неравное 1
+			let aii = a[i][i];
+			for (j = 0; j < n + 1; j++){
+                a[i][j] /= aii;
+            }
+        }
+		// Изменяем строки
+		for (j = 0; j < n; j++){
+			if (j == i || a[j][i] == 0){
+                continue;
+            }
+			let aji = a[j][i]
+			for (k = 0; k < n + 1; k++){
+                a[j][k] -= a[i][k] * aji;
+            }
+        }
+    }
+	// Возвращаем результат
+	let result = nj.array([]);
+	for (i = 0; i < n; i++){
+        result.push(a[i][n]);
+    }
+    return result;
+}
+
 /*
 point = {
     coordinates: [0, 0],
@@ -15,6 +179,7 @@ point = {
     load: [0, 0],
     moment: 0,
     joint: false,
+    
 }
 
 element = {
