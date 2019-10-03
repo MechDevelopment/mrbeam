@@ -16,9 +16,45 @@
       <b-radio-button v-model="radioButton" native-value="defenition">Defenition</b-radio-button>
     </b-field>
 
-    <keep-alive>
-      <component v-bind:is="currentTabComponent"></component>
-    </keep-alive>
+    <b-field v-show="radioButton == 'defenition'">
+      <b-radio-button v-model="defenitionType" native-value="1" type="is-danger">
+        <b-icon icon="close"></b-icon>
+        <span>Load</span>
+      </b-radio-button>
+
+      <b-radio-button v-model="defenitionType" native-value="2" type="is-success">
+        <b-icon icon="check"></b-icon>
+        <span>Def. Load</span>
+      </b-radio-button>
+    </b-field>
+
+    <b-field>
+      <b-input placeholder="X-coordinate" type="number"></b-input>
+      <b-select placeholder="Meters">
+        <option>Sm</option>
+        <option>Mm</option>
+      </b-select>
+    </b-field>
+
+    <b-field v-show="radioButton == 'defload'">
+      <b-input placeholder="Y-coordinate" type="number"></b-input>
+      <b-select placeholder="Meters">
+        <option>Sm</option>
+        <option>Mm</option>
+      </b-select>
+    </b-field>
+
+    <b-field v-show="radioButton == 'load'">
+      <b-input placeholder="Angle" type="number"></b-input>
+    </b-field>
+
+    <b-field v-show="radioButton != 'defenition'">
+      <b-input placeholder="Load" type="number"></b-input>
+      <b-select placeholder="N/m">
+        <option>N/sm</option>
+        <option>kN/m</option>
+      </b-select>
+    </b-field>
 
     <div class="buttons">
       <b-button
@@ -43,15 +79,9 @@ export default {
   },
   data() {
     return {
-      currentTab: "Load",
-      tabs: ["Load", "DistLoad", "Momentum", "Defenition"],
-      radioButton: "Yep"
+      radioButton: "load",
+      defenitionType: "1"
     };
-  },
-  computed: {
-    currentTabComponent() {
-      return this.currentTab + "Form";
-    }
   }
 };
 </script>
