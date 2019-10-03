@@ -7,12 +7,12 @@
         <span>Load</span>
       </b-radio-button>
 
-      <b-radio-button v-model="radioButton" native-value="defload" type="is-success">
+      <b-radio-button v-model="radioButton" native-value="distload" type="is-success">
         <b-icon pack="fas" icon="angle-double-down"></b-icon>
-        <span>Def. Load</span>
+        <span>Dist. Load</span>
       </b-radio-button>
 
-      <b-radio-button v-model="radioButton" native-value="momentum" type="is-warning">
+      <b-radio-button v-model="radioButton" native-value="momentum">
         <b-icon pack="fas" icon="blind"></b-icon>
         <span>Mom</span>
       </b-radio-button>
@@ -41,7 +41,7 @@
       </b-select>
     </b-field>
 
-    <b-field v-show="radioButton == 'defload'">
+    <b-field v-show="radioButton == 'distload'">
       <b-input placeholder="Y-coordinate" type="number" expanded></b-input>
       <b-select placeholder="Meters">
         <option>Sm</option>
@@ -61,14 +61,10 @@
       </b-select>
     </b-field>
 
-    <div class="buttons">
-      <b-button
-        class="button"
-        type="is-primary submit"
-        icon-pack="fas"
-        icon-left="arrow-left"
-      >Add Point</b-button>
-      <b-button icon-pack="fas" icon-right="calculator" type="is-light">Analyse Beam</b-button>
+    <div class="buttons is-centered">
+      <!-- <button type="submit" class="button is-primary">Submit</button> -->
+      <b-button type="is-primary" icon-pack="fas" icon-left="arrow-left">Add Point</b-button>
+      <b-button icon-pack="fas" icon-right="calculator" outlined>Analyse Beam</b-button>
     </div>
   </form>
 </template>
