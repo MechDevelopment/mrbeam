@@ -8,16 +8,16 @@
       </b-select>
     </b-field>
 
-    <b-field label="Angle" :label-position="labelPosition">
-      <b-input type="number"></b-input>
-    </b-field>
-
     <b-field label="Load" :label-position="labelPosition">
       <b-input type="number"></b-input>
       <b-select placeholder="N/m">
         <option>N/sm</option>
         <option>kN/m</option>
       </b-select>
+    </b-field>
+
+    <b-field label="Angle" :label-position="labelPosition">
+      <b-input type="number"></b-input>
     </b-field>
   </form>
 </template>

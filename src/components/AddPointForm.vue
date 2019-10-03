@@ -1,7 +1,14 @@
 <template>
   <section>
     <div class="buttons">
-      <b-button v-for="tab in tabs" v-bind:key="tab" v-on:click="currentTab = tab">{{ tab }}</b-button>
+      <b-button
+        v-for="tab in tabs"
+        :key="tab"
+        @click="currentTab = tab"
+        icon-pack="fas"
+        :icon-left="tab.icon"
+        class="is-light"
+      >{{ tab.name }}</b-button>
       <!-- <b-button class="button" type="is-primary submit" icon-pack="fas" icon-left="arrow-down">Load</b-button>
       <b-button
         class="button"
@@ -47,12 +54,18 @@ export default {
   data() {
     return {
       currentTab: "Load",
-      tabs: ["Load", "DistLoad", "Momentum", "Defenition"]
+      // tabs: ["Load", "DistLoad", "Momentum", "Defenition"],
+      tabs: [
+        { name: "Load", icon: "arrow-down" },
+        { name: "DistLoad", icon: "angle-double-down" },
+        { name: "Momentum", icon: "blind" },
+        { name: "Defenition", icon: "align-center" }
+      ]
     };
   },
   computed: {
     currentTabComponent() {
-      return this.currentTab + "Form";
+      return this.currentTab.name + "Form";
     }
   }
 };
