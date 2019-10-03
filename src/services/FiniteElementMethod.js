@@ -111,34 +111,43 @@ function distance(point1, point2) {
     return nj.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2);
 }
 
-function Solve(M, f){
-	// Константы
-    let a = nj.array(M.slice());
-	let n = a.size;
-	let flag;
-    
-    a.add(f)
-	// Составляем СЛАУ
-	// for (i = 0; i < n; i++){
-    //     console.log(a.get(i))
-    //     console.log(f.get(i))
-	// 	a[i].push(f[i]);
-    // }
 
-    console.log(a)
+/**
+ * Solves a system of linear equations.
+ *
+ * @constructor
+ * @this {Solve} Gauss-Jordan Elimination
+ * @param {nj.NdArray} matrix system matrix
+ * @param {nj.NdArray} vector system vector
+ * @return {nj.NdArray} vector solutions
+ */
+function Solve(matrix, vector){
+    // Check assert
+    console.assert(matrix instanceof nj.NdArray, "Solve: matrix is not NdArray.")
+    console.assert(vector instanceof nj.NdArray, "Solve: vector is not NdArray.")
+    console.assert(matrix.shape[0] == matrix.shape[1], "Solve: matrix is not square.")
+    console.assert(matrix.shape[0] == vector.shape[0], "Solve: vector size is not equal to matrix size.")
 
+    // Private variables
+    let n = vector.size
+    let flag
+
+    // Create slau
+    let slau = nj.concatenate(matrix.clone(), vector.reshape(n, 1))
+	
 	// Вычисления
 	for (i = 0; i < n; i++){
 		// Идем по диагонали
-		if (a[i][i] != 1){
+		if (slau.get(i, i) != 1){
 			// Убираем 0
-			if (a[i][i] == 0){
+			if (slau.get(i, i) == 0){
 				flag = true;
 				for (j = i + 1; j < n - 1; j++){
-					if (a[j][i] != 0){
-						let ai = a[i];
-						a[i] = a[j];
-						a[j] = ai;
+					if (slau.get(j, i) != 0){
+                        let slaui = slau.get(i)
+                        slau.set(i, slay.get(j))
+                        slau.set(j, slaui)
+
                         flag = false;
                     }
                 }
@@ -148,28 +157,24 @@ function Solve(M, f){
                  }
             }
 			// Убираем число неравное 1
-			let aii = a[i][i];
+			let slauii = slau.get(i, i)
 			for (j = 0; j < n + 1; j++){
-                a[i][j] /= aii;
+                slau.set(i, j, slau.get(i, j) / slauii)
             }
         }
 		// Изменяем строки
 		for (j = 0; j < n; j++){
-			if (j == i || a[j][i] == 0){
+			if (j == i || slau.get(j, i) == 0){
                 continue;
             }
-			let aji = a[j][i]
+			let slauji = slau.get(j, i)
 			for (k = 0; k < n + 1; k++){
-                a[j][k] -= a[i][k] * aji;
+                slau.set(j, k, slau.get(j, k) - slau.get(i,k) * slauji)
             }
         }
     }
 	// Возвращаем результат
-	let result = nj.array([]);
-	for (i = 0; i < n; i++){
-        result.push(a[i][n]);
-    }
-    return result;
+    return slau.T.slice(-1).flatten()
 }
 
 /*
