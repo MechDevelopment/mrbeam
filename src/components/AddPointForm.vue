@@ -8,7 +8,7 @@
         @click="currentTab = tab"
         icon-pack="fas"
         :icon-left="tab.icon"
-        class="is-light"
+        class="has-background-light"
       ></b-button>
     </div>
 
