@@ -1,6 +1,7 @@
 <template>
   <section>
     <div class="buttons">
+      <!-- TODO Add tooltip/title to every tab button -->
       <b-button
         v-for="tab in tabs"
         :key="tab.name"
@@ -8,7 +9,7 @@
         icon-pack="fas"
         :icon-left="tab.icon"
         class="is-light"
-      >{{ tab.name }}</b-button>
+      ></b-button>
     </div>
 
     <keep-alive>
