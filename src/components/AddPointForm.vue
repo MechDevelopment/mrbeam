@@ -25,13 +25,8 @@
     </keep-alive>
 
     <div class="buttons">
-      <b-button
-        class="button"
-        type="is-primary submit"
-        icon-pack="fas"
-        icon-left="arrow-left"
-      >Add Point</b-button>
-      <b-button icon-pack="fas" icon-right="calculator" type="is-light">Analyse Beam</b-button>
+      <b-button type="is-primary" icon-pack="fas" icon-left="arrow-left">Add Point</b-button>
+      <b-button type="is-light" icon-pack="fas" icon-right="calculator">Analyse Beam</b-button>
     </div>
   </section>
 </template>
@@ -39,11 +34,15 @@
 <script>
 import LoadForm from "./LoadForm.vue";
 import DistLoadForm from "./DistLoadForm.vue";
+import MomentumForm from "./MomentumForm.vue";
+import DefenitionForm from "./DefenitionForm.vue";
 
 export default {
   components: {
     LoadForm,
-    DistLoadForm
+    DistLoadForm,
+    MomentumForm,
+    DefenitionForm
   },
   data() {
     return {
