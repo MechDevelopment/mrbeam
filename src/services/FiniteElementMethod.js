@@ -6,100 +6,103 @@ FEM()
 function FEM() {
     /// FEM: init function
     var point_1 = {
-		coordinates: [0, 0],
-        defenitions: [0, 0, 0],
-        load: [0, 0],
+		coordinates: nj.array([0, 0]),
+        defenitions: nj.array([1, 1, 0]),
+        load: nj.array([0, 0]),
         moment: 0,
         joint: false,
 	}
 	
 	var point_2 = {
-		coordinates: [0, 0],
-        defenitions: [0, 0, 0],
-        load: [0, 0],
+		coordinates: nj.array([10, 0]),
+        defenitions: nj.array([0, 0, 0]),
+        load: nj.array([1000, 0]),
         moment: 0,
         joint: false,
 	}
     
-    let M1 = nj.array([[1, 1, -1], [1, -1, 1], [-1, 1, 1]])
-    let f1 = nj.array([4, 2, 0])
-
-    let M2 = nj.array([[2, 5, 4, 1], [1, 3, 2, 1], [2, 10, 9, 7], [3, 8, 9, 2]])
-    let f2 = nj.array([20, 11, 40, 37])
-    console.log(Solve(M1,f1)); // 3 2 1
-
-    console.log(Solve(M2,f2)); // 1 2 2 0
+    // Перемещения в координатной форме [[x,y],[x,y]] - для двух точек (стандартный массив)
+    return BuildEasySolution(point_1, point_2, 9.9 * (10 ** 6) * 0.04909)
     /*
-    BuildEasySolution(point_1, point_2)
-    
-    let M = nj.array([[2, 5, 4, 1], [1, 3, 2, 1], [2, 10, 9, 7], [3, 8, 9, 2]])
-    let f = nj.array([20, 11, 40, 37])
-
-    
-    return BuildEasySolution(point_1, point_2)
+        Max Deflection:	δmax=0.6859 in	@ x = L
+        Max Slope:	θmax=0.1029 rad	@ x = L
+        Shear:	V=+1000 lbf	constant
+        Moment:	Mmax=−10,000 in-lbf	@ x = 0
     */
 }
 
 
 
 
-function BuildEasySolution(point_1, point_2){
+function BuildEasySolution(point_1, point_2, material){
 
-	
 	// Длина между точками элемента
-    let length = distance(point_1["point"],point_2["point"])
+    let length = distance(point_1['coordinates'], point_2['coordinates'])
+    
     
 	// Создание локальной (совпадает с глобальной) матрицы жесткости
-	let GM = LocalMatrix(length)
-	GM = GM.multiply(320.0)
-	
+    let GM = localMatrix(length)
+    
+	GM = GM.multiply(material) // 320 - это материал
+
 	// Создание вектора узловых сил
-	let VP = [point_1["power"].x, point_1["power"].y, point_2["power"].x, point_2["power"].y]
+    let VP = nj.array([
+        point_1['load'].get(0),
+        point_1['load'].get(1), 
+        point_2['load'].get(0), 
+        point_2['load'].get(1),
+    ])
 	
-	
-	let DGM = GM.slice()
+    let DGM = GM.clone()
 	// Учет граничных условий или закрепления
-	if (point_1["defenition"][0]){
-        Def(DGM, 0)
+	if (point_1['defenitions'].get(0)){
+        def(DGM, 0)
     }
-	if (point_1["defenition"][1]){
-        Def(DGM, 1)
+	if (point_1['defenitions'].get(1)){
+        def(DGM, 1)
     }
-	if (point_2["defenition"][0]){
-        Def(DGM, 2)
+	if (point_2['defenitions'].get(0)){
+        def(DGM, 2)
     }
-	if (point_2["defenition"][1]){
-        Def(DGM, 3)
+	if (point_2['defenitions'].get(1)){
+        def(DGM, 3)
     }
-	
-	// Решение матричного уравнения MG * VX = VP
-	console.log(GM)
-	console.log(VP)
 	
 	// Перемещение и повороты
-	var VS = Solve(DGM, VP)
-	console.log(VS)
-	
+	let solution = solve(DGM, VP)
+    console.log(solution)
+    console.log(nj.dot(GM, solution))
+    return [
+        [point_1['coordinates'].get(0), solution.get(0)],
+        [point_2['coordinates'].get(0), solution.get(2)]]
 	// Продольные силы и моменты
-
-	console.log(nj.multiply(GM, VS))
+	//return nj.dot(GM, VS)
 }
-	
-	
-function Def(M, elem){
-	for (let i = 0; i < M.size(); i++){
-		for (let j = 0; j < M.size(); j++){
-			if (j == elem || i == elem){
-                M[i][j] = 0
-            }
-        }
+
+
+/**
+ *
+ * @constructor
+ * @this {def}
+ * @param {nj.NdArray} matrix
+ * @param {number} elem index in matrix
+ */
+function def(matrix, elem){
+	for (i = 0; i < matrix.shape[0]; i++){
+        matrix.set(i, elem, 0) 
+        matrix.set(elem, i, 0) 
     }
-	M[elem][elem] = 1
-	
-	return M
+    matrix.set(elem, elem, 1)
 }
 
-function LocalMatrix(l){
+/**
+ *
+ * @constructor
+ * @this {localMatrix}
+ * @param {number} l length of element
+ * @return {nj.NdArray}
+ */
+function localMatrix(l){
 	return nj.array([
 [12.0/l/l/l, 6.0/l/l, -12.0/l/l/l, 6.0/l/l],
 [6.0/l/l, 4.0/l, -6.0/l/l, 2.0/l],
@@ -107,8 +110,17 @@ function LocalMatrix(l){
 [6.0/l/l, 2.0/l, -6.0/l/l, 4.0/l]])
 }
 
+/**
+ * Distance between points.
+ *
+ * @constructor
+ * @this {distance}
+ * @param {nj.NdArray} point1
+ * @param {nj.NdArray} point2
+ * @return {Number}
+ */
 function distance(point1, point2) {
-    return nj.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2);
+    return ((point2.get(0) - point1.get(0)) ** 2 + (point2.get(1) - point1.get(1)) ** 2) ** 0.5
 }
 
 
@@ -116,12 +128,12 @@ function distance(point1, point2) {
  * Solves a system of linear equations.
  *
  * @constructor
- * @this {Solve} Gauss-Jordan Elimination
+ * @this {solve} Gauss-Jordan Elimination
  * @param {nj.NdArray} matrix system matrix
  * @param {nj.NdArray} vector system vector
  * @return {nj.NdArray} vector solutions
  */
-function Solve(matrix, vector){
+function solve(matrix, vector){
     // Check assert
     console.assert(matrix instanceof nj.NdArray, "Solve: matrix is not NdArray.")
     console.assert(vector instanceof nj.NdArray, "Solve: vector is not NdArray.")
@@ -135,34 +147,34 @@ function Solve(matrix, vector){
     // Create slau
     let slau = nj.concatenate(matrix.clone(), vector.reshape(n, 1))
 	
-	// Вычисления
 	for (i = 0; i < n; i++){
-		// Идем по диагонали
+		// Go by diagonally
 		if (slau.get(i, i) != 1){
-			// Убираем 0
+			// if 0
 			if (slau.get(i, i) == 0){
-				flag = true;
+                flag = true
+                
+                // Remove 0
 				for (j = i + 1; j < n - 1; j++){
 					if (slau.get(j, i) != 0){
                         let slaui = slau.get(i)
                         slau.set(i, slay.get(j))
                         slau.set(j, slaui)
-
-                        flag = false;
+                        flag = false
                     }
                 }
-				 // Выводим null, если нельзя убрать 0
+				 // Return 0
 				 if (flag){
                      return null;
                  }
             }
-			// Убираем число неравное 1
+			// if not equal to 1
 			let slauii = slau.get(i, i)
 			for (j = 0; j < n + 1; j++){
                 slau.set(i, j, slau.get(i, j) / slauii)
             }
         }
-		// Изменяем строки
+		// Change the lines
 		for (j = 0; j < n; j++){
 			if (j == i || slau.get(j, i) == 0){
                 continue;
@@ -173,7 +185,7 @@ function Solve(matrix, vector){
             }
         }
     }
-	// Возвращаем результат
+
     return slau.T.slice(-1).flatten()
 }
 
