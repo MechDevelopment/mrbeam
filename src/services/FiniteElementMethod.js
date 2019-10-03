@@ -189,6 +189,12 @@ function solve(matrix, vector){
     return slau.T.slice(-1).flatten()
 }
 
+<<<<<<< HEAD
+=======
+const mj = require("mathjs");
+const nj = require("numjs");
+console.log(nj.zeros([3, 6]));
+>>>>>>> c860387b0b5998480aaf1379a6e02594e0f6b934
 /*
 point = {
     coordinates: [0, 0],
@@ -208,4 +214,9 @@ element = {
 function FEM(points, elements){
     
 }
+
 */
+
+export default function() {
+  console.log("Finite Elements");
+}

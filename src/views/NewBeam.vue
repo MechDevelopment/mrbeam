@@ -56,46 +56,7 @@
           </b-table>
         </div>
         <div class="column">
-          <form>
-            <b-field>
-              <b-select placeholder="Select a type">
-                <option value="1">Bulma</option>
-                <option value="2">Vue.js</option>
-                <option value="3">Buefy</option>
-              </b-select>
-            </b-field>
-
-            <b-field>
-              <b-radio native-value="on-border">On Border</b-radio>
-              <b-radio native-value="inside">Inside</b-radio>
-            </b-field>
-
-            <b-field>
-              <b-input placeholder="X-coordinate" type="number"></b-input>
-              <b-select placeholder="Meters">
-                <option>Sm</option>
-                <option>Mm</option>
-              </b-select>
-            </b-field>
-
-            <b-field>
-              <b-input placeholder="Load" type="number"></b-input>
-              <b-select placeholder="N/m">
-                <option>N/sm</option>
-                <option>kN/m</option>
-              </b-select>
-            </b-field>
-
-            <div class="buttons">
-              <b-button
-                class="button"
-                type="is-primary submit"
-                icon-pack="fas"
-                icon-left="arrow-left"
-              >Add Point</b-button>
-              <b-button icon-pack="fas" icon-right="calculator" type="is-light">Calculate Beam</b-button>
-            </div>
-          </form>
+          <add-point-form/>
         </div>
       </div>
     </div>
@@ -103,7 +64,14 @@
 </template>
 
 <script>
+import AddPointForm from "../components/AddPointForm.vue";
+import fem from "../services/FiniteElementMethod.js";
+
 export default {
+  name: "NewBeam",
+  components: {
+    AddPointForm
+  },
   data() {
     const data = [
       {
@@ -154,6 +122,11 @@ export default {
       isLoading: false,
       hasMobileCards: true
     };
+  },
+  methods: {
+    test: function() {
+      fem();
+    }
   }
 };
 </script>
