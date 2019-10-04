@@ -10,7 +10,6 @@
   "dependencies": {
     "buefy": "^0.8.0",
     "core-js": "^2.6.5",
-    "mathjs": "^6.2.2",
     "numjs": "^0.16.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
