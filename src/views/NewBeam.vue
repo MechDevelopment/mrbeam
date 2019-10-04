@@ -65,7 +65,7 @@
 
 <script>
 import AddPointForm from "../components/AddPointForm.vue";
-import fem from "../services/FiniteElementMethod.js";
+// import fem from "../services/FiniteElementMethod.js";
 
 export default {
   name: "NewBeam",
