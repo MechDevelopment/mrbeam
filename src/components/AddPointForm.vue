@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -84,6 +84,11 @@ export default {
   },
   methods: {
     test() {
+      this.$store.commit("ADD_POINT", {
+        type: "Dist. Load",
+        x: 7,
+        load: 897
+      });
       console.log(this.getPoints);
     }
   }
