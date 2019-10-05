@@ -1,31 +1,31 @@
-export default class Point {
-  /** Creating a beam point.
-   *
-   * @class
-   * @this {Point}
-   *
-   * @param {Array<Number>} coordinates [x, y]
-   * @param {Array<Boolean>} defenitions [x, y, r]
-   * @param {Array<Number>} load [x, y]
-   * @param {Number} moment
-   * @param {Boolean} joint
-   */
-  constructor(
-    coordinates,
-    defenitions = [0, 0, 0],
-    load = [0, 0],
-    moment = 0,
-    joint = false
-  ) {
-    this.coordinates = coordinates;
-    this.defenitions = defenitions;
-    this.load = load;
-    this.moment = moment;
-    this.joint = joint;
-  }
+class Point {
+	/** Creating a beam point.
+	 *
+	 * @class
+	 * @this {Point}
+	 *
+	 * @param {Array<Number>} coordinates [x, y]
+	 * @param {Array<Boolean>} defenitions [x, y, r]
+	 * @param {Array<Number>} load [x, y]
+	 * @param {Number} moment
+	 * @param {Boolean} joint
+	 */
+	constructor(
+		coordinates,
+		defenitions = [0, 0, 0],
+		load = [0, 0],
+		moment = 0,
+		joint = false
+	) {
+		this.coordinates = coordinates;
+		this.defenitions = defenitions;
+		this.load = load;
+		this.moment = moment;
+		this.joint = joint;
+	}
 }
 
-// module.exports = Point;
+module.exports = Point;
 
 /**
  * @example
