@@ -1,6 +1,7 @@
 export default {
   state: {
-    points: [
+    isProcessing: true,
+    points2: [
       {
         id: 1,
         first_name: "Jesse",
@@ -36,8 +37,32 @@ export default {
         date: "2016/12/06 14:38:38",
         gender: "Female"
       }
+    ],
+    points: [
+      {
+        id: 1,
+        type: "Load",
+        x: 0,
+        load: 12
+      },
+      {
+        id: 2,
+        type: "Load",
+        x: 0,
+        load: 12
+      },
+      {
+        id: 3,
+        type: "defenition",
+        x: 0,
+        load: 0
+      }
     ]
   },
   mutations: {},
-  getters: {}
+  getters: {
+    getPoints: state => {
+      return state.points;
+    }
+  }
 };
