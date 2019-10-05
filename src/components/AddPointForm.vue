@@ -64,18 +64,28 @@
     <div class="buttons is-centered">
       <!-- <button type="submit" class="button is-primary">Submit</button> -->
       <b-button type="is-primary" icon-pack="fas" icon-left="arrow-left">Add Point</b-button>
-      <b-button icon-pack="fas" icon-right="calculator" outlined>Analyse Beam</b-button>
+      <b-button icon-pack="fas" icon-right="calculator" outlined @click="test">Analyse Beam</b-button>
     </div>
   </form>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
       radioButton: "load",
       defenitionType: "1"
     };
+  },
+  computed: {
+    ...mapGetters(["getPoints"])
+  },
+  methods: {
+    test() {
+      console.log(this.getPoints);
+    }
   }
 };
 </script>

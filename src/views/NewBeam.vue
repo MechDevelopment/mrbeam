@@ -26,22 +26,13 @@
             <template slot-scope="props">
               <b-table-column field="id" label="№" width="40" numeric>{{ props.row.id }}</b-table-column>
 
-              <b-table-column field="first_name" label="Element">{{ props.row.first_name }}</b-table-column>
+              <b-table-column field="x" label="X-coordinate" numeric>{{ props.row.x }}</b-table-column>
 
-              <b-table-column field="last_name" label="X-coordinate">{{ props.row.last_name }}</b-table-column>
+              <b-table-column field="angle" label="Angle" numeric>{{ props.row.angle }}</b-table-column>
 
-              <b-table-column field="load" label="Load" numeric>344</b-table-column>
+              <b-table-column field="type" label="Type">{{ props.row.type }}</b-table-column>
 
-              <b-table-column field="date" label="Date" centered>
-                <span class="tag is-success">{{ new Date(props.row.date).toLocaleDateString() }}</span>
-              </b-table-column>
-
-              <b-table-column label="Gender">
-                <span>
-                  <b-icon pack="fas" :icon="props.row.gender === 'Male' ? 'mars' : 'venus'"></b-icon>
-                  {{ props.row.gender }}
-                </span>
-              </b-table-column>
+              <b-table-column field="load" label="Load" numeric>{{ props.row.load }}</b-table-column>
             </template>
             <template slot="empty">
               <section class="section">
@@ -73,43 +64,7 @@ export default {
     AddPointForm
   },
   data() {
-    const data = [
-      {
-        id: 1,
-        first_name: "Jesse",
-        last_name: "Simmons",
-        date: "2016/10/15 13:43:27",
-        gender: "Male"
-      },
-      {
-        id: 2,
-        first_name: "John",
-        last_name: "Jacobs",
-        date: "2016/12/15 06:00:53",
-        gender: "Male"
-      },
-      {
-        id: 3,
-        first_name: "Tina",
-        last_name: "Gilbert",
-        date: "2016/04/26 06:26:28",
-        gender: "Female"
-      },
-      {
-        id: 4,
-        first_name: "Clarence",
-        last_name: "Flores",
-        date: "2016/04/10 10:28:46",
-        gender: "Male"
-      },
-      {
-        id: 5,
-        first_name: "Anne",
-        last_name: "Lee",
-        date: "2016/12/06 14:38:38",
-        gender: "Female"
-      }
-    ];
+    const data = this.$store.getters.getPoints;
 
     return {
       data,
