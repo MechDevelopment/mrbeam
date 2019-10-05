@@ -2,8 +2,7 @@ const Material = require("./Material");
 const Point = require("./Point");
 
 class Element {
-	/**
-	 * Creating an element between points of a beam.
+	/** Creating an element between points of a beam.
 	 *
 	 * @class
 	 * @this {Element}
@@ -22,8 +21,7 @@ class Element {
 		this.distributed_load = distributed_load;
 	}
 
-	/**
-	 * Distance between points.
+	/** Distance between points.
 	 *
 	 * @method
 	 * @this {length}
@@ -38,7 +36,7 @@ class Element {
 		);
 	}
 
-	/**
+	/** Create stiffness matrix.
 	 *
 	 * @method
 	 * @this {local_matrix}
@@ -77,7 +75,7 @@ class Element {
 		];
 	}
 
-	/**
+	/** Create load vector
 	 *
 	 * @method
 	 * @this {local_vector}

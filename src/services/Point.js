@@ -1,6 +1,5 @@
 class Point {
-	/**
-	 * Creating a beam point.
+	/** Creating a beam point.
 	 *
 	 * @class
 	 * @this {Point}

@@ -4,8 +4,7 @@ const Element = require("./Element");
 const nj = require("numjs");
 
 class BeamCalculation {
-	/**
-	 * Beam calculation using the finite element method.
+	/** Beam calculation using the finite element method.
 	 *
 	 * @class
 	 * @this {BeamCalculation}
@@ -13,9 +12,59 @@ class BeamCalculation {
 	 * @param {Array<Element>} elements Elements of the beam in turn
 	 */
 	constructor(elements) {
-		this.elements = elements;
-		solve([[1, 1], [2, 2]], [1, 2]);
-	}
+		let elements = elements;
+		this.solution = Calculate(elements);
+    }
+}
+
+/** Beam calculation using the finite element method.
+*
+* @function
+* @this {Calculate}
+*
+* @param {Array<Element>} elements Elements of the beam in turn
+*/
+function Calculate(elements) {
+    let element;
+    if (elements.length == 1){
+        element = elements[0];
+        
+        let GM = element.local_matrix
+        let GV = element.local_vector
+
+        let DGM = GM.clone();
+
+        // Учет граничных условий или закрепления
+        if (point_1.defenitions[0]) {
+            def(DGM, 0);
+        }
+        if (point_1.defenitions[1]) {
+            def(DGM, 1);
+        }
+        if (point_2.defenitions[0]) {
+            def(DGM, 2);
+        }
+        if (point_2.defenitions[1]) {
+            def(DGM, 3);
+        }
+
+        // Перемещение и повороты
+        let solution = solve(DGM, VP);
+        console.log(solution);
+        console.log(nj.dot(GM, solution));
+        return [
+            [point_1.coordinates[0], solution.get(0)],
+            [point_2.coordinates[0], solution.get(2)]
+        ];
+        // Продольные силы и моменты
+        //return nj.dot(GM, VS)
+    }
+    // } else {
+    //     let element;
+    //     for (let i = 0; i < elements.length; i++) {
+    //         element = elements[i];
+	//     }
+    // }
 }
 
 /**
@@ -88,7 +137,6 @@ function solve(matrix, vector) {
 
 	return slau.T.slice(-1).flatten();
 }
-
 
 /**
  *

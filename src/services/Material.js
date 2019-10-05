@@ -1,6 +1,5 @@
 class Material {
-	/**
-	 * Creating a material.
+	/** Creating a material.
 	 *
 	 * @class
 	 * @this {Material}
