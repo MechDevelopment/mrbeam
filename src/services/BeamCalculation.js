@@ -36,7 +36,10 @@ class BeamCalculation {
 
 	get shear() {
 		return [
-			[this._elements[0].points[0].coordinates[0], -this._reaction.get(1)],
+			[
+				this._elements[0].points[0].coordinates[0],
+				-this._reaction.get(1)
+			],
 			[this._elements[0].points[1].coordinates[0], this._reaction.get(4)]
 		];
 	}
@@ -101,6 +104,54 @@ class BeamCalculation {
 				def(DGM, 5);
 			}
 			return solve(DGM, GV);
+		} else {
+			let local_matrix;
+
+			let points = [this._elements[0].points[0]];
+			for (let i = 0; i < this._elements.length; i++) {
+				points.push(this._elements[i].points[1]);
+			}
+
+			this._GM = nj.zeros([
+				this._elements.length * 3 + 3,
+				this._elements.length * 3 + 3
+			]);
+			let GV = nj.zeros([this._elements.length * 3 + 3]);
+
+			for (let index = 0; index < this._elements.length; index++) {
+				// Take element
+				element = this._elements[index];
+				local_matrix = element.local_matrix;
+				for (let i = 0; i < 6; i++) {
+					
+					for (let j = 0; j < 6; j++) {
+						this._GM.set(
+							i + 3 * index,
+							j + 3 * index,
+							this._GM.get(i + 3 * index, j + 3 * index) +
+								local_matrix[i][j]
+						);
+					}
+				}
+			}
+
+			let DGM = this._GM.clone();
+			for (let i = 0; i < points.length; i++) {
+				GV.set(0 + 3 * i, points[i].load[0]);
+				GV.set(1 + 3 * i, points[i].load[1]);
+				GV.set(2 + 3 * i, points[i].moment);
+				for (let j = 0; j < 3; j++) {
+					
+					if (points[i].defenitions[j]) {
+						def(DGM, i * 3 + j);
+					}
+				}
+			}
+			console.log(this._GM);
+			console.log(GV);
+			console.log(DGM);
+
+			return solve(DGM, GV);
 		}
 	}
 }
@@ -115,8 +166,14 @@ class BeamCalculation {
  */
 function solve(matrix, vector) {
 	// Check assert
-	console.assert(matrix instanceof nj.NdArray, "Solve: matrix is not NdArray.");
-	console.assert(vector instanceof nj.NdArray, "Solve: vector is not NdArray.");
+	console.assert(
+		matrix instanceof nj.NdArray,
+		"Solve: matrix is not NdArray."
+	);
+	console.assert(
+		vector instanceof nj.NdArray,
+		"Solve: vector is not NdArray."
+	);
 	console.assert(
 		matrix.shape[0] == matrix.shape[1],
 		"Solve: matrix is not square."
