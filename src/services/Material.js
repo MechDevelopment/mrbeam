@@ -30,6 +30,7 @@ module.exports = Material;
 /**
  * @example
  *
+ * // use constructor
  * let m = new Material(2);
  * console.log(m.EJ) // 2
  * console.log(m.E) // null
@@ -48,4 +49,9 @@ module.exports = Material;
  * console.log(m.J) // 3
  * console.log(m.A) // 1
  *
+ * // change parameters
+ * m.EJ = 3056
+ * m.E = 2^11
+ * m.J = 15^-6
+ * m.A = 25
  */

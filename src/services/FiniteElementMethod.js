@@ -2,6 +2,7 @@
 const nj = require("numjs");
 const Material = require("./Material");
 const Point = require("./Point");
+const Element = require("./Element");
 
 /* SyntaxError: Unexpected token export ???
 export default function() {
@@ -20,31 +21,13 @@ function FEM() {
 	//return OneElementSolution(E1);
 }
 
-/**
- * Creating an element between points of a beam.
- *
- * @constructor
- * @this {createElement}
- * @param {Array<Object>} _points [createPoint1, createPoint2]
- * @param {Number} _material // Object in future
- * @param {NdArray<Number>} _distributed_load [y1, y2]
- * @return {Object}
- */
-function createElement(_points, _material = 1, _distributed_load = [0, 0]) {
-	return {
-		points: _points,
-		material: _material,
-		distributed_load: nj.array(_distributed_load)
-	};
-}
-
 function OneElementSolution(element) {
 	// Длина между точками элемента
-	let point_1 = element["points"][0];
-	let point_2 = element["points"][1];
-	let material = element["material"];
+	let point_1 = element.points[0];
+	let point_2 = element.points[1];
+	let material = element.material.EJ;
 
-	let length = distance(point_1["coordinates"], point_2["coordinates"]);
+	let length = element.distance
 
 	// Создание локальной (совпадает с глобальной) матрицы жесткости
 	let GM = localMatrix(length);
@@ -53,24 +36,24 @@ function OneElementSolution(element) {
 
 	// Создание вектора узловых сил
 	let VP = nj.array([
-		point_1["load"].get(0),
-		point_1["load"].get(1),
-		point_2["load"].get(0),
-		point_2["load"].get(1)
+		point_1.load[0],
+		point_1.load[1],
+		point_2.load[0],
+		point_2.load[1]
 	]);
 
 	let DGM = GM.clone();
 	// Учет граничных условий или закрепления
-	if (point_1["defenitions"].get(0)) {
+	if (point_1.defenitions[0]) {
 		def(DGM, 0);
 	}
-	if (point_1["defenitions"].get(1)) {
+	if (point_1.defenitions[1]) {
 		def(DGM, 1);
 	}
-	if (point_2["defenitions"].get(0)) {
+	if (point_2.defenitions[0]) {
 		def(DGM, 2);
 	}
-	if (point_2["defenitions"].get(1)) {
+	if (point_2.defenitions[1]) {
 		def(DGM, 3);
 	}
 
@@ -79,8 +62,8 @@ function OneElementSolution(element) {
 	console.log(solution);
 	console.log(nj.dot(GM, solution));
 	return [
-		[point_1["coordinates"].get(0), solution.get(0)],
-		[point_2["coordinates"].get(0), solution.get(2)]
+		[point_1.coordinates[0], solution.get(0)],
+		[point_2.coordinates[0], solution.get(2)]
 	];
 	// Продольные силы и моменты
 	//return nj.dot(GM, VS)
@@ -115,23 +98,6 @@ function localMatrix(l) {
 		[-12.0 / l / l / l, -6.0 / l / l, 12.0 / l / l / l, -6.0 / l / l],
 		[6.0 / l / l, 2.0 / l, -6.0 / l / l, 4.0 / l]
 	]);
-}
-
-/**
- * Distance between points.
- *
- * @constructor
- * @this {distance}
- * @param {nj.NdArray} point1
- * @param {nj.NdArray} point2
- * @return {Number}
- */
-function distance(point1, point2) {
-	return (
-		((point2.get(0) - point1.get(0)) ** 2 +
-			(point2.get(1) - point1.get(1)) ** 2) **
-		0.5
-	);
 }
 
 /**
@@ -208,18 +174,19 @@ function solve(matrix, vector) {
 function Test_1() {
 	let P1 = new Point([0, 0], [1, 1, 0]);
 	let P2 = new Point([10, 0], [0, 0, 0], [1000, 0]);
-	let E1 = new createElement([P1, P2], 9.9 * 10 ** 6 * 0.04909);
-	let E2 = new createElement([P2, P1], 9.9 * 10 ** 6 * 0.04909);
+	let m = new Material(9.9 * 10 ** 6 * 0.04909)
+	let E1 = new Element([P1, P2], m);
+	let E2 = new Element([P2, P1], m);
 	OneElementSolution(E1);
 	OneElementSolution(E2);
 	/*
-        Max Deflection:	δmax=0.6859 in	@ x = L
-        Max Slope:	θmax=0.1029 rad	@ x = L
-        Shear:	V=+1000 lbf	constant
-        Moment:	Mmax=−10,000 in-lbf	@ x = 0
-    */
+	    Max Deflection:	δmax=0.6859 in	@ x = L
+	    Max Slope:	θmax=0.1029 rad	@ x = L
+	    Shear:	V=+1000 lbf	constant
+	    Moment:	Mmax=−10,000 in-lbf	@ x = 0
+	*/
 	let P3 = new Point([0, 0], [1, 1, 0], [0, 0], 10);
 	let P4 = new Point([5, 0], [0, 1, 0]);
-	let E3 = new createElement([P3, P4], 1);
+	let E3 = new Element([P3, P4], m);
 	OneElementSolution(E3);
 }
