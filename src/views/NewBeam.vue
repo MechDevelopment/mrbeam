@@ -10,7 +10,6 @@
             :narrowed="isNarrowed"
             :hoverable="isHoverable"
             :loading="isLoading"
-            :focusable="isFocusable"
             :mobile-cards="false"
           >
             <template slot-scope="props">
@@ -58,11 +57,9 @@ export default {
       isEmpty: false,
       isBordered: false,
       isStriped: true,
-      isNarrowed: false,
+      isNarrowed: true,
       isHoverable: true,
-      isFocusable: false,
-      isLoading: false,
-      hasMobileCards: true
+      isLoading: false
     };
   },
   computed: {

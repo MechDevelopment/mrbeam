@@ -34,7 +34,7 @@
     </b-field>
 
     <b-field>
-      <b-input placeholder="X-coordinate" type="number" expanded></b-input>
+      <b-input v-model="xCoordinate" placeholder="X-coordinate" type="number" expanded></b-input>
       <b-select placeholder="Meters">
         <option>Sm</option>
         <option>Mm</option>
@@ -50,11 +50,11 @@
     </b-field>
 
     <b-field v-show="radioButton == 'load'">
-      <b-input placeholder="Angle" type="number" expanded></b-input>
+      <b-input v-model="angle" placeholder="Angle" type="number" expanded></b-input>
     </b-field>
 
     <b-field v-show="radioButton != 'defenition'">
-      <b-input placeholder="Load" type="number" expanded></b-input>
+      <b-input v-model="load" placeholder="Load" type="number" expanded></b-input>
       <b-select placeholder="N/m">
         <option>N/sm</option>
         <option>kN/m</option>
@@ -63,8 +63,8 @@
 
     <div class="buttons is-centered">
       <!-- <button type="submit" class="button is-primary">Submit</button> -->
-      <b-button type="is-primary" icon-pack="fas" icon-left="arrow-left">Add Point</b-button>
-      <b-button icon-pack="fas" icon-right="calculator" outlined @click="test">Analyse Beam</b-button>
+      <b-button @click="addPoint" type="is-primary" icon-pack="fas" icon-left="arrow-left">Add Point</b-button>
+      <b-button icon-pack="fas" icon-right="calculator" outlined>Analyse Beam</b-button>
     </div>
   </form>
 </template>
@@ -76,19 +76,27 @@ export default {
   data() {
     return {
       radioButton: "load",
-      defenitionType: "1"
+      defenitionType: "1",
+      // Form
+      xCoordinate: null,
+      angle: null,
+      load: null
     };
   },
   computed: {
     ...mapGetters(["getPoints"])
   },
   methods: {
-    test() {
-      this.$store.commit("ADD_POINT", {
-        type: "Dist. Load",
-        x: 7,
-        load: 897
-      });
+    addPoint() {
+      const { radioButton, xCoordinate, angle, load } = this;
+      const newPoint = {
+        type: radioButton,
+        x: xCoordinate,
+        angle: angle,
+        load: load
+      };
+
+      this.$store.commit("ADD_POINT", newPoint);
       console.log(this.getPoints);
     }
   }
