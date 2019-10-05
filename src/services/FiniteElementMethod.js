@@ -1,6 +1,7 @@
 // Packeges
 const nj = require("numjs");
 const Material = require("./Material");
+const Point = require("./Point");
 
 /* SyntaxError: Unexpected token export ???
 export default function() {
@@ -14,54 +15,9 @@ FEM();
 console.log((new Date() - start) * 0.001, "sec");
 
 function FEM() {
-	let m1 = new Material(1);
-	console.log(m1.EJ)
-	console.log(m1.E)
-	console.log(m1.J)
-	m1.A = 10
-	console.log(m1.A)
-	m1 = new Material(1, 2);
-	console.log(m1.EJ)
-	console.log(m1.E)
-	console.log(m1.J)
-	console.log(m1.A)
-	m1 = new Material(1, 2, 3);
-	console.log(m1.EJ)
-	console.log(m1.E)
-	console.log(m1.J)
-	console.log(m1.A)
-
-	//Test_1()
+	Test_1();
 	// Перемещения в координатной форме [[x,y],[x,y]] - для двух точек (стандартный массив)
 	//return OneElementSolution(E1);
-}
-
-/**
- * Creating a beam point.
- *
- * @constructor
- * @this {createPoint}
- * @param {NdArray<Number>} _coordinates [x, y]
- * @param {NdArray<Boolean>} _defenitions [x, y, r]
- * @param {NdArray<Number>} _load [x, y]
- * @param {Number} _moment
- * @param {Boolean} _joint
- * @return {Object}
- */
-function createPoint(
-	_coordinates,
-	_defenitions = [0, 0, 0],
-	_load = [0, 0],
-	_moment = 0,
-	_joint = false
-) {
-	return {
-		coordinates: nj.array(_coordinates),
-		defenitions: nj.array(_defenitions),
-		load: nj.array(_load),
-		moment: _moment,
-		joint: _joint
-	};
 }
 
 /**
@@ -79,29 +35,6 @@ function createElement(_points, _material = 1, _distributed_load = [0, 0]) {
 		points: _points,
 		material: _material,
 		distributed_load: nj.array(_distributed_load)
-	};
-}
-
-/**
- * Creating a material.
- *
- * @constructor
- * @this {createMaterial}
- * @param {Number} _E elastic modulus or E*J
- * @param {Number} _E elastic modulus or E*J
- * @param {Number, Array([w, h])} _A elastic modulus or E*J
- * @return {Object}
- */
-function createMaterial(_E = 1, _J = 1, _A) {
-    if (arguments == 1){
-        _result = _E
-    } else if(argumens == 2){
-        _result = _E * _J
-    }
-	return {
-		E: _E,
-		J: _J,
-		result: _result
 	};
 }
 
@@ -273,8 +206,8 @@ function solve(matrix, vector) {
 }
 
 function Test_1() {
-	let P1 = new createPoint([0, 0], [1, 1, 0]);
-	let P2 = new createPoint([10, 0], [0, 0, 0], [1000, 0]);
+	let P1 = new Point([0, 0], [1, 1, 0]);
+	let P2 = new Point([10, 0], [0, 0, 0], [1000, 0]);
 	let E1 = new createElement([P1, P2], 9.9 * 10 ** 6 * 0.04909);
 	let E2 = new createElement([P2, P1], 9.9 * 10 ** 6 * 0.04909);
 	OneElementSolution(E1);
@@ -285,9 +218,8 @@ function Test_1() {
         Shear:	V=+1000 lbf	constant
         Moment:	Mmax=−10,000 in-lbf	@ x = 0
     */
-   let P3 = new createPoint([0, 0], [1, 1, 0], [0,0], 10);
-   let P4 = new createPoint([5, 0], [0, 1, 0]);
-   let E3 = new createElement([P3, P4],1);
-   OneElementSolution(E3);
-
+	let P3 = new Point([0, 0], [1, 1, 0], [0, 0], 10);
+	let P4 = new Point([5, 0], [0, 1, 0]);
+	let E3 = new createElement([P3, P4], 1);
+	OneElementSolution(E3);
 }

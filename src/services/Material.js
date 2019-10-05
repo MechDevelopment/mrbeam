@@ -35,13 +35,13 @@ module.exports = Material;
  * console.log(m.E) // null
  * console.log(m.J) // null
  * console.log(m.A) // null
- * 
+ *
  * m = new Material(2, 3);
  * console.log(m.EJ) // 6
  * console.log(m.E) // 2
  * console.log(m.J) // 3
  * console.log(m.A) // null
- * 
+ *
  * m = new Material(2, 3, 1);
  * console.log(m.EJ) // 6
  * console.log(m.E) // 2
