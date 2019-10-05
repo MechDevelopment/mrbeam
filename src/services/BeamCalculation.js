@@ -10,65 +10,102 @@ class BeamCalculation {
 	 * @this {BeamCalculation}
 	 *
 	 * @param {Array<Element>} elements Elements of the beam in turn
+	 *
+	 * @todo finish this shit
 	 */
 	constructor(elements) {
-		let elements = elements;
-		this.solution = Calculate(elements);
-    }
+		this._elements = elements;
+		this._GM;
+		this._solution = this._Calculate();
+		this._reaction = nj.dot(this._solution, this._GM);
+	}
+
+	get displacement() {
+		return [
+			[this._elements[0].points[0].coordinates[0], this._solution.get(1)],
+			[this._elements[0].points[1].coordinates[0], this._solution.get(4)]
+		];
+	}
+
+	get moment() {
+		return [
+			[this._elements[0].points[0].coordinates[0], this._reaction.get(2)],
+			[this._elements[0].points[1].coordinates[0], this._reaction.get(5)]
+		];
+	}
+
+	get shear() {
+		return [
+			[this._elements[0].points[0].coordinates[0], -this._reaction.get(1)],
+			[this._elements[0].points[1].coordinates[0], this._reaction.get(4)]
+		];
+	}
+
+	get max_deflection() {
+		return nj.max([this._solution.get(1), this._solution.get(4)]);
+	}
+
+	get max_slope() {
+		return nj.max([this._solution.get(2), this._solution.get(5)]);
+	}
+
+	get max_moment() {
+		return nj.max([this._reaction.get(2), this._reaction.get(5)]);
+	}
+
+	get min_moment() {
+		return nj.min([this._reaction.get(2), this._reaction.get(5)]);
+	}
+
+	get max_shear() {
+		return nj.max([-this._reaction.get(1), this._reaction.get(4)]);
+	}
+
+	get min_shear() {
+		return nj.min([-this._reaction.get(1), this._reaction.get(4)]);
+	}
+
+	/** Beam calculation using the finite element method.
+	 *
+	 * @method
+	 * @this {Calculate}
+	 *
+	 * @param {Array<Element>} elements Elements of the beam in turn
+	 */
+	_Calculate() {
+		let element;
+		if (this._elements.length == 1) {
+			element = this._elements[0];
+
+			this._GM = nj.array(element.local_matrix);
+			let GV = nj.array(element.local_vector);
+			let DGM = this._GM.clone();
+
+			// Учет граничных условий или закрепления
+			if (element.points[0].defenitions[0]) {
+				def(DGM, 0);
+			}
+			if (element.points[0].defenitions[1]) {
+				def(DGM, 1);
+			}
+			if (element.points[0].defenitions[2]) {
+				def(DGM, 2);
+			}
+			if (element.points[1].defenitions[0]) {
+				def(DGM, 3);
+			}
+			if (element.points[1].defenitions[1]) {
+				def(DGM, 4);
+			}
+			if (element.points[1].defenitions[2]) {
+				def(DGM, 5);
+			}
+			return solve(DGM, GV);
+		}
+	}
 }
 
-/** Beam calculation using the finite element method.
-*
-* @function
-* @this {Calculate}
-*
-* @param {Array<Element>} elements Elements of the beam in turn
-*/
-function Calculate(elements) {
-    let element;
-    if (elements.length == 1){
-        element = elements[0];
-        
-        let GM = element.local_matrix
-        let GV = element.local_vector
-
-        let DGM = GM.clone();
-
-        // Учет граничных условий или закрепления
-        if (point_1.defenitions[0]) {
-            def(DGM, 0);
-        }
-        if (point_1.defenitions[1]) {
-            def(DGM, 1);
-        }
-        if (point_2.defenitions[0]) {
-            def(DGM, 2);
-        }
-        if (point_2.defenitions[1]) {
-            def(DGM, 3);
-        }
-
-        // Перемещение и повороты
-        let solution = solve(DGM, VP);
-        console.log(solution);
-        console.log(nj.dot(GM, solution));
-        return [
-            [point_1.coordinates[0], solution.get(0)],
-            [point_2.coordinates[0], solution.get(2)]
-        ];
-        // Продольные силы и моменты
-        //return nj.dot(GM, VS)
-    }
-    // } else {
-    //     let element;
-    //     for (let i = 0; i < elements.length; i++) {
-    //         element = elements[i];
-	//     }
-    // }
-}
-
-/**
- * Solves a system of linear equations by Gauss-Jordan Elimination.
+/** Solves a system of linear equations by Gauss-Jordan Elimination.
  *
  * @function
  * @this {solve}
@@ -154,10 +191,3 @@ function def(matrix, elem) {
 }
 
 module.exports = BeamCalculation;
-
-/**
- * @example
- * // use constructor
- *
- * // change parameters
- */

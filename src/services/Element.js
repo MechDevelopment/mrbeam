@@ -86,12 +86,13 @@ class Element {
 		let p1 = this.points[0];
 		let p2 = this.points[1];
 		return [
+			p2.moment,
 			p1.load[0],
 			p1.load[1],
 			p1.moment,
 			p2.load[0],
 			p2.load[1],
-			p2.moment
+
 		];
 	}
 }
