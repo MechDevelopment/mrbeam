@@ -33,16 +33,18 @@
       </b-radio>
     </b-field>
 
-    <b-field>
-      <b-input v-model="xCoordinate" placeholder="X-coordinate" type="number" expanded></b-input>
-      <b-select placeholder="Meters">
-        <option>Sm</option>
-        <option>Mm</option>
-      </b-select>
+    <b-field :type="{'is-danger': $v.$invalid}" message="Enter X offset">
+      <b-input
+        v-model.lazy="$v.xCoordinate.$model"
+        placeholder="X-coordinate"
+        type="number"
+        expanded
+      ></b-input>
+      <!-- <p class="subtitle" v-if="!$v.xCoordinate.required">This field is required</p> -->
     </b-field>
 
     <b-field v-show="radioButton == 'distload'">
-      <b-input placeholder="Y-coordinate" type="number" expanded></b-input>
+      <b-input placeholder="X2-coordinate" type="number" expanded></b-input>
       <b-select placeholder="Meters">
         <option>Sm</option>
         <option>Mm</option>
@@ -63,7 +65,13 @@
 
     <div class="buttons is-centered">
       <!-- <button type="submit" class="button is-primary">Submit</button> -->
-      <b-button @click="addPoint" type="is-primary" icon-pack="fas" icon-left="arrow-left">Add Point</b-button>
+      <b-button
+        @click="addPoint"
+        type="is-primary"
+        icon-pack="fas"
+        icon-left="arrow-left"
+        :disabled="$v.$invalid"
+      >Add Point</b-button>
       <b-button icon-pack="fas" icon-right="calculator" outlined>Analyse Beam</b-button>
     </div>
   </form>
@@ -71,6 +79,7 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import { required, minLength, between } from "vuelidate/lib/validators";
 
 export default {
   data() {
@@ -98,6 +107,12 @@ export default {
 
       this.$store.commit("ADD_POINT", newPoint);
       console.log(this.getPoints);
+    }
+  },
+  validations: {
+    xCoordinate: {
+      required,
+      minLength: minLength(1)
     }
   }
 };
