@@ -33,16 +33,18 @@
       </b-radio>
     </b-field>
 
-    <b-field>
-      <b-input placeholder="X-coordinate" type="number" expanded></b-input>
-      <b-select placeholder="Meters">
-        <option>Sm</option>
-        <option>Mm</option>
-      </b-select>
+    <b-field :type="{'is-danger': $v.$invalid}" message="Enter X offset">
+      <b-input
+        v-model.lazy="$v.xCoordinate.$model"
+        placeholder="X-coordinate"
+        type="number"
+        expanded
+      ></b-input>
+      <!-- <p class="subtitle" v-if="!$v.xCoordinate.required">This field is required</p> -->
     </b-field>
 
     <b-field v-show="radioButton == 'distload'">
-      <b-input placeholder="Y-coordinate" type="number" expanded></b-input>
+      <b-input placeholder="X2-coordinate" type="number" expanded></b-input>
       <b-select placeholder="Meters">
         <option>Sm</option>
         <option>Mm</option>
@@ -50,11 +52,11 @@
     </b-field>
 
     <b-field v-show="radioButton == 'load'">
-      <b-input placeholder="Angle" type="number" expanded></b-input>
+      <b-input v-model="angle" placeholder="Angle" type="number" expanded></b-input>
     </b-field>
 
     <b-field v-show="radioButton != 'defenition'">
-      <b-input placeholder="Load" type="number" expanded></b-input>
+      <b-input v-model="load" placeholder="Load" type="number" expanded></b-input>
       <b-select placeholder="N/m">
         <option>N/sm</option>
         <option>kN/m</option>
@@ -63,19 +65,55 @@
 
     <div class="buttons is-centered">
       <!-- <button type="submit" class="button is-primary">Submit</button> -->
-      <b-button type="is-primary" icon-pack="fas" icon-left="arrow-left">Add Point</b-button>
+      <b-button
+        @click="addPoint"
+        type="is-primary"
+        icon-pack="fas"
+        icon-left="arrow-left"
+        :disabled="$v.$invalid"
+      >Add Point</b-button>
       <b-button icon-pack="fas" icon-right="calculator" outlined>Analyse Beam</b-button>
     </div>
   </form>
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex";
+import { required, minLength, between } from "vuelidate/lib/validators";
+
 export default {
   data() {
     return {
       radioButton: "load",
-      defenitionType: "1"
+      defenitionType: "1",
+      // Form
+      xCoordinate: null,
+      angle: null,
+      load: null
     };
+  },
+  computed: {
+    ...mapGetters(["getPoints"])
+  },
+  methods: {
+    addPoint() {
+      const { radioButton, xCoordinate, angle, load } = this;
+      const newPoint = {
+        type: radioButton,
+        x: xCoordinate,
+        angle: angle,
+        load: load
+      };
+
+      this.$store.commit("ADD_POINT", newPoint);
+      console.log(this.getPoints);
+    }
+  },
+  validations: {
+    xCoordinate: {
+      required,
+      minLength: minLength(1)
+    }
   }
 };
 </script>
