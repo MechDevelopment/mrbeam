@@ -33,13 +33,12 @@
       </b-radio>
     </b-field>
 
-    <b-field :type="{'is-danger': $v.$invalid}" message="Enter X offset">
-      <b-input
-        v-model.lazy="$v.xCoordinate.$model"
-        placeholder="X-coordinate"
-        type="number"
-        expanded
-      ></b-input>
+    <b-field :type="{'is-danger': $v.$anyError}" :message="{'Enter X offset': $v.$anyError}">
+      <b-input v-model="$v.xCoordinate.$model" placeholder="X-coordinate" type="number" expanded></b-input>
+      <b-select placeholder="Meters">
+        <option>Sm</option>
+        <option>Mm</option>
+      </b-select>
       <!-- <p class="subtitle" v-if="!$v.xCoordinate.required">This field is required</p> -->
     </b-field>
 
@@ -65,13 +64,7 @@
 
     <div class="buttons is-centered">
       <!-- <button type="submit" class="button is-primary">Submit</button> -->
-      <b-button
-        @click="addPoint"
-        type="is-primary"
-        icon-pack="fas"
-        icon-left="arrow-left"
-        :disabled="$v.$invalid"
-      >Add Point</b-button>
+      <b-button @click="addPoint" type="is-primary" icon-pack="fas" icon-left="arrow-left">Add Point</b-button>
       <b-button icon-pack="fas" icon-right="calculator" outlined>Analyse Beam</b-button>
     </div>
   </form>
@@ -87,9 +80,10 @@ export default {
       radioButton: "load",
       defenitionType: "1",
       // Form
-      xCoordinate: null,
-      angle: null,
-      load: null
+      xCoordinate: 0,
+      x2Coordinate: null,
+      angle: 90,
+      load: 0
     };
   },
   computed: {
@@ -97,11 +91,11 @@ export default {
   },
   methods: {
     addPoint() {
-      const { radioButton, xCoordinate, angle, load } = this;
+      const { radioButton, xCoordinate, load } = this;
       const newPoint = {
         type: radioButton,
         x: xCoordinate,
-        angle: angle,
+        // angle: angle,
         load: load
       };
 

@@ -15,11 +15,11 @@
             <template slot-scope="props">
               <b-table-column field="id" label="№" width="40" numeric>{{ props.row.id }}</b-table-column>
 
-              <b-table-column field="type" label="Type" width="60">{{ props.row.type }}</b-table-column>
+              <b-table-column field="type" label="Type" width="150">{{ props.row.type }}</b-table-column>
 
-              <b-table-column field="x" label="X-coordinate" numeric>{{ props.row.x }}</b-table-column>
+              <b-table-column field="x" label="X-coordinate" width="150" numeric>{{ props.row.x }}</b-table-column>
 
-              <b-table-column field="angle" label="Angle" numeric>{{ props.row.angle }}</b-table-column>
+              <!-- <b-table-column field="angle" label="Angle" numeric>{{ props.row.angle }}</b-table-column> -->
 
               <b-table-column field="load" label="Load" numeric>{{ props.row.load }}</b-table-column>
             </template>
