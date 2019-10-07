@@ -1,5 +1,5 @@
-const Material = require("./Material");
-const Point = require("./Point");
+import Material from "./Material";
+import Point from "./Point";
 
 class Element {
 	/** Creating an element between points of a beam.
@@ -113,7 +113,7 @@ class Element {
 	}
 }
 
-module.exports = Element;
+export default Element;
 
 /**
  * @example

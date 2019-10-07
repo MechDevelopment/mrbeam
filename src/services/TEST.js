@@ -1,8 +1,8 @@
-const BeamCalculation = require("./BeamCalculation");
-const Material = require("./Material");
-const Point = require("./Point");
-const Element = require("./Element");
-const nj = require("numjs");
+import BeamCalculation from "./BeamCalculation";
+import Material from "./Material";
+import Point from "./Point";
+import Element from "./Element";
+import { config } from "numjs";
 
 let start = new Date();
 main();
@@ -10,8 +10,10 @@ console.log("Time:", (new Date() - start) * 0.001, "sec");
 
 function main() {
 	// Тут создаем пару точек, материал и один элемент
-	nj.config.printThreshold = 9;
+	config.printThreshold = 9;
+	console.log(Point)
 	let P1 = new Point([0, 0], [1, 1, 1]);
+	console.log(P1)
 	let P2 = new Point([10, 0], [0, 0, 0], [0, -1000]);
 	let m = new Material(9.9 * 10 ** 6, 0.04909, 0.7854);
 	let E = new Element([P1, P2], m);
@@ -29,7 +31,7 @@ function main() {
 	*/
 	P1 = new Point([0, 0], [1, 1, 0]);
 	P2 = new Point([5, 0], [0, 0, 0], [0, -100]);
-	P3 = new Point([10, 0], [0, 1, 0], [0,0]);
+	let P3 = new Point([10, 0], [0, 1, 0], [0,0]);
 	m = new Material(9.9 * 10 ** 6, 0.04909, 0.7854);
 	let E1 = new Element([P1, P2], m);
 	let E2 = new Element([P2, P3], m);

@@ -24,7 +24,7 @@ class Material {
 	}
 }
 
-module.exports = Material;
+export default Material;
 
 /**
  * @example

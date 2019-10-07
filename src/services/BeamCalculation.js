@@ -1,7 +1,7 @@
-const Material = require("./Material");
-const Point = require("./Point");
-const Element = require("./Element");
-const nj = require("numjs");
+import Material from "./Material";
+import Point from "./Point";
+import Element from "./Element";
+import { dot, max, min, array, zeros, NdArray, concatenate } from "numjs";
 
 class BeamCalculation {
 	/** Beam calculation using the finite element method.
@@ -17,7 +17,7 @@ class BeamCalculation {
 		this._elements = elements;
 		this._GM;
 		this._solution = this._Calculate();
-		this._reaction = nj.dot(this._solution, this._GM);
+		this._reaction = dot(this._solution, this._GM);
 	}
 
 	get displacement() {
@@ -45,27 +45,27 @@ class BeamCalculation {
 	}
 
 	get max_deflection() {
-		return nj.max([this._solution.get(1), this._solution.get(4)]);
+		return max([this._solution.get(1), this._solution.get(4)]);
 	}
 
 	get max_slope() {
-		return nj.max([this._solution.get(2), this._solution.get(5)]);
+		return max([this._solution.get(2), this._solution.get(5)]);
 	}
 
 	get max_moment() {
-		return nj.max([this._reaction.get(2), this._reaction.get(5)]);
+		return max([this._reaction.get(2), this._reaction.get(5)]);
 	}
 
 	get min_moment() {
-		return nj.min([this._reaction.get(2), this._reaction.get(5)]);
+		return min([this._reaction.get(2), this._reaction.get(5)]);
 	}
 
 	get max_shear() {
-		return nj.max([-this._reaction.get(1), this._reaction.get(4)]);
+		return max([-this._reaction.get(1), this._reaction.get(4)]);
 	}
 
 	get min_shear() {
-		return nj.min([-this._reaction.get(1), this._reaction.get(4)]);
+		return min([-this._reaction.get(1), this._reaction.get(4)]);
 	}
 
 	/** Beam calculation using the finite element method.
@@ -80,8 +80,8 @@ class BeamCalculation {
 		if (this._elements.length == 1) {
 			element = this._elements[0];
 
-			this._GM = nj.array(element.local_matrix);
-			let GV = nj.array(element.local_vector);
+			this._GM = array(element.local_matrix);
+			let GV = array(element.local_vector);
 			let DGM = this._GM.clone();
 
 			// Учет граничных условий или закрепления
@@ -112,11 +112,11 @@ class BeamCalculation {
 				points.push(this._elements[i].points[1]);
 			}
 
-			this._GM = nj.zeros([
+			this._GM = zeros([
 				this._elements.length * 3 + 3,
 				this._elements.length * 3 + 3
 			]);
-			let GV = nj.zeros([this._elements.length * 3 + 3]);
+			let GV = zeros([this._elements.length * 3 + 3]);
 
 			for (let index = 0; index < this._elements.length; index++) {
 				// Take element
@@ -167,11 +167,11 @@ class BeamCalculation {
 function solve(matrix, vector) {
 	// Check assert
 	console.assert(
-		matrix instanceof nj.NdArray,
+		matrix instanceof NdArray,
 		"Solve: matrix is not NdArray."
 	);
 	console.assert(
-		vector instanceof nj.NdArray,
+		vector instanceof NdArray,
 		"Solve: vector is not NdArray."
 	);
 	console.assert(
@@ -188,7 +188,7 @@ function solve(matrix, vector) {
 	let flag;
 
 	// Create slau
-	let slau = nj.concatenate(matrix.clone(), vector.reshape(n, 1));
+	let slau = concatenate(matrix.clone(), vector.reshape(n, 1));
 
 	for (let i = 0; i < n; i++) {
 		// Go by diagonally
@@ -247,4 +247,4 @@ function def(matrix, elem) {
 	matrix.set(elem, elem, 1);
 }
 
-module.exports = BeamCalculation;
+export default BeamCalculation;
