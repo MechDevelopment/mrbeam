@@ -33,12 +33,10 @@
       </b-radio>
     </b-field>
 
+    <!-- INPUTS -->
+
     <b-field :type="{'is-danger': $v.$anyError}" :message="{'Enter X offset': $v.$anyError}">
-      <b-input v-model="$v.xCoordinate.$model" placeholder="X-coordinate" type="number" expanded></b-input>
-      <b-select placeholder="Meters">
-        <option>Sm</option>
-        <option>Mm</option>
-      </b-select>
+      <b-input v-model="$v.xCoordinate.$model" placeholder="X-coordinate" type="number"></b-input>
       <!-- <p class="subtitle" v-if="!$v.xCoordinate.required">This field is required</p> -->
     </b-field>
 
