@@ -72,7 +72,7 @@
         icon-left="arrow-left"
         :disabled="$v.$invalid"
       >Add Point</b-button>
-      <b-button icon-pack="fas" icon-right="calculator" outlined>Analyse Beam</b-button>
+      <b-button icon-pack="fas" icon-right="calculator" outlined @click="test">Analyse Beam</b-button>
     </div>
   </form>
 </template>
@@ -80,6 +80,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import { required, minLength, between } from "vuelidate/lib/validators";
+import FemService from "../services/TEST.js";
 
 export default {
   data() {
@@ -107,6 +108,12 @@ export default {
 
       this.$store.commit("ADD_POINT", newPoint);
       console.log(this.getPoints);
+    },
+    test() {
+      let femService = new FemService();
+      femService.import(this.$store.getters.getPoints);
+      let result = femService.getResult()
+      console.log(result)
     }
   },
   validations: {

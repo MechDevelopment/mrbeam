@@ -4,20 +4,20 @@ export default {
     points: [
       {
         id: 1,
-        type: "Load",
-        x: 3,
-        load: 12
+        type: "Defenition",
+        x: 0,
+        load: 1
       },
       {
         id: 2,
-        type: "Momentum",
-        x: 12,
-        load: 333
+        type: "Load",
+        x: 5,
+        load: 100
       },
       {
         id: 3,
         type: "Defenition",
-        x: 78,
+        x: 10,
         load: 0
       }
     ]

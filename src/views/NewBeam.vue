@@ -36,7 +36,7 @@
           </b-table>
         </div>
         <div class="column">
-          <add-point-form/>
+          <add-point-form />
         </div>
       </div>
     </div>
@@ -45,7 +45,7 @@
 
 <script>
 import AddPointForm from "../components/AddPointForm.vue";
-import fem from "../services/TEST.js";
+import FemService from "../services/TEST.js";
 
 export default {
   name: "NewBeam",
@@ -69,7 +69,10 @@ export default {
   },
   methods: {
     test: function() {
-      fem();
+      
+      let femService = new FemService();
+      console.log(femService)
+      femService.import(this.$store.getters.getPoints);
     }
   }
 };
