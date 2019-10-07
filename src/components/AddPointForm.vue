@@ -2,22 +2,22 @@
   <form>
     <!-- TAB BUTTONS -->
     <b-field position="is-centered">
-      <b-radio-button v-model="radioButton" native-value="load" type="is-danger">
+      <b-radio-button v-model="radioButton" native-value="load" type="is-primary">
         <b-icon pack="fas" icon="arrow-down"></b-icon>
         <span>Load</span>
       </b-radio-button>
 
-      <b-radio-button v-model="radioButton" native-value="distload" type="is-success">
+      <b-radio-button v-model="radioButton" native-value="distload" type="is-primary">
         <b-icon pack="fas" icon="angle-double-down"></b-icon>
         <span>Dist. Load</span>
       </b-radio-button>
 
-      <b-radio-button v-model="radioButton" native-value="momentum">
+      <b-radio-button v-model="radioButton" native-value="momentum" type="is-primary">
         <b-icon pack="fas" icon="blind"></b-icon>
         <span>Mom</span>
       </b-radio-button>
 
-      <b-radio-button v-model="radioButton" native-value="defenition">
+      <b-radio-button v-model="radioButton" native-value="defenition" type="is-primary">
         <b-icon pack="fas" icon="align-center"></b-icon>
         <span>Def</span>
       </b-radio-button>
@@ -35,35 +35,59 @@
 
     <!-- INPUTS -->
 
-    <b-field :type="{'is-danger': $v.$anyError}" :message="{'Enter X offset': $v.$anyError}">
-      <b-input v-model="$v.xCoordinate.$model" placeholder="X-coordinate" type="number"></b-input>
+    <b-field
+      :type="{'is-danger': $v.$anyError}"
+      :message="{'Enter X offset': $v.$anyError}"
+      v-show="radioButton !== 'distload'"
+      label="Position"
+      horizontal
+    >
+      <b-input
+        v-model="$v.xCoordinate.$model"
+        v-show="radioButton !== 'distload'"
+        placeholder="X-coordinate"
+        type="number"
+      ></b-input>
+      <b-select placeholder="Meters">
+        <option>Sm</option>
+        <option>Mm</option>
+      </b-select>
       <!-- <p class="subtitle" v-if="!$v.xCoordinate.required">This field is required</p> -->
     </b-field>
 
-    <b-field v-show="radioButton == 'distload'">
-      <b-input placeholder="X2-coordinate" type="number" expanded></b-input>
+    <b-field v-show="radioButton == 'distload'" label="Start" horizontal>
+      <b-input placeholder="Start position" type="number"></b-input>
       <b-select placeholder="Meters">
         <option>Sm</option>
         <option>Mm</option>
       </b-select>
     </b-field>
 
-    <b-field v-show="radioButton == 'load'">
-      <b-input v-model="angle" placeholder="Angle" type="number" expanded></b-input>
+    <b-field v-show="radioButton == 'distload'" label="End" horizontal>
+      <b-input placeholder="End position" type="number"></b-input>
+      <b-select placeholder="Meters">
+        <option>Sm</option>
+        <option>Mm</option>
+      </b-select>
     </b-field>
 
-    <b-field v-show="radioButton != 'defenition'">
-      <b-input v-model="load" placeholder="Load" type="number" expanded></b-input>
+    <b-field v-show="radioButton == 'load'" label="Angle" horizontal>
+      <b-input v-model="angle" placeholder="Angle" type="number"></b-input>
+    </b-field>
+
+    <b-field v-show="radioButton != 'defenition'" label="Load" horizontal>
+      <b-input v-model="load" placeholder="Load" type="number"></b-input>
       <b-select placeholder="N/m">
         <option>N/sm</option>
         <option>kN/m</option>
       </b-select>
     </b-field>
 
+    <hr>
     <div class="buttons is-centered">
       <!-- <button type="submit" class="button is-primary">Submit</button> -->
-      <b-button @click="addPoint" type="is-primary" icon-pack="fas" icon-left="arrow-left">Add Point</b-button>
-      <b-button icon-pack="fas" icon-right="calculator" outlined>Analyse Beam</b-button>
+      <b-button @click="addPoint" type="is-primary" icon-pack="fas" icon-left="plus">Add Point</b-button>
+      <b-button icon-pack="fas" type="is-primary" icon-right="calculator" outlined>Analyse Beam</b-button>
     </div>
   </form>
 </template>
@@ -109,3 +133,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.card {
+  box-shadow: none !important;
+}
+</style>

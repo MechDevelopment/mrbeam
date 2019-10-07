@@ -6,14 +6,33 @@
         <div class="column">
           <div class="card">
             <div class="card-content">
-              <table-points/>
+              <form>
+                <b-field label="From" horizontal>
+                  <b-field>
+                    <b-input icon="account" placeholder="Name" required/>
+                  </b-field>
+                  <b-field>
+                    <b-input icon="email" type="email" placeholder="E-mail" required/>
+                  </b-field>
+                </b-field>
+                <b-field message="Do not enter the leading zero" horizontal>
+                  <b-field>
+                    <p class="control">
+                      <a class="button is-static">+44</a>
+                    </p>
+                    <b-input type="tel" expanded/>
+                  </b-field>
+                </b-field>
+              </form>
             </div>
           </div>
         </div>
-        <div class="column">
+        <div class="column is-two-fifths">
           <div class="card">
             <div class="card-content">
               <add-point-form/>
+              <hr>
+              <table-points/>
             </div>
           </div>
         </div>
