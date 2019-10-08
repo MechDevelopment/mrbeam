@@ -45,7 +45,7 @@ class FemService {
 	}
 
 	getResult() {
-		return this.reaction;
+		return this.shear;
 	}
 
 	static generateBeam(count_of_points) {
@@ -100,12 +100,20 @@ config.printThreshold = 16;
 // Shear:	V=+1000 lbf	constant
 // Moment:	Mmax=−10,000 in-lbf	@ x = 0
 
-let P1 = new Point([0,0], [1,1,0])
+let P1 = new Point([1,0], [1,1,0])
 let P2 = new Point([5,0], [0,0,0], [0,-1000])
-let P3 = new Point([10,0], [0,1,0], [0,0])
+let P3 = new Point([9,0], [0,1,0], [0,0])
+
+let Ps = new Point([0,0], [0,0,0], [0,-1000])
+let Pf = new Point([10,0])
+
+
 let m = new Material(10 * (10**6), 0.04909, 0.7854)
 let E1 = new Element([P1,P2], m)
 let E2 = new Element([P2,P3], m)
+
+let Es = new Element([Ps,P1], m)
+let Ef = new Element([P3,Pf], m)
 
 // let start
 // let BC
@@ -114,8 +122,9 @@ let E2 = new Element([P2,P3], m)
 // 	BC = new BeamCalculation([E1,E2], i)
 // 	console.log("Count:", i*2, "Time:", (new Date() - start) * 0.001, "sec");
 // }
-let BC = new BeamCalculation([E1,E2])
-
+let BC = new BeamCalculation([Es,E1,E2,Ef],0)
+console.log(BC._reaction)
+console.log(BC.shear)
 //console.log(BC._solution)
 //console.log(BC._reaction)
 //Max Deflection:	0.04244 in	5.000 in

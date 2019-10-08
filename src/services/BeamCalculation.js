@@ -16,16 +16,16 @@ class BeamCalculation {
 	constructor(elements, count = "default") {
 		this._elements = elements;
 		this._global_matrix;
+		this._points;
 
-		if (count == "default"){
-			count = 50 / elements.length
+		if (count == "default") {
+			count = 50 / elements.length;
 			this._fragmentation(elements, count);
 		}
-		
 
 		this._solution = this._calculate();
-		console.log(this._solution)
-		console.log(dot(this._solution, this._global_matrix))
+		//console.log(this._solution)
+		//console.log(dot(this._solution, this._global_matrix))
 		this._reaction = dot(this._solution, this._global_matrix);
 	}
 
@@ -41,9 +41,9 @@ class BeamCalculation {
 		let element;
 
 		// Создадим массив точек отдельно
-		let points = [this._elements[0].points[0]];
+		this._points = [this._elements[0].points[0]];
 		for (let i = 0; i < this._elements.length; i++) {
-			points.push(this._elements[i].points[1]);
+			this._points.push(this._elements[i].points[1]);
 		}
 
 		// Создаем глобальную матрицу
@@ -72,12 +72,12 @@ class BeamCalculation {
 		let global_vector = zeros([this._elements.length * 3 + 3]);
 		let DGM = this._global_matrix.clone();
 
-		for (let i = 0; i < points.length; i++) {
-			global_vector.set(0 + 3 * i, points[i].load[0]);
-			global_vector.set(1 + 3 * i, points[i].load[1]);
-			global_vector.set(2 + 3 * i, points[i].moment);
+		for (let i = 0; i < this._points.length; i++) {
+			global_vector.set(0 + 3 * i, this._points[i].load[0]);
+			global_vector.set(1 + 3 * i, this._points[i].load[1]);
+			global_vector.set(2 + 3 * i, this._points[i].moment);
 			for (let j = 0; j < 3; j++) {
-				if (points[i].defenitions[j]) {
+				if (this._points[i].defenitions[j]) {
 					def(DGM, i * 3 + j);
 				}
 			}
@@ -132,14 +132,22 @@ class BeamCalculation {
 		];
 	}
 
+	/** Coordinates Shear-Diagram */
 	get shear() {
-		return [
-			[
-				this._elements[0].points[0].coordinates[0],
-				-this._reaction.get(1)
-			],
-			[this._elements[0].points[1].coordinates[0], this._reaction.get(4)]
-		];
+		let eps = 1000;
+		let result = [];
+		let add = this._reaction.get(1);
+		for (let i = 0; i < this._reaction.size / 3 - 1; i++) {
+			result.push(
+				[this._points[i].coordinates[0], Math.round(add * eps) / eps],
+				[
+					this._points[i + 1].coordinates[0],
+					Math.round(add * eps) / eps
+				]
+			);
+			add += this._reaction.get(1 + (i + 1) * 3);
+		}
+		return result;
 	}
 
 	get max_deflection() {
