@@ -147,9 +147,9 @@ class BeamCalculation {
 					}
 				}
 			}
-			console.log(this._GM);
-			console.log(GV);
-			console.log(DGM);
+			// console.log(this._GM);
+			// console.log(GV);
+			// console.log(DGM);
 
 			return solve(DGM, GV);
 		}

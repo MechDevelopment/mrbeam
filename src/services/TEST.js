@@ -50,24 +50,39 @@ class FemService {
 
 	static generateBeam(count_of_points) {
 		let points = [];
+		points.push({
+			id: 0,
+			type: "Defenition",
+			x: 0,
+			load: 1
+		});
 		for (let i = 0; i < count_of_points; i++) {
 			points.push({
-				id: 1,
+				id: i + 1,
 				type: "Load",
-				x: 0,
-				load: 10
+				x: i + 1,
+				load: randomInteger(1, 100)
 			});
 		}
-
+		points.push({
+			id: count_of_points + 1,
+			type: "Defenition",
+			x: count_of_points + 1,
+			load: 0
+		});
 		return points;
 	}
 }
-console.log(randomInteger(10,15))
 
 function randomInteger(min, max) {
 	// получить случайное число от (min-0.5) до (max+0.5)
 	let rand = min - 0.5 + Math.random() * (max - min + 1);
 	return Math.round(rand);
-  }
+}
 
 export default FemService;
+
+let FS = new FemService()
+FS.import(FemService.generateBeam(3))
+
+console.log(FS.getResult());
