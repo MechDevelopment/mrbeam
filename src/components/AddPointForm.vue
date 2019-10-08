@@ -133,9 +133,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.card {
-  box-shadow: none !important;
-}
-</style>
