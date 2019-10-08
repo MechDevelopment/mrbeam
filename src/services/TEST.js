@@ -1,3 +1,4 @@
+// node -r esm
 import Material from "./Material";
 import Point from "./Point";
 import Element from "./Element";

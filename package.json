@@ -10,6 +10,7 @@
   "dependencies": {
     "buefy": "^0.8.0",
     "core-js": "^2.6.5",
+    "esm": "^3.2.25",
     "numjs": "^0.16.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
