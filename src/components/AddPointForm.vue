@@ -87,8 +87,21 @@
 
     <div class="buttons is-centered">
       <!-- <button type="submit" class="button is-primary">Submit</button> -->
-      <b-button @click="addPoint" type="is-primary" icon-pack="fas" icon-left="plus">Add Point</b-button>
-      <b-button icon-pack="fas" type="is-primary" icon-right="calculator" outlined>Analyse Beam</b-button>
+      <b-button
+        @click="addPoint"
+        :disabled="isProcessing"
+        type="is-primary"
+        icon-pack="fas"
+        icon-left="plus"
+      >Add Point</b-button>
+      <b-button
+        @click="analyse"
+        :disabled="isProcessing"
+        type="is-primary"
+        icon-pack="fas"
+        icon-right="calculator"
+        outlined
+      >Analyse Beam</b-button>
     </div>
   </form>
 </template>
@@ -110,7 +123,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getPoints"])
+    ...mapGetters(["getPoints"]),
+    isProcessing() {
+      return this.$store.getters.getProcessing;
+    }
   },
   methods: {
     addPoint() {
@@ -124,6 +140,12 @@ export default {
 
       this.$store.commit("ADD_POINT", newPoint);
       console.log(this.getPoints);
+    },
+    analyse() {
+      this.$store.commit("SET_PROCESSING", true);
+      // setTimeout(() => {
+      //   this.$store.commit("SET_PROCESSING", false);
+      // }, 10 * 1000);
     }
   },
   validations: {

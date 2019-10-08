@@ -24,6 +24,14 @@
                   </b-field>
                 </b-field>
               </form>
+
+              <!-- LOADER -->
+              <b-loading :is-full-page="isFullPage" :active.sync="isProcessing" :can-cancel="true">
+                <b-icon pack="fas" icon="cog" size="is-large" custom-class="fa-spin"></b-icon>
+                <span>
+                  <strong>Calculating..</strong>
+                </span>
+              </b-loading>
             </div>
           </div>
         </div>
@@ -63,7 +71,6 @@
 <script>
 import AddPointForm from "../components/AddPointForm.vue";
 import TablePoints from "../components/TablePoints.vue";
-// import fem from "../services/FiniteElementMethod.js";
 
 export default {
   name: "NewBeam",
@@ -73,36 +80,17 @@ export default {
   },
   data() {
     return {
-      isEmpty: false,
-      isBordered: false,
-      isStriped: true,
-      isNarrowed: true,
-      isHoverable: true,
-      isLoading: false
+      isFullPage: false
     };
   },
   computed: {
+    isProcessing() {
+      return this.$store.getters.getProcessing;
+    },
     points() {
       return this.$store.getters.getPoints;
     }
   },
-  methods: {
-    test: function() {
-      fem();
-    }
-  }
+  methods: {}
 };
 </script>
-
-<style>
-.green {
-  background-color: lightgreen;
-}
-
-.debug {
-  border: 2px dashed salmon;
-}
-.debug1 {
-  border: 1px dashed rebeccapurple;
-}
-</style>
