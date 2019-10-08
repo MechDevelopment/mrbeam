@@ -39,13 +39,35 @@ class FemService {
 			elements.push(element);
 		}
 
-		let BC = new BeamCalculation(elements)
-		
-		this.reaction = BC._reaction
+		let BC = new BeamCalculation(elements);
+
+		this.reaction = BC._reaction;
 	}
 
-	getResult(){
+	getResult() {
 		return this.reaction;
 	}
+
+	static generateBeam(count_of_points) {
+		let points = [];
+		for (let i = 0; i < count_of_points; i++) {
+			points.push({
+				id: 1,
+				type: "Load",
+				x: 0,
+				load: 10
+			});
+		}
+
+		return points;
+	}
 }
+console.log(randomInteger(10,15))
+
+function randomInteger(min, max) {
+	// получить случайное число от (min-0.5) до (max+0.5)
+	let rand = min - 0.5 + Math.random() * (max - min + 1);
+	return Math.round(rand);
+  }
+
 export default FemService;
