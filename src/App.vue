@@ -18,6 +18,11 @@
       </template>
     </b-navbar>-->
     <router-view/>
+    <footer class="footer">
+      <div class="container-fluid">
+        <span>2019, MechDevelopment</span>
+      </div>
+    </footer>
   </div>
 </template>
 
