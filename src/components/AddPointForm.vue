@@ -84,6 +84,7 @@
     </b-field>
 
     <hr>
+
     <div class="buttons is-centered">
       <!-- <button type="submit" class="button is-primary">Submit</button> -->
       <b-button @click="addPoint" type="is-primary" icon-pack="fas" icon-left="plus">Add Point</b-button>

@@ -29,9 +29,28 @@
         </div>
         <div class="column is-two-fifths">
           <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">New Point</p>
+              <a href="#" class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </a>
+            </header>
             <div class="card-content">
               <add-point-form/>
-              <hr>
+            </div>
+          </div>
+          <div class="card has-table">
+            <header class="card-header">
+              <p class="card-header-title">List of Points</p>
+              <a href="#" class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </a>
+            </header>
+            <div class="card-content">
               <table-points/>
             </div>
           </div>
