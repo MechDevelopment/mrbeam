@@ -3,7 +3,7 @@ import Material from "./Material";
 import Point from "./Point";
 import Element from "./Element";
 import BeamCalculation from "./BeamCalculation";
-
+import { config } from "numjs";
 class FemService {
 	constructor() {
 		this.reaction;
@@ -82,7 +82,40 @@ function randomInteger(min, max) {
 
 export default FemService;
 
-let FS = new FemService()
-FS.import(FemService.generateBeam(3))
+config.printThreshold = 16;
+// let FS = new FemService()
+// FS.import(FemService.generateBeam(3))
+// console.log(FS.getResult());
 
-console.log(FS.getResult());
+// let P1 = new Point([0,0], [1,1,1])
+// let P2 = new Point([10,0], [0,0,0], [0,-1000])
+// let m = new Material(9.9 * (10**6), 0.04909, 0.7854)
+// let element = new Element([P1,P2], m)
+// let BC = new BeamCalculation([element])
+// console.log(BC._solution)
+// console.log(BC._reaction)
+
+// Max Deflection:	δmax=0.6859 in	@ x = L
+// Max Slope:	θmax=0.1029 rad	@ x = L
+// Shear:	V=+1000 lbf	constant
+// Moment:	Mmax=−10,000 in-lbf	@ x = 0
+
+let P1 = new Point([0,0], [1,1,0])
+let P2 = new Point([5,0], [0,0,0], [0,-1000])
+let P3 = new Point([10,0], [0,1,0], [0,0])
+let m = new Material(10 * (10**6), 0.04909, 0.7854)
+let E1 = new Element([P1,P2], m)
+let E2 = new Element([P2,P3], m)
+
+// let start
+// let BC
+// for (let i = 0; i < 100; i++) {
+// 	start = new Date();
+// 	BC = new BeamCalculation([E1,E2], i)
+// 	console.log("Count:", i*2, "Time:", (new Date() - start) * 0.001, "sec");
+// }
+let BC = new BeamCalculation([E1,E2])
+
+//console.log(BC._solution)
+//console.log(BC._reaction)
+//Max Deflection:	0.04244 in	5.000 in

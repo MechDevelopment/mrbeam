@@ -53,7 +53,6 @@ class Element {
 		if (this.material.A != null && this.material.E != null) {
 			EA = this.material.A * this.material.E;
 		}
-
 		return [
 			[EA / l, 0, 0, -EA / l, 0, 0],
 			[

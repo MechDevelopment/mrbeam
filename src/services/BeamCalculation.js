@@ -13,11 +13,109 @@ class BeamCalculation {
 	 *
 	 * @todo finish this shit
 	 */
-	constructor(elements) {
+	constructor(elements, count = "default") {
 		this._elements = elements;
-		this._GM;
-		this._solution = this._Calculate();
-		this._reaction = dot(this._solution, this._GM);
+		this._global_matrix;
+
+		if (count == "default"){
+			count = 50 / elements.length
+			this._fragmentation(elements, count);
+		}
+		
+
+		this._solution = this._calculate();
+		console.log(this._solution)
+		console.log(dot(this._solution, this._global_matrix))
+		this._reaction = dot(this._solution, this._global_matrix);
+	}
+
+	/** Beam calculation using the finite element method.
+	 *
+	 * @method
+	 * @this {Calculate}
+	 *
+	 * @param {Array<Element>} elements Elements of the beam in turn
+	 */
+	_calculate() {
+		let local_matrix;
+		let element;
+
+		// Создадим массив точек отдельно
+		let points = [this._elements[0].points[0]];
+		for (let i = 0; i < this._elements.length; i++) {
+			points.push(this._elements[i].points[1]);
+		}
+
+		// Создаем глобальную матрицу
+		this._global_matrix = zeros([
+			this._elements.length * 3 + 3,
+			this._elements.length * 3 + 3
+		]);
+
+		// Заполняем глобальную матрицу
+		for (let index = 0; index < this._elements.length; index++) {
+			// Take element
+			element = this._elements[index];
+			local_matrix = element.local_matrix;
+			for (let i = 0; i < 6; i++) {
+				for (let j = 0; j < 6; j++) {
+					this._global_matrix.set(
+						i + 3 * index,
+						j + 3 * index,
+						this._global_matrix.get(i + 3 * index, j + 3 * index) +
+							local_matrix[i][j]
+					);
+				}
+			}
+		}
+
+		let global_vector = zeros([this._elements.length * 3 + 3]);
+		let DGM = this._global_matrix.clone();
+
+		for (let i = 0; i < points.length; i++) {
+			global_vector.set(0 + 3 * i, points[i].load[0]);
+			global_vector.set(1 + 3 * i, points[i].load[1]);
+			global_vector.set(2 + 3 * i, points[i].moment);
+			for (let j = 0; j < 3; j++) {
+				if (points[i].defenitions[j]) {
+					def(DGM, i * 3 + j);
+				}
+			}
+		}
+		// console.log(this._global_matrix);
+		// console.log(global_vector);
+		// console.log(DGM);
+
+		return solve(DGM, global_vector);
+	}
+
+	_fragmentation(elements, count) {
+		// Пока что разбиение одного элемента на несколько
+
+		// Разбиение не нужно
+		if (count == 0 || count == 1) {
+			return elements;
+		}
+		// ОСТОРОЖНО! Снизу божественный код.
+		let h;
+		let add_point;
+		let add_element;
+		for (let i = elements.length - 1; i >= 0; i--) {
+			h = elements[i].length / count;
+			for (let j = 1; j < count; j++) {
+				add_point = new Point([
+					elements[i].points[1].coordinates[0] - h,
+					0
+				]);
+				add_element = new Element(
+					[elements[i].points[0], add_point],
+					elements[i].material
+				);
+				elements[i].points[0] = add_point;
+				elements.splice(i, 0, add_element);
+			}
+		}
+		return elements;
 	}
 
 	get displacement() {
@@ -67,93 +165,6 @@ class BeamCalculation {
 	get min_shear() {
 		return min([-this._reaction.get(1), this._reaction.get(4)]);
 	}
-
-	/** Beam calculation using the finite element method.
-	 *
-	 * @method
-	 * @this {Calculate}
-	 *
-	 * @param {Array<Element>} elements Elements of the beam in turn
-	 */
-	_Calculate() {
-		let element;
-		if (this._elements.length == 1) {
-			element = this._elements[0];
-
-			this._GM = array(element.local_matrix);
-			let GV = array(element.local_vector);
-			let DGM = this._GM.clone();
-
-			// Учет граничных условий или закрепления
-			if (element.points[0].defenitions[0]) {
-				def(DGM, 0);
-			}
-			if (element.points[0].defenitions[1]) {
-				def(DGM, 1);
-			}
-			if (element.points[0].defenitions[2]) {
-				def(DGM, 2);
-			}
-			if (element.points[1].defenitions[0]) {
-				def(DGM, 3);
-			}
-			if (element.points[1].defenitions[1]) {
-				def(DGM, 4);
-			}
-			if (element.points[1].defenitions[2]) {
-				def(DGM, 5);
-			}
-			return solve(DGM, GV);
-		} else {
-			let local_matrix;
-
-			let points = [this._elements[0].points[0]];
-			for (let i = 0; i < this._elements.length; i++) {
-				points.push(this._elements[i].points[1]);
-			}
-
-			this._GM = zeros([
-				this._elements.length * 3 + 3,
-				this._elements.length * 3 + 3
-			]);
-			let GV = zeros([this._elements.length * 3 + 3]);
-
-			for (let index = 0; index < this._elements.length; index++) {
-				// Take element
-				element = this._elements[index];
-				local_matrix = element.local_matrix;
-				for (let i = 0; i < 6; i++) {
-					
-					for (let j = 0; j < 6; j++) {
-						this._GM.set(
-							i + 3 * index,
-							j + 3 * index,
-							this._GM.get(i + 3 * index, j + 3 * index) +
-								local_matrix[i][j]
-						);
-					}
-				}
-			}
-
-			let DGM = this._GM.clone();
-			for (let i = 0; i < points.length; i++) {
-				GV.set(0 + 3 * i, points[i].load[0]);
-				GV.set(1 + 3 * i, points[i].load[1]);
-				GV.set(2 + 3 * i, points[i].moment);
-				for (let j = 0; j < 3; j++) {
-					
-					if (points[i].defenitions[j]) {
-						def(DGM, i * 3 + j);
-					}
-				}
-			}
-			// console.log(this._GM);
-			// console.log(GV);
-			// console.log(DGM);
-
-			return solve(DGM, GV);
-		}
-	}
 }
 
 /** Solves a system of linear equations by Gauss-Jordan Elimination.
@@ -166,14 +177,8 @@ class BeamCalculation {
  */
 function solve(matrix, vector) {
 	// Check assert
-	console.assert(
-		matrix instanceof NdArray,
-		"Solve: matrix is not NdArray."
-	);
-	console.assert(
-		vector instanceof NdArray,
-		"Solve: vector is not NdArray."
-	);
+	console.assert(matrix instanceof NdArray, "Solve: matrix is not NdArray.");
+	console.assert(vector instanceof NdArray, "Solve: vector is not NdArray.");
 	console.assert(
 		matrix.shape[0] == matrix.shape[1],
 		"Solve: matrix is not square."
