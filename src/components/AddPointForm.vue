@@ -13,7 +13,7 @@
       </b-radio-button>
 
       <b-radio-button v-model="radioButton" native-value="momentum" type="is-primary">
-        <b-icon pack="fas" icon="blind"></b-icon>
+        <b-icon pack="fas" icon="redo-alt"></b-icon>
         <span>Mom</span>
       </b-radio-button>
 
