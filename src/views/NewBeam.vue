@@ -4,36 +4,7 @@
       <div class="columns">
         <!-- <div class="column is-two-thirds"> -->
         <div class="column">
-          <div class="card">
-            <div class="card-content">
-              <form>
-                <b-field label="From" horizontal>
-                  <b-field>
-                    <b-input icon="account" placeholder="Name" required/>
-                  </b-field>
-                  <b-field>
-                    <b-input icon="email" type="email" placeholder="E-mail" required/>
-                  </b-field>
-                </b-field>
-                <b-field message="Do not enter the leading zero" horizontal>
-                  <b-field>
-                    <p class="control">
-                      <a class="button is-static">+44</a>
-                    </p>
-                    <b-input type="tel" expanded/>
-                  </b-field>
-                </b-field>
-              </form>
-
-              <!-- LOADER -->
-              <b-loading :is-full-page="isFullPage" :active.sync="isProcessing" :can-cancel="true">
-                <b-icon pack="fas" icon="cog" size="is-large" custom-class="fa-spin"></b-icon>
-                <span>
-                  <strong>Calculating..</strong>
-                </span>
-              </b-loading>
-            </div>
-          </div>
+          <result-view/>
         </div>
         <div class="column is-two-fifths">
           <div class="card">
@@ -71,12 +42,14 @@
 <script>
 import AddPointForm from "../components/AddPointForm.vue";
 import TablePoints from "../components/TablePoints.vue";
+import ResultView from "../components/ResultView.vue";
 
 export default {
   name: "NewBeam",
   components: {
     AddPointForm,
-    TablePoints
+    TablePoints,
+    ResultView
   },
   data() {
     return {
@@ -84,9 +57,6 @@ export default {
     };
   },
   computed: {
-    isProcessing() {
-      return this.$store.getters.getProcessing;
-    },
     points() {
       return this.$store.getters.getPoints;
     }

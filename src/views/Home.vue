@@ -4,9 +4,9 @@
       <div class="container">
         <h1 class="title">Hello, stranger! I'm Mr. Beam</h1>
         <h2 class="subtitle">Let's calculate your beam?</h2>
-        <a class="button" href="/">
+        <b-button class="button" tag="router-link" to="/newbeam" type="is-link">
           <strong>Calculate</strong>
-        </a>
+        </b-button>
       </div>
     </div>
   </section>

@@ -143,9 +143,9 @@ export default {
     },
     analyse() {
       this.$store.commit("SET_PROCESSING", true);
-      // setTimeout(() => {
-      //   this.$store.commit("SET_PROCESSING", false);
-      // }, 10 * 1000);
+      setTimeout(() => {
+        this.$store.commit("SET_PROCESSING", false);
+      }, 10 * 1000);
     }
   },
   validations: {
