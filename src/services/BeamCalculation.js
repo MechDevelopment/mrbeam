@@ -20,8 +20,8 @@ class BeamCalculation {
 
 		if (count == "default") {
 			count = 50 / elements.length;
-			this._fragmentation(elements, count);
 		}
+		this._fragmentation(elements, count);
 
 		this._solution = this._calculate();
 		//console.log(this._solution)
@@ -119,10 +119,16 @@ class BeamCalculation {
 	}
 
 	get displacement() {
-		return [
-			[this._elements[0].points[0].coordinates[0], this._solution.get(1)],
-			[this._elements[0].points[1].coordinates[0], this._solution.get(4)]
-		];
+		let eps = 1000000;
+		let result1 = [];
+		let result2 = [];
+		for (let i = 0; i < this._solution.size / 3 - 1; i++) {
+			result1.push(
+				Math.round(this._points[i].coordinates[0] * eps) / eps
+			);
+			result2.push(Math.round(this._solution.get(1 + i * 3) * eps) / eps);
+		}
+		return [result1, result2];
 	}
 
 	get moment() {
@@ -135,19 +141,21 @@ class BeamCalculation {
 	/** Coordinates Shear-Diagram */
 	get shear() {
 		let eps = 1000;
-		let result = [];
+		let result1 = [];
+		let result2 = [];
 		let add = this._reaction.get(1);
 		for (let i = 0; i < this._reaction.size / 3 - 1; i++) {
-			result.push(
-				[this._points[i].coordinates[0], Math.round(add * eps) / eps],
-				[
-					this._points[i + 1].coordinates[0],
-					Math.round(add * eps) / eps
-				]
+			result1.push(
+				Math.round(this._points[i].coordinates[0] * eps) / eps,
+				Math.round(this._points[i + 1].coordinates[0] * eps) / eps
+			);
+			result2.push(
+				Math.round(add * eps) / eps,
+				Math.round(add * eps) / eps
 			);
 			add += this._reaction.get(1 + (i + 1) * 3);
 		}
-		return result;
+		return [result1, result2];
 	}
 
 	get max_deflection() {

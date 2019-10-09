@@ -1,36 +1,49 @@
 export default {
-  state: {
-    isProcessing: true,
-    points: [
-      {
-        id: 1,
-        type: "Defenition",
-        x: 0,
-        load: 1
-      },
-      {
-        id: 2,
-        type: "Load",
-        x: 5,
-        load: 100
-      },
-      {
-        id: 3,
-        type: "Defenition",
-        x: 10,
-        load: 0
-      }
-    ]
-  },
-  mutations: {
-    ADD_POINT(state, point) {
-      point.id = state.points.slice(-1)[0].id + 1;
-      state.points = [...state.points, point];
+	state: {
+		isProcessing: true,
+		points: [
+			{
+				id: 1,
+				type: "Defenition",
+				x: 0,
+				load: 1
+			},
+			{
+				id: 2,
+				type: "Load",
+				x: 2,
+				load: 50
+			},
+			{
+				id: 3,
+				type: "Load",
+				x: 8,
+				load: -1000
+			},
+			{
+				id: 4,
+				type: "Defenition",
+				x: 10,
+				load: 0
+			}
+    ],
+    result: []
+	},
+	mutations: {
+		ADD_POINT(state, point) {
+			point.id = state.points.slice(-1)[0].id + 1;
+			state.points = [...state.points, point];
+    },
+    SET_RESULT(state, result) {
+      state.result = result;
     }
-  },
-  getters: {
-    getPoints: state => {
-      return state.points;
-    }
-  }
+	},
+	getters: {
+		getPoints: state => {
+			return state.points;
+    },
+    getResult: state => {
+      return state.result
+    },
+	}
 };

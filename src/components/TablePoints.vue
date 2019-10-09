@@ -6,6 +6,8 @@
     :narrowed="isNarrowed"
     :hoverable="isHoverable"
     :loading="isLoading"
+    :default-sort-direction="defaultSortDirection"
+            :sort-icon="sortIcon"
     :mobile-cards="false"
   >
     <template slot-scope="props">
@@ -13,7 +15,7 @@
 
       <b-table-column field="type" label="Type" width="150">{{ props.row.type }}</b-table-column>
 
-      <b-table-column field="x" label="X-coordinate" width="150" numeric>{{ props.row.x }}</b-table-column>
+      <b-table-column field="x" label="X-coordinate" width="150" numeric sortable>{{ props.row.x }}</b-table-column>
 
       <!-- <b-table-column field="angle" label="Angle" numeric>{{ props.row.angle }}</b-table-column> -->
 
@@ -41,7 +43,9 @@ export default {
       isStriped: true,
       isNarrowed: true,
       isHoverable: true,
-      isLoading: false
+      isLoading: false,
+      defaultSortDirection: 'asc',
+                sortIcon: 'arrow-up',
     };
   },
   computed: {

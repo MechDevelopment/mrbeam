@@ -41,12 +41,8 @@
 
 <script>
 import AddPointForm from "../components/AddPointForm.vue";
-<<<<<<< HEAD
-import FemService from "../services/TEST.js";
-=======
 import TablePoints from "../components/TablePoints.vue";
 import ResultView from "../components/ResultView.vue";
->>>>>>> vuex
 
 export default {
   name: "NewBeam",
@@ -65,17 +61,6 @@ export default {
       return this.$store.getters.getPoints;
     }
   },
-<<<<<<< HEAD
-  methods: {
-    test: function() {
-      
-      let femService = new FemService();
-      console.log(femService)
-      femService.import(this.$store.getters.getPoints);
-    }
-  }
-=======
   methods: {}
->>>>>>> vuex
 };
 </script>
