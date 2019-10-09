@@ -1,42 +1,38 @@
 <template>
-  <section class="section">
+  <section class="section has-background-white-ter">
     <div class="container">
       <div class="columns">
-        <div class="column is-two-thirds">
-          <b-table
-            :data="isEmpty ? [] : points"
-            :bordered="isBordered"
-            :striped="isStriped"
-            :narrowed="isNarrowed"
-            :hoverable="isHoverable"
-            :loading="isLoading"
-            :mobile-cards="false"
-          >
-            <template slot-scope="props">
-              <b-table-column field="id" label="№" width="40" numeric>{{ props.row.id }}</b-table-column>
-
-              <b-table-column field="type" label="Type" width="60">{{ props.row.type }}</b-table-column>
-
-              <b-table-column field="x" label="X-coordinate" numeric>{{ props.row.x }}</b-table-column>
-
-              <b-table-column field="angle" label="Angle" numeric>{{ props.row.angle }}</b-table-column>
-
-              <b-table-column field="load" label="Load" numeric>{{ props.row.load }}</b-table-column>
-            </template>
-            <template slot="empty">
-              <section class="section">
-                <div class="content has-text-grey has-text-centered">
-                  <p>
-                    <b-icon icon="emoticon-sad" size="is-large"></b-icon>
-                  </p>
-                  <p>Nothing here.</p>
-                </div>
-              </section>
-            </template>
-          </b-table>
-        </div>
+        <!-- <div class="column is-two-thirds"> -->
         <div class="column">
-          <add-point-form />
+          <result-view/>
+        </div>
+        <div class="column is-two-fifths">
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">New Point</p>
+              <a href="#" class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </a>
+            </header>
+            <div class="card-content">
+              <add-point-form/>
+            </div>
+          </div>
+          <div class="card has-table">
+            <header class="card-header">
+              <p class="card-header-title">List of Points</p>
+              <a href="#" class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </a>
+            </header>
+            <div class="card-content">
+              <table-points/>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -45,21 +41,23 @@
 
 <script>
 import AddPointForm from "../components/AddPointForm.vue";
+<<<<<<< HEAD
 import FemService from "../services/TEST.js";
+=======
+import TablePoints from "../components/TablePoints.vue";
+import ResultView from "../components/ResultView.vue";
+>>>>>>> vuex
 
 export default {
   name: "NewBeam",
   components: {
-    AddPointForm
+    AddPointForm,
+    TablePoints,
+    ResultView
   },
   data() {
     return {
-      isEmpty: false,
-      isBordered: false,
-      isStriped: true,
-      isNarrowed: true,
-      isHoverable: true,
-      isLoading: false
+      isFullPage: false
     };
   },
   computed: {
@@ -67,6 +65,7 @@ export default {
       return this.$store.getters.getPoints;
     }
   },
+<<<<<<< HEAD
   methods: {
     test: function() {
       
@@ -75,18 +74,8 @@ export default {
       femService.import(this.$store.getters.getPoints);
     }
   }
+=======
+  methods: {}
+>>>>>>> vuex
 };
 </script>
-
-<style>
-.green {
-  background-color: lightgreen;
-}
-
-.debug {
-  border: 2px dashed salmon;
-}
-.debug1 {
-  border: 1px dashed rebeccapurple;
-}
-</style>

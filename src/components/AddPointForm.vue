@@ -2,22 +2,22 @@
   <form>
     <!-- TAB BUTTONS -->
     <b-field position="is-centered">
-      <b-radio-button v-model="radioButton" native-value="load" type="is-danger">
+      <b-radio-button v-model="radioButton" native-value="load" type="is-primary">
         <b-icon pack="fas" icon="arrow-down"></b-icon>
         <span>Load</span>
       </b-radio-button>
 
-      <b-radio-button v-model="radioButton" native-value="distload" type="is-success">
+      <b-radio-button v-model="radioButton" native-value="distload" type="is-primary">
         <b-icon pack="fas" icon="angle-double-down"></b-icon>
         <span>Dist. Load</span>
       </b-radio-button>
 
-      <b-radio-button v-model="radioButton" native-value="momentum">
-        <b-icon pack="fas" icon="blind"></b-icon>
+      <b-radio-button v-model="radioButton" native-value="momentum" type="is-primary">
+        <b-icon pack="fas" icon="redo-alt"></b-icon>
         <span>Mom</span>
       </b-radio-button>
 
-      <b-radio-button v-model="radioButton" native-value="defenition">
+      <b-radio-button v-model="radioButton" native-value="defenition" type="is-primary">
         <b-icon pack="fas" icon="align-center"></b-icon>
         <span>Def</span>
       </b-radio-button>
@@ -33,46 +33,75 @@
       </b-radio>
     </b-field>
 
-    <b-field :type="{'is-danger': $v.$invalid}" message="Enter X offset">
+    <!-- INPUTS -->
+
+    <b-field
+      :type="{'is-danger': $v.$anyError}"
+      :message="{'Enter X offset': $v.$anyError}"
+      v-show="radioButton !== 'distload'"
+      label="Position"
+      horizontal
+    >
       <b-input
-        v-model.lazy="$v.xCoordinate.$model"
+        v-model="$v.xCoordinate.$model"
+        v-show="radioButton !== 'distload'"
         placeholder="X-coordinate"
         type="number"
-        expanded
       ></b-input>
+      <b-select placeholder="Meters">
+        <option>Sm</option>
+        <option>Mm</option>
+      </b-select>
       <!-- <p class="subtitle" v-if="!$v.xCoordinate.required">This field is required</p> -->
     </b-field>
 
-    <b-field v-show="radioButton == 'distload'">
-      <b-input placeholder="X2-coordinate" type="number" expanded></b-input>
+    <b-field v-show="radioButton == 'distload'" label="Start" horizontal>
+      <b-input placeholder="Start position" type="number"></b-input>
       <b-select placeholder="Meters">
         <option>Sm</option>
         <option>Mm</option>
       </b-select>
     </b-field>
 
-    <b-field v-show="radioButton == 'load'">
-      <b-input v-model="angle" placeholder="Angle" type="number" expanded></b-input>
+    <b-field v-show="radioButton == 'distload'" label="End" horizontal>
+      <b-input placeholder="End position" type="number"></b-input>
+      <b-select placeholder="Meters">
+        <option>Sm</option>
+        <option>Mm</option>
+      </b-select>
     </b-field>
 
-    <b-field v-show="radioButton != 'defenition'">
-      <b-input v-model="load" placeholder="Load" type="number" expanded></b-input>
+    <b-field v-show="radioButton == 'load'" label="Angle" horizontal>
+      <b-input v-model="angle" placeholder="Angle" type="number"></b-input>
+    </b-field>
+
+    <b-field v-show="radioButton != 'defenition'" label="Load" horizontal>
+      <b-input v-model="load" placeholder="Load" type="number"></b-input>
       <b-select placeholder="N/m">
         <option>N/sm</option>
         <option>kN/m</option>
       </b-select>
     </b-field>
 
+    <hr>
+
     <div class="buttons is-centered">
       <!-- <button type="submit" class="button is-primary">Submit</button> -->
       <b-button
         @click="addPoint"
+        :disabled="isProcessing"
         type="is-primary"
         icon-pack="fas"
-        icon-left="arrow-left"
-        :disabled="$v.$invalid"
+        icon-left="plus"
       >Add Point</b-button>
-      <b-button icon-pack="fas" icon-right="calculator" outlined @click="test">Analyse Beam</b-button>
+      <b-button
+        @click="analyse"
+        :disabled="isProcessing"
+        type="is-primary"
+        icon-pack="fas"
+        icon-right="calculator"
+        outlined
+      >Analyse Beam</b-button>
     </div>
   </form>
 </template>
@@ -88,32 +117,44 @@ export default {
       radioButton: "load",
       defenitionType: "1",
       // Form
-      xCoordinate: null,
-      angle: null,
-      load: null
+      xCoordinate: 0,
+      x2Coordinate: null,
+      angle: 90,
+      load: 0
     };
   },
   computed: {
-    ...mapGetters(["getPoints"])
+    ...mapGetters(["getPoints"]),
+    isProcessing() {
+      return this.$store.getters.getProcessing;
+    }
   },
   methods: {
     addPoint() {
-      const { radioButton, xCoordinate, angle, load } = this;
+      const { radioButton, xCoordinate, load } = this;
       const newPoint = {
         type: radioButton,
         x: xCoordinate,
-        angle: angle,
+        // angle: angle,
         load: load
       };
 
       this.$store.commit("ADD_POINT", newPoint);
       console.log(this.getPoints);
     },
+<<<<<<< HEAD
     test() {
       let femService = new FemService();
       femService.import(this.$store.getters.getPoints);
       let result = femService.getResult()
       console.log(result)
+=======
+    analyse() {
+      this.$store.commit("SET_PROCESSING", true);
+      setTimeout(() => {
+        this.$store.commit("SET_PROCESSING", false);
+      }, 10 * 1000);
+>>>>>>> vuex
     }
   },
   validations: {
