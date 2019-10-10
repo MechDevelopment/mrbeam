@@ -10,6 +10,11 @@ class FemService {
 	}
 
 	import(list) {
+		list.sort(function(a, b){
+			if(a["x"] < b["x"]) { return -1; }
+			if(a["x"] > b["x"]) { return 1; }
+			return 0;
+		})
 		let point;
 		let points = [];
 		for (let i = 0; i < list.length; i++) {
