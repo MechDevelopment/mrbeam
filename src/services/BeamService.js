@@ -11,7 +11,7 @@ class BeamService {
 	 * @method import(objects, fragmentation)
 	 * @method results() or results
 	 * 
-	 * @static generateBeam(count_of_points)
+	 * @static generator(count_of_points)
 	 */
 	constructor() {
 		this.results;
@@ -102,7 +102,13 @@ class BeamService {
 		return this.results;
 	}
 
-	static generateBeam(count_of_points) {
+	/** Easy beam random generator
+	 * 
+	 * @param {Number} count_of_points 
+	 * 
+	 * @return {Array<Object>}
+	 */
+	static generator(count_of_points) {
 		let points = [];
 		points.push({
 			id: 0,
@@ -128,86 +134,16 @@ class BeamService {
 	}
 }
 
+/** Get a random integer number from (min-0.5) to (max + 0.5)
+ * 
+ * @param {Number} min 
+ * @param {Number} max 
+ * 
+ * @return {Number}
+ */
 function randomInteger(min, max) {
-	// получить случайное число от (min-0.5) до (max+0.5)
 	let rand = min - 0.5 + Math.random() * (max - min + 1);
 	return Math.round(rand);
 }
 
 export default BeamService;
-
-config.printThreshold = 16;
-// let FS = new FemService()
-// FS.import(FemService.generateBeam(3))
-// console.log(FS.getResult());
-
-// let P1 = new Point([0,0], [1,1,1])
-// let P2 = new Point([10,0], [0,0,0], [0,-1000])
-// let m = new Material(9.9 * (10**6), 0.04909, 0.7854)
-// let element = new Element([P1,P2], m)
-// let BC = new BeamCalculation([element])
-// console.log(BC._solution)
-// console.log(BC._reaction)
-
-// Max Deflection:	δmax=0.6859 in	@ x = L
-// Max Slope:	θmax=0.1029 rad	@ x = L
-// Shear:	V=+1000 lbf	constant
-// Moment:	Mmax=−10,000 in-lbf	@ x = 0
-
-// let P1 = new Point([1,0], [1,1,0])
-// let P2 = new Point([5,0], [0,0,0], [0,-1000])
-// let P3 = new Point([9,0], [0,1,0], [0,0])
-
-// let Ps = new Point([0,0], [0,0,0], [0,-1000])
-// let Pf = new Point([10,0])
-
-// let m = new Material(10 * (10**6), 0.04909, 0.7854)
-// let E1 = new Element([P1,P2], m)
-// let E2 = new Element([P2,P3], m)
-
-// let Es = new Element([Ps,P1], m)
-// let Ef = new Element([P3,Pf], m)
-
-// let start
-// let BC
-// for (let i = 0; i < 100; i++) {
-// 	start = new Date();
-// 	BC = new BeamCalculation([E1,E2], i)
-// 	console.log("Count:", i*2, "Time:", (new Date() - start) * 0.001, "sec");
-// }
-// let BC = new BeamCalculation([Es,E1,E2,Ef],0)
-// console.log(BC._reaction)
-// console.log(BC.shear)
-//console.log(BC._solution)
-//console.log(BC._reaction)
-//Max Deflection:	0.04244 in	5.000 in
-
-let femService = new BeamService();
-femService.import([
-	{
-		id: 1,
-		type: "Defenition",
-		x: 0,
-		load: 1
-	},
-	{
-		id: 2,
-		type: "Load",
-		x: 0,
-		load: 50
-	},
-	{
-		id: 3,
-		type: "Load",
-		x: 7,
-		load: -1000
-	},
-	{
-		id: 4,
-		type: "Defenition",
-		x: 7,
-		load: 0
-	}
-]);
-let result = femService.results;
-console.log("result:", result);
