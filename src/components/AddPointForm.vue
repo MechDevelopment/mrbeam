@@ -114,7 +114,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import { required, minLength, between } from "vuelidate/lib/validators";
-import FemService from "../services/TEST.js";
+import BeamService from "../services/BeamService.js";
 
 export default {
   data() {
@@ -153,9 +153,9 @@ export default {
       // setTimeout(() => {
       //   this.$store.commit("SET_PROCESSING", false);
       // }, 10 * 1000);
-      let femService = new FemService();
-      femService.import(this.$store.getters.getPoints);
-      let result = femService.getResult();
+      let beamService = new BeamService();
+      beamService.import(this.$store.getters.getPoints);
+      let result = beamService.results;
       console.log('result:',  result)
       this.$store.commit("SET_RESULT", result);
       this.$store.commit("SET_PROCESSING", false);

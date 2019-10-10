@@ -4,53 +4,102 @@ import Point from "./Point";
 import Element from "./Element";
 import BeamCalculation from "./BeamCalculation";
 import { config } from "numjs";
-class FemService {
+
+class BeamService {
+	/** Service for Beam Calculation
+	 * 
+	 * @method import(objects, fragmentation)
+	 * @method results() or results
+	 * 
+	 * @static generateBeam(count_of_points)
+	 */
 	constructor() {
-		this.shear;
+		this.results;
 	}
 
-	import(list) {
-		list.sort(function(a, b){
-			if(a["x"] < b["x"]) { return -1; }
-			if(a["x"] > b["x"]) { return 1; }
+	/** Import objects from "store"
+	 *
+	 * @param {Array<Object>} objects
+	 *
+	 * @todo
+	 * load = [x, y, angle],
+	 * defenition = [x, y, z],
+	 * several results
+	 */
+	import(objects, fragmentation = 10) {
+		// Variables
+		let push_flag; // flag for point push
+
+		let point; // point class instance
+		let element; // element class instance
+
+		let points = []; // list of point class instance
+		let elements = []; // list of element class instance
+
+		let material = new Material(9.9 * 10 ** 6, 0.04909, 0.7854);
+
+		// Sort a list of objects
+		objects.sort(function(a, b) {
+			if (a["x"] < b["x"]) {
+				return -1;
+			}
+			if (a["x"] > b["x"]) {
+				return 1;
+			}
 			return 0;
-		})
-		let point;
-		let points = [];
-		for (let i = 0; i < list.length; i++) {
-			point = new Point([list[i]["x"], 0]);
-			switch (list[i]["type"]) {
+		});
+
+		// Create points
+		objects.forEach(object => {
+			push_flag = true;
+
+			// Determine the coordinate
+			if (points.length > 0) {
+				if (object["x"] == points[points.length - 1].coordinates[0]) {
+					point = points[points.length - 1];
+					push_flag = false;
+				} else {
+					point = new Point([object["x"], 0]);
+				}
+			} else {
+				point = new Point([object["x"], 0]);
+			}
+
+			// Add values in point
+			switch (object["type"]) {
 				case "Load":
-					point.load = [0, -list[i]["load"]];
+					point.load = [0, point.load[1] - object["load"]];
 					break;
 				case "Defenition":
-					point.defenitions = [list[i]["load"], 1, 0];
+					point.defenitions = [object["load"], 1, 0];
 					break;
 				case "Momentum":
-					point.moment = list[i]["load"];
+					point.moment += object["load"];
 					break;
 				default:
 					break;
 			}
 
-			points.push(point);
-		}
-		let element;
-		let elements = [];
-		let m = new Material(9.9 * (10**6), 0.04909, 0.7854);
+			// Push point
+			if (push_flag) {
+				points.push(point);
+			}
+		});
+	
+		// Create elements
 		for (let i = 0; i < points.length - 1; i++) {
-			element = new Element([points[i], points[i + 1]], m);
-
-			elements.push(element);
+			elements.push(new Element([points[i], points[i + 1]], material));
 		}
 
-		let BC = new BeamCalculation(elements, 10);
+		// Calculation
+		let BC = new BeamCalculation(elements, fragmentation);
 
-		this.shear = BC.displacement;
+		// Save results calculation
+		this.results = BC.displacement;
 	}
 
-	getResult() {
-		return this.shear;
+	results() {
+		return this.results;
 	}
 
 	static generateBeam(count_of_points) {
@@ -85,7 +134,7 @@ function randomInteger(min, max) {
 	return Math.round(rand);
 }
 
-export default FemService;
+export default BeamService;
 
 config.printThreshold = 16;
 // let FS = new FemService()
@@ -112,7 +161,6 @@ config.printThreshold = 16;
 // let Ps = new Point([0,0], [0,0,0], [0,-1000])
 // let Pf = new Point([10,0])
 
-
 // let m = new Material(10 * (10**6), 0.04909, 0.7854)
 // let E1 = new Element([P1,P2], m)
 // let E2 = new Element([P2,P3], m)
@@ -134,32 +182,32 @@ config.printThreshold = 16;
 //console.log(BC._reaction)
 //Max Deflection:	0.04244 in	5.000 in
 
-// let femService = new FemService();
-// femService.import([
-// 	{
-// 		id: 1,
-// 		type: "Defenition",
-// 		x: 0,
-// 		load: 1
-// 	},
-// 	{
-// 		id: 2,
-// 		type: "Load",
-// 		x: 3,
-// 		load: 50
-// 	},
-// 	{
-// 		id: 3,
-// 		type: "Load",
-// 		x: 7,
-// 		load: -1000
-// 	},
-// 	{
-// 		id: 4,
-// 		type: "Defenition",
-// 		x: 10,
-// 		load: 0
-// 	}
-// ]);
-// let result = femService.getResult();
-// console.log('result:',  result)
+let femService = new BeamService();
+femService.import([
+	{
+		id: 1,
+		type: "Defenition",
+		x: 0,
+		load: 1
+	},
+	{
+		id: 2,
+		type: "Load",
+		x: 0,
+		load: 50
+	},
+	{
+		id: 3,
+		type: "Load",
+		x: 7,
+		load: -1000
+	},
+	{
+		id: 4,
+		type: "Defenition",
+		x: 7,
+		load: 0
+	}
+]);
+let result = femService.results;
+console.log("result:", result);
