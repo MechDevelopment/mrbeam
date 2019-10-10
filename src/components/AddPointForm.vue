@@ -139,7 +139,7 @@ export default {
       const { radioButton, xCoordinate, load } = this;
       const newPoint = {
         type: radioButton,
-        x: xCoordinate,
+        x: Number(xCoordinate),
         // angle: angle,
         load: load
       };

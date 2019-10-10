@@ -3,7 +3,6 @@ import Material from "./Material";
 import Point from "./Point";
 import Element from "./Element";
 import BeamCalculation from "./BeamCalculation";
-import { config } from "numjs";
 
 class BeamService {
 	/** Service for Beam Calculation
@@ -28,6 +27,7 @@ class BeamService {
 	 */
 	import(objects, fragmentation = 10) {
 		// Variables
+		console.log(objects)
 		let push_flag; // flag for point push
 
 		let point; // point class instance
@@ -85,7 +85,7 @@ class BeamService {
 				points.push(point);
 			}
 		});
-	
+		console.log(points)
 		// Create elements
 		for (let i = 0; i < points.length - 1; i++) {
 			elements.push(new Element([points[i], points[i + 1]], material));
