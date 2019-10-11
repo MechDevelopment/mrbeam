@@ -89,18 +89,28 @@ class BeamCalculation {
 		return solve(DGM, global_vector);
 	}
 
-	_fragmentation(elements, count) {
-		// Пока что разбиение одного элемента на несколько
+	/**
+	 * 
+	 * 
+	 *   @param {Number} count - number of splits
+	 * 
+	 * let we should split one element for several elements
+	 * now, let we have some length element, which we will do fragmentation - split_coeff
+	 * 
+	 * if (element.length > split_coeff): then fragmentation
+	 * 
+	 * then count for every element: count = element.length / split_coeff
+	 * 
+	 */
+	_fragmentation(elements, split_coeff) {
 
-		// Разбиение не нужно
-		if (count == 0 || count == 1) {
-			return elements;
-		}
 		// ОСТОРОЖНО! Снизу божественный код.
 		let h;
 		let add_point;
 		let add_element;
+		let count;
 		for (let i = elements.length - 1; i >= 0; i--) {
+			count = elements[i].length / split_coeff;
 			h = elements[i].length / count;
 			for (let j = 1; j < count; j++) {
 				add_point = new Point([

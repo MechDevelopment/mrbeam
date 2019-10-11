@@ -25,7 +25,7 @@ class BeamService {
 	 * defenition = [x, y, z],
 	 * several results
 	 */
-	import(objects, fragmentation = 10) {
+	import(objects, split_coeff = 0.1) {
 		// Variables
 		console.log(objects)
 		let push_flag; // flag for point push
@@ -92,7 +92,7 @@ class BeamService {
 		}
 
 		// Calculation
-		let BC = new BeamCalculation(elements, fragmentation);
+		let BC = new BeamCalculation(elements, split_coeff);
 
 		// Save results calculation
 		this.results = BC.displacement;
