@@ -25,17 +25,19 @@
 
     <b-field v-show="radioButton == 'Defenition'" position="is-centered">
       <b-radio v-model="defenitionType" native-value="1" type="is-danger">
-        <span>Жесткое</span> <!-- [1, 1, 1]-->
+        <span>Жесткое</span>
+        <!-- [1, 1, 1]-->
       </b-radio>
 
       <b-radio v-model="defenitionType" native-value="2" type="is-success">
-        <span>Нежесткое</span> <!-- [1, 1, 0]-->
+        <span>Нежесткое</span>
+        <!-- [1, 1, 0]-->
       </b-radio>
 
-<b-radio v-model="defenitionType" native-value="3" type="is-primary">
-        <span>Мягкое</span> <!-- [0, 1, 0]-->
+      <b-radio v-model="defenitionType" native-value="3" type="is-primary">
+        <span>Мягкое</span>
+        <!-- [0, 1, 0]-->
       </b-radio>
-      
     </b-field>
 
     <!-- INPUTS -->
@@ -107,6 +109,13 @@
         icon-right="calculator"
         outlined
       >Analyse Beam</b-button>
+      <b-button
+        @click="test"
+        type="is-primary"
+        icon-pack="fas"
+        icon-right="calculator"
+        outlined
+      >Test</b-button>
     </div>
   </form>
 </template>
@@ -135,6 +144,22 @@ export default {
     }
   },
   methods: {
+    test() {
+      console.log("Hello");
+
+      function callTime() {
+        return new Promise(function(resolve, reject) {
+          setTimeout(() => {
+            console.log("ASYN");
+            resolve("DONE");
+          }, 5 * 1000);
+        });
+      }
+      callTime().then(result => {
+        console.log("world!");
+      });
+    },
+
     addPoint() {
       const { radioButton, xCoordinate, load } = this;
       const newPoint = {
@@ -147,18 +172,9 @@ export default {
       this.$store.commit("ADD_POINT", newPoint);
       console.log(this.getPoints);
     },
-    analyse() {
-      this.$store.commit("SET_PROCESSING", true);
 
-      // setTimeout(() => {
-      //   this.$store.commit("SET_PROCESSING", false);
-      // }, 10 * 1000);
-      let beamService = new BeamService();
-      beamService.import(this.$store.getters.getPoints);
-      let result = beamService.results;
-      console.log('result:',  result)
-      this.$store.commit("SET_RESULT", result);
-      this.$store.commit("SET_PROCESSING", false);
+    analyse() {
+      this.$store.dispatch("calculate");
     }
   },
   validations: {
