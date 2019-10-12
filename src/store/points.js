@@ -51,11 +51,24 @@ export default {
   actions: {
     calculate(context) {
       context.commit("SET_PROCESSING", true);
-      let beamService = new BeamService();
-      beamService.import(context.getters.getPoints);
-      let result = beamService.getResults();
-      context.commit("SET_RESULT", result);
-      context.commit("SET_PROCESSING", false);
+      context.commit("SET_RESULT", []);
+      let promise = new Promise(function(resolve, reject) {
+        setTimeout(() => {
+          let beamService = new BeamService();
+          beamService.import(context.getters.getPoints);
+          let result = beamService.getResults();
+          resolve(result);
+        }, 1 * 1000);
+      });
+      promise.then(result => {
+        console.log("result: " + result);
+        context.commit("SET_RESULT", result);
+        context.commit("SET_PROCESSING", false);
+      });
+      // let beamService = new BeamService();
+      // beamService.import(context.getters.getPoints);
+      // let result = beamService.getResults();
+      // context.commit("SET_RESULT", result);
     }
   }
 };
