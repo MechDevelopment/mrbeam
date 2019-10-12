@@ -97,6 +97,81 @@ class BeamService {
     // Save results calculation
     this.results = BC.displacement;
   }
+  static get(objects, split_coeff = 0.1) {
+    return new Promise((resolve, reject) => {
+      // Variables
+      console.log("BeamService Imported: " + objects);
+      let push_flag; // flag for point push
+
+      let point; // point class instance
+      let element; // element class instance
+
+      let points = []; // list of point class instance
+      let elements = []; // list of element class instance
+
+      let material = new Material(9.9 * 10 ** 6, 0.04909, 0.7854);
+
+      // Sort a list of objects
+      objects.sort(function(a, b) {
+        if (a["x"] < b["x"]) {
+          return -1;
+        }
+        if (a["x"] > b["x"]) {
+          return 1;
+        }
+        return 0;
+      });
+
+      // Create points
+      objects.forEach(object => {
+        push_flag = true;
+
+        // Determine the coordinate
+        if (points.length > 0) {
+          if (object["x"] == points[points.length - 1].coordinates[0]) {
+            point = points[points.length - 1];
+            push_flag = false;
+          } else {
+            point = new Point([object["x"], 0]);
+          }
+        } else {
+          point = new Point([object["x"], 0]);
+        }
+
+        // Add values in point
+        switch (object["type"]) {
+          case "Load":
+            point.load = [0, point.load[1] - object["load"]];
+            break;
+          case "Defenition":
+            point.defenitions = [object["load"], 1, 0];
+            break;
+          case "Momentum":
+            point.moment += object["load"];
+            break;
+          default:
+            break;
+        }
+
+        // Push point
+        if (push_flag) {
+          points.push(point);
+        }
+      });
+      console.log(points);
+      // Create elements
+      for (let i = 0; i < points.length - 1; i++) {
+        elements.push(new Element([points[i], points[i + 1]], material));
+      }
+
+      // Calculation
+      let BC = new BeamCalculation(elements, split_coeff);
+
+      // Save results calculation
+      this.results = BC.displacement;
+      resolve(this.results);
+    });
+  }
 
   // Нельзя функцию и перменную одинаково называть, возникнет конфликт между именами
   getResults() {

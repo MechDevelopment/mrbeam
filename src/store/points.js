@@ -1,4 +1,5 @@
 import BeamService from "../services/BeamService.js";
+import TestSevice from "../services/TestService.js";
 
 export default {
   state: {
@@ -49,26 +50,28 @@ export default {
     }
   },
   actions: {
-    calculate(context) {
+    async calculate(context) {
+      context.commit("SET_PROCESSING", true);
+      let result = await BeamService.get(context.getters.getPoints);
+      context.commit("SET_RESULT", result);
+      context.commit("SET_PROCESSING", false);
+    },
+    calculate2(context) {
       context.commit("SET_PROCESSING", true);
       context.commit("SET_RESULT", []);
+
       let promise = new Promise(function(resolve, reject) {
         setTimeout(() => {
           let beamService = new BeamService();
           beamService.import(context.getters.getPoints);
           let result = beamService.getResults();
           resolve(result);
-        }, 1 * 1000);
+        }, 1 * 100);
       });
       promise.then(result => {
-        console.log("result: " + result);
         context.commit("SET_RESULT", result);
         context.commit("SET_PROCESSING", false);
       });
-      // let beamService = new BeamService();
-      // beamService.import(context.getters.getPoints);
-      // let result = beamService.getResults();
-      // context.commit("SET_RESULT", result);
     }
   }
 };

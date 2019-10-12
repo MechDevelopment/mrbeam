@@ -145,19 +145,7 @@ export default {
   },
   methods: {
     test() {
-      console.log("Hello");
-
-      function callTime() {
-        return new Promise(function(resolve, reject) {
-          setTimeout(() => {
-            console.log("ASYN");
-            resolve("DONE");
-          }, 5 * 1000);
-        });
-      }
-      callTime().then(result => {
-        console.log("world!");
-      });
+      this.$store.dispatch("calculate2");
     },
 
     addPoint() {
