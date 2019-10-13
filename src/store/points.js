@@ -50,13 +50,7 @@ export default {
     }
   },
   actions: {
-    async calculate(context) {
-      context.commit("SET_PROCESSING", true);
-      let result = await BeamService.get(context.getters.getPoints);
-      context.commit("SET_RESULT", result);
-      context.commit("SET_PROCESSING", false);
-    },
-    calculate2(context) {
+    calculate(context) {
       context.commit("SET_PROCESSING", true);
       context.commit("SET_RESULT", []);
 
