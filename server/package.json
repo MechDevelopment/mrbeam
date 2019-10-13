@@ -1,0 +1,19 @@
+{
+  "name": "mrbeam-server",
+  "version": "1.0.0",
+  "description": "The server for mrbeam.ai",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --ext js --watch src"
+  },
+  "author": "vpvpvp divasilevski",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.3"
+  }
+}

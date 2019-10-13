@@ -145,7 +145,14 @@ export default {
   },
   methods: {
     test() {
-      this.$store.dispatch("calculate2");
+      this.$store.commit("SET_PROCESSING", true);
+      // fetch("http://slowwly.robertomurray.co.uk/delay/3000/url/https://jsonplaceholder.typicode.com/todos")
+      fetch("http://127.0.0.1:8081/points")
+        .then(response => response.json())
+        .then(json => {
+          this.$store.commit("SET_PROCESSING", false);
+          console.log(json);
+        });
     },
 
     addPoint() {
@@ -158,7 +165,6 @@ export default {
       };
 
       this.$store.commit("ADD_POINT", newPoint);
-      console.log(this.getPoints);
     },
 
     analyse() {
