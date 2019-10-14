@@ -2,28 +2,28 @@
   <form>
     <!-- TAB BUTTONS -->
     <b-field position="is-centered">
-      <b-radio-button v-model="radioButton" native-value="Load" type="is-primary">
+      <b-radio-button v-model="pointType" native-value="Load" type="is-primary">
         <b-icon pack="fas" icon="arrow-down"></b-icon>
         <span>Load</span>
       </b-radio-button>
 
-      <b-radio-button v-model="radioButton" native-value="Distload" type="is-primary">
+      <b-radio-button v-model="pointType" native-value="Distload" type="is-primary">
         <b-icon pack="fas" icon="angle-double-down"></b-icon>
         <span>Dist. Load</span>
       </b-radio-button>
 
-      <b-radio-button v-model="radioButton" native-value="Momentum" type="is-primary">
+      <b-radio-button v-model="pointType" native-value="Momentum" type="is-primary">
         <b-icon pack="fas" icon="redo-alt"></b-icon>
         <span>Mom</span>
       </b-radio-button>
 
-      <b-radio-button v-model="radioButton" native-value="Defenition" type="is-primary">
+      <b-radio-button v-model="pointType" native-value="Defenition" type="is-primary">
         <b-icon pack="fas" icon="align-center"></b-icon>
         <span>Def</span>
       </b-radio-button>
     </b-field>
 
-    <b-field v-show="radioButton == 'Defenition'" position="is-centered">
+    <b-field v-show="pointType == 'Defenition'" position="is-centered">
       <b-radio v-model="defenitionType" native-value="1" type="is-danger">
         <span>Жесткое</span>
         <!-- [1, 1, 1]-->
@@ -45,13 +45,13 @@
     <b-field
       :type="{'is-danger': $v.$anyError}"
       :message="{'Enter X offset': $v.$anyError}"
-      v-show="radioButton !== 'Distload'"
+      v-show="pointType !== 'Distload'"
       label="Position"
       horizontal
     >
       <b-input
         v-model="$v.xCoordinate.$model"
-        v-show="radioButton !== 'Distload'"
+        v-show="pointType !== 'Distload'"
         placeholder="X-coordinate"
         type="number"
       ></b-input>
@@ -62,7 +62,7 @@
       <!-- <p class="subtitle" v-if="!$v.xCoordinate.required">This field is required</p> -->
     </b-field>
 
-    <b-field v-show="radioButton == 'Distload'" label="Start" horizontal>
+    <b-field v-show="pointType == 'Distload'" label="Start" horizontal>
       <b-input placeholder="Start position" type="number"></b-input>
       <b-select placeholder="Meters">
         <option>Sm</option>
@@ -70,7 +70,7 @@
       </b-select>
     </b-field>
 
-    <b-field v-show="radioButton == 'Distload'" label="End" horizontal>
+    <b-field v-show="pointType == 'Distload'" label="End" horizontal>
       <b-input placeholder="End position" type="number"></b-input>
       <b-select placeholder="Meters">
         <option>Sm</option>
@@ -78,11 +78,11 @@
       </b-select>
     </b-field>
 
-    <b-field v-show="radioButton == 'Load'" label="Angle" horizontal>
+    <b-field v-show="pointType == 'Load'" label="Angle" horizontal>
       <b-input v-model="angle" placeholder="Angle" type="number"></b-input>
     </b-field>
 
-    <b-field v-show="radioButton != 'Defenition'" label="Load" horizontal>
+    <b-field v-show="pointType != 'Defenition'" label="Load" horizontal>
       <b-input v-model="load" placeholder="Load" type="number"></b-input>
       <b-select placeholder="N/m">
         <option>N/sm</option>
@@ -128,11 +128,9 @@ import BeamService from "../services/BeamService.js";
 export default {
   data() {
     return {
-      radioButton: "Load",
+      pointType: "Load",
       defenitionType: "1",
-      // Form
       xCoordinate: 0,
-      x2Coordinate: null,
       angle: 90,
       load: 0
     };
@@ -146,8 +144,10 @@ export default {
   methods: {
     test() {
       this.$store.commit("SET_PROCESSING", true);
-      // fetch("http://slowwly.robertomurray.co.uk/delay/3000/url/https://jsonplaceholder.typicode.com/todos")
-      fetch("http://127.0.0.1:8081/points")
+      fetch(
+        "http://slowwly.robertomurray.co.uk/delay/3000/url/https://jsonplaceholder.typicode.com/todos"
+      )
+        // fetch("http://127.0.0.1:8081/points")
         .then(response => response.json())
         .then(json => {
           this.$store.commit("SET_PROCESSING", false);
@@ -156,12 +156,12 @@ export default {
     },
 
     addPoint() {
-      const { radioButton, xCoordinate, load } = this;
+      const { pointType, xCoordinate, load } = this;
       const newPoint = {
-        type: radioButton,
+        type: pointType,
         x: Number(xCoordinate),
         // angle: angle,
-        load: load
+        load: Number(load)
       };
 
       this.$store.commit("ADD_POINT", newPoint);

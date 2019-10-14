@@ -15,7 +15,7 @@
 
       <b-table-column field="type" label="Type">{{ props.row.type }}</b-table-column>
 
-      <b-table-column field="x" label="Coordinate" numeric sortable centered>{{ props.row.x }}</b-table-column>
+      <b-table-column field="x" label="Coordinate" numeric centered>{{ props.row.x }}</b-table-column>
 
       <!-- <b-table-column field="angle" label="Angle" numeric>{{ props.row.angle }}</b-table-column> -->
 
