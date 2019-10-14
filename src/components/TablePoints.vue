@@ -6,8 +6,6 @@
     :narrowed="isNarrowed"
     :hoverable="isHoverable"
     :loading="isLoading"
-    :default-sort-direction="defaultSortDirection"
-    :sort-icon="sortIcon"
     :mobile-cards="false"
   >
     <template slot-scope="props">
@@ -67,6 +65,13 @@ export default {
     deletePoint(id) {
       console.log(this.points.filter(point => point.id !== id));
       this.$store.commit("DELETE_POINT", id);
+      this.$buefy.toast.open({
+        message: "Point removed",
+        type: "is-warning",
+        position: "is-bottom",
+        duration: 1500,
+        actionText: null
+      });
       // console.log(this.points.filter(point => point.id !== id));
     }
   }

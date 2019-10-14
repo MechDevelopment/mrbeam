@@ -1,5 +1,4 @@
 import BeamService from "../services/BeamService.js";
-import TestSevice from "../services/TestService.js";
 
 export default {
   state: {
@@ -34,7 +33,9 @@ export default {
   },
   mutations: {
     ADD_POINT(state, point) {
+      // point.id = `f${(~~(Math.random() * 1e8)).toString(16)}`;
       point.id = state.points.slice(-1)[0].id + 1;
+      // point.id = state.points.length + 1;
       state.points = [...state.points, point];
     },
     DELETE_POINT(state, id) {
@@ -56,7 +57,7 @@ export default {
     }
   },
   actions: {
-    deletePoint(context, id) {
+    deletePoint(id) {
       console.log(this.points.filter(point => point.id !== id));
     },
     calculate(context) {
@@ -66,7 +67,8 @@ export default {
       let promise = new Promise(function(resolve, reject) {
         setTimeout(() => {
           let beamService = new BeamService();
-          beamService.import(context.getters.getPoints);
+          let points = [...context.getters.getPoints];
+          beamService.import(points);
           let result = beamService.getResults();
           resolve(result);
         }, 1 * 100);

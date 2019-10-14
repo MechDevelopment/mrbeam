@@ -165,6 +165,13 @@ export default {
       };
 
       this.$store.commit("ADD_POINT", newPoint);
+      this.$buefy.toast.open({
+        message: "New point added",
+        type: "is-success",
+        position: "is-bottom",
+        duration: 1500,
+        actionText: null
+      });
     },
 
     analyse() {
