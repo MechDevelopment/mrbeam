@@ -37,6 +37,12 @@ export default {
       point.id = state.points.slice(-1)[0].id + 1;
       state.points = [...state.points, point];
     },
+    DELETE_POINT(state, id) {
+      let newPoints = state.points;
+      console.log(newPoints);
+      newPoints = newPoints.filter(point => point.id !== id);
+      state.points = [...newPoints];
+    },
     SET_RESULT(state, result) {
       state.result = result;
     }
@@ -50,6 +56,9 @@ export default {
     }
   },
   actions: {
+    deletePoint(context, id) {
+      console.log(this.points.filter(point => point.id !== id));
+    },
     calculate(context) {
       context.commit("SET_PROCESSING", true);
       context.commit("SET_RESULT", []);
