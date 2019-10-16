@@ -64,8 +64,18 @@
       <!-- <p class="subtitle" v-if="!$v.xCoordinate.required">This field is required</p> -->
     </b-field>
 
+    <b-field v-show="pointType != 'Defenition' && pointType != 'Distload'" label="Load" horizontal>
+      <b-input v-model="load" placeholder="Load" type="number"></b-input>
+      <b-select placeholder="N/m">
+        <option>N/sm</option>
+        <option>kN/m</option>
+      </b-select>
+    </b-field>
+
+    <!-- DISTRIBUTED LOAD -->
+
     <b-field v-show="pointType == 'Distload'" label="Start" horizontal>
-      <b-input placeholder="Start position" type="number"></b-input>
+      <b-input v-model="x1" placeholder="Start position" type="number"></b-input>
       <b-select placeholder="Meters">
         <option>Sm</option>
         <option>Mm</option>
@@ -73,24 +83,32 @@
     </b-field>
 
     <b-field v-show="pointType == 'Distload'" label="End" horizontal>
-      <b-input placeholder="End position" type="number"></b-input>
+      <b-input v-model="x2" placeholder="End position" type="number"></b-input>
       <b-select placeholder="Meters">
         <option>Sm</option>
         <option>Mm</option>
       </b-select>
     </b-field>
 
-    <b-field v-show="pointType == 'Load'" label="Angle" horizontal>
-      <b-input v-model="angle" placeholder="Angle" type="number"></b-input>
-    </b-field>
-
-    <b-field v-show="pointType != 'Defenition'" label="Load" horizontal>
-      <b-input v-model="load" placeholder="Load" type="number"></b-input>
-      <b-select placeholder="N/m">
-        <option>N/sm</option>
-        <option>kN/m</option>
+    <b-field v-show="pointType == 'Distload'" label="Y1" horizontal>
+      <b-input v-model="y1" placeholder="Y1" type="number"></b-input>
+      <b-select placeholder="Meters">
+        <option>Sm</option>
+        <option>Mm</option>
       </b-select>
     </b-field>
+
+    <b-field v-show="pointType == 'Distload'" label="Y2" horizontal>
+      <b-input v-model="y2" placeholder="Y2" type="number"></b-input>
+      <b-select placeholder="Meters">
+        <option>Sm</option>
+        <option>Mm</option>
+      </b-select>
+    </b-field>
+
+    <!-- <b-field v-show="pointType == 'Load'" label="Angle" horizontal>
+      <b-input v-model="angle" placeholder="Angle" type="number"></b-input>
+    </b-field>-->
 
     <hr>
 
@@ -141,7 +159,12 @@ export default {
       defenitionType: "1",
       xCoordinate: 0,
       angle: 90,
-      load: 0
+      load: 0,
+      // Distributed load
+      x1: 0,
+      x2: 0,
+      y1: 0,
+      y2: 0
     };
   },
   computed: {
@@ -165,7 +188,16 @@ export default {
     },
 
     addPoint() {
-      const { pointType, xCoordinate, load, defenitionType } = this;
+      const {
+        pointType,
+        xCoordinate,
+        load,
+        defenitionType,
+        x1,
+        x2,
+        y1,
+        y2
+      } = this;
 
       let def;
       if (pointType === "Defenition") {
@@ -189,7 +221,8 @@ export default {
         x: Number(xCoordinate),
         // angle: angle,
         load: Number(load),
-        def: def
+        def: def,
+        distload: [Number(x1), Number(x2), Number(y1), Number(y1)]
       };
 
       this.$store.commit("ADD_POINT", newPoint);
