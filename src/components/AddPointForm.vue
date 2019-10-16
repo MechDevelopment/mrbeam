@@ -129,20 +129,14 @@
         icon-right="calculator"
         outlined
       >Analyse Beam</b-button>
-      <b-button
+      <!-- <b-button
         @click="test"
         type="is-primary"
         icon-pack="fas"
         icon-right="calculator"
         outlined
-      >Test</b-button>
-      <b-button
-        @click="generator"
-        type="is-primary"
-        icon-pack="fas"
-        icon-right="calculator"
-        outlined
-      >Generator</b-button>
+      >Test</b-button>-->
+      <b-button @click="generator" type="is-success" icon-pack="fas" icon-right="smile"></b-button>
     </div>
   </form>
 </template>
