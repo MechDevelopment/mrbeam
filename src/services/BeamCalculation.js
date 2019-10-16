@@ -103,7 +103,10 @@ class BeamCalculation {
 	 * 
 	 */
 	_fragmentation(elements, split_coeff) {
+		/**
+		 * P1 - (P1 - P2) / (x2 - x1) * x = success
 
+		 */
 		// ОСТОРОЖНО! Снизу божественный код.
 		let h;
 		let add_point;
@@ -113,6 +116,8 @@ class BeamCalculation {
 			count = elements[i].length / split_coeff;
 			h = elements[i].length / count;
 			for (let j = 1; j < count; j++) {
+				// При разбиении добавляем в конец новые элементы.
+				// Формируем точки при этом 1 точка новая, 1 точка старая.
 				add_point = new Point([
 					elements[i].points[1].coordinates[0] - h,
 					0

@@ -222,7 +222,7 @@ export default {
         // angle: angle,
         load: Number(load),
         def: def,
-        distload: [Number(x1), Number(x2), Number(y1), Number(y1)]
+        distload: [Number(x1), Number(x2), Number(y1), Number(y2)]
       };
 
       this.$store.commit("ADD_POINT", newPoint);
