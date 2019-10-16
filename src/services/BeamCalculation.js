@@ -150,7 +150,7 @@ class BeamCalculation {
 
 	/** Coordinates Shear-Diagram */
 	get shear() {
-		let eps = 1000;
+		let eps = 100000;
 		let result1 = [];
 		let result2 = [];
 		let add = this._reaction.get(1);
