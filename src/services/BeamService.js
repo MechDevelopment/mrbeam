@@ -71,7 +71,7 @@ class BeamService {
 					point.load = [0, point.load[1] - object["load"]];
 					break;
 				case "Defenition":
-					point.defenitions = object["load"];
+					point.defenitions = object["def"];
 					break;
 				case "Momentum":
 					point.moment += object["load"];
