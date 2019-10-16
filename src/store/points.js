@@ -33,9 +33,7 @@ export default {
   },
   mutations: {
     ADD_POINT(state, point) {
-      // point.id = `f${(~~(Math.random() * 1e8)).toString(16)}`;
       point.id = state.points.slice(-1)[0].id + 1;
-      // point.id = state.points.length + 1;
       state.points = [...state.points, point];
     },
     DELETE_POINT(state, id) {
@@ -43,6 +41,10 @@ export default {
       console.log(newPoints);
       newPoints = newPoints.filter(point => point.id !== id);
       state.points = [...newPoints];
+    },
+    SET_POINTS(state, points) {
+      state.points = [];
+      state.points = [...points];
     },
     SET_RESULT(state, result) {
       state.result = result;
@@ -59,6 +61,10 @@ export default {
   actions: {
     deletePoint(id) {
       console.log(this.points.filter(point => point.id !== id));
+    },
+    generator(context, count) {
+      let points = BeamService.generator(count);
+      context.commit("SET_POINTS", points);
     },
     calculate(context) {
       context.commit("SET_PROCESSING", true);

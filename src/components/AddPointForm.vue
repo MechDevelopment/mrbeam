@@ -118,6 +118,13 @@
         icon-right="calculator"
         outlined
       >Test</b-button>
+      <b-button
+        @click="generator"
+        type="is-primary"
+        icon-pack="fas"
+        icon-right="calculator"
+        outlined
+      >Generator</b-button>
     </div>
   </form>
 </template>
@@ -197,6 +204,9 @@ export default {
 
     analyse() {
       this.$store.dispatch("calculate");
+    },
+    generator() {
+      this.$store.dispatch("generator", 5);
     }
   },
   validations: {
