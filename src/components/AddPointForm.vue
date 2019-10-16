@@ -23,6 +23,8 @@
       </b-radio-button>
     </b-field>
 
+    <!-- DEFENITIONS -->
+
     <b-field v-show="pointType == 'Defenition'" position="is-centered">
       <b-radio v-model="defenitionType" native-value="1" type="is-danger">
         <span>Жесткое</span>
@@ -156,12 +158,31 @@ export default {
     },
 
     addPoint() {
-      const { pointType, xCoordinate, load } = this;
+      const { pointType, xCoordinate, load, defenitionType } = this;
+
+      let def;
+      if (pointType === "Defenition") {
+        switch (defenitionType) {
+          case "1":
+            def = [1, 1, 1];
+            break;
+          case "2":
+            def = [1, 1, 0];
+            break;
+          case "3":
+            def = [0, 1, 0];
+            break;
+          default:
+            def = [0, 0, 0];
+        }
+      }
+
       const newPoint = {
         type: pointType,
         x: Number(xCoordinate),
         // angle: angle,
-        load: Number(load)
+        load: Number(load),
+        def: def
       };
 
       this.$store.commit("ADD_POINT", newPoint);
