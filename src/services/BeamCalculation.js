@@ -118,6 +118,9 @@ class BeamCalculation {
 			for (let j = 1; j < count; j++) {
 				// При разбиении добавляем в конец новые элементы.
 				// Формируем точки при этом 1 точка новая, 1 точка старая.
+				// Рзбиение идет на пустые точки
+				// Нужно чтобы в точках была распределенная нагрузка
+				// забираем из element[i].distributed_load: [x, y]
 				add_point = new Point([
 					elements[i].points[1].coordinates[0] - h,
 					0
