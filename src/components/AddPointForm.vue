@@ -153,6 +153,9 @@ import { required, minLength, between } from "vuelidate/lib/validators";
 import BeamService from "../services/BeamService.js";
 
 export default {
+  mounted() {
+    this.$store.dispatch("generator", 5);
+  },
   data() {
     return {
       pointType: "Load",
@@ -221,8 +224,8 @@ export default {
         x: Number(xCoordinate),
         // angle: angle,
         load: Number(load),
-        def: def,
-        distload: [Number(x1), Number(x2), Number(y1), Number(y1)]
+        def: def
+        // distload: [Number(x1), Number(x2), Number(y1), Number(y2)]
       };
 
       this.$store.commit("ADD_POINT", newPoint);
