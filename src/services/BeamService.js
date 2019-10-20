@@ -36,7 +36,24 @@ class BeamService {
 		let points = []; // list of point class instance
 		let elements = []; // list of element class instance
 
-		let material = new Material(9.9 * 10 ** 6, 0.04909, 0.7854);
+		let distloads = [];
+
+		let material = new Material(12 * 10 ** 6, 0.04909, 0.7854);
+
+		// Находим распределенную нагрузку и дублируем её
+		objects.forEach(object => {
+			if (object["type"] == "Distload") {
+				object["x"] = object["distload"][0];
+				objects.push({
+					type: "Distload",
+					x: object["distload"][1],
+					load: 0,
+					def: "__vue_devtool_undefined__",
+					distload: object["distload"],
+					id: object["id"]
+				});
+			}
+		});
 
 		// List of objects sort by X
 		BeamService.sort(objects);
@@ -68,6 +85,17 @@ class BeamService {
 				case "Momentum":
 					point.moment += object["load"];
 					break;
+				case "Distload":
+					let dist_flag = true;
+					distloads.forEach(dists => {
+						if (dists[0] == object["id"]) {
+							dist_flag = false;
+						}
+					});
+					if (dist_flag) {
+						distloads.push([object["id"], object["distload"]]);
+					}
+					break;
 				default:
 					break;
 			}
@@ -83,11 +111,16 @@ class BeamService {
 			elements.push(new Element([points[i], points[i + 1]], material));
 		}
 
+		// Fucking distload
+		createDistload(elements, distloads);
+
 		// Calculation
 		let BC = new BeamCalculation(elements, split_coeff);
 
 		// Save results calculation
 		this.results = BC.displacement;
+
+		this.solution = BC._solution;
 	}
 
 	// Getter
@@ -164,4 +197,131 @@ function randomInteger(min, max) {
 	return Math.round(rand);
 }
 
+function createDistload(el, dl) {
+	// Нужно вставить в елементы el распределенную нагрузку dl
+
+	/**
+	 * Мой тупой алгоритм
+	 *
+	 * Идем по распределенным нагрузкам
+	 * Ищем начальную координату
+	 * Ищем конечную координату
+	 * Получается что элементы между точками существуют заранее и нам непридется их создавать
+	 *
+	 * Теперь нужно пройтись по всем элементам до и после и добавить в каждый распределенную нагрузку
+	 */
+
+	// Чекаем распределенную нагрузку
+	console.assert(dl[0] != null);
+	if (dl[0] == null) {
+		return null;
+	}
+
+	// Будем идти по распределенным нагрузкам dist_list == [id,[x1,x2,load1,load2]]
+	dl.forEach(dist_list => {
+		// Забираем первую координату
+		let x1 = dist_list[1][0];
+		let x2 = dist_list[1][1];
+		let yes = false;
+		for (let i = 0; i < el.length; i++) {
+			// Ищем элемент который начинается с координаты x1
+			if (el[i].points[0].coordinates[0] == x1) {
+				yes = true;
+				// break; - И вот нахуя я потратил 20 минут чтобы найти этот break
+			}
+
+			// Добавляем распределенную нагрузку
+			if (yes) {
+				el[i].distributed_load = [
+					el[i].distributed_load[0] + dist_list[1][2] / (x2 - x1),
+					el[i].distributed_load[1] + dist_list[1][3] / (x2 - x1)
+				];
+			}
+
+			// Ищем элемент который заканчивается координатой x2
+			if (el[i].points[1].coordinates[0] == x2) {
+				yes = false;
+				break;
+			}
+		}
+	});
+
+	// Теперь массив с элементами переделался и все хорошо!
+}
 export default BeamService;
+
+let test_points = [
+	{
+		type: "Load",
+		x: 0,
+		load: 0,
+		def: "__vue_devtool_undefined__",
+		distload: [0, 0, 0, 0],
+		id: 6
+	},
+	{
+		type: "Load",
+		x: 10,
+		load: 0,
+		def: "__vue_devtool_undefined__",
+		distload: [0, 0, 0, 0],
+		id: 7
+	},
+	{
+		type: "Defenition",
+		x: 1,
+		load: 0,
+		def: [1, 1, 0],
+		distload: [0, 0, 0, 0],
+		id: 8
+	},
+	{
+		type: "Defenition",
+		x: 9,
+		load: 0,
+		def: [0, 1, 0],
+		distload: [0, 0, 0, 0],
+		id: 9
+	},
+	{
+		type: "Distload",
+		x: 9,
+		load: 0,
+		def: "__vue_devtool_undefined__",
+		distload: [1, 9, -5, -5],
+		id: 10
+	}
+];
+
+let test_points2 = [
+	{
+		type: "Defenition",
+		x: 0,
+		load: 0,
+		def: [1, 1, 1],
+		distload: [0, 0, 0, 0],
+		id: 0
+	},
+	{
+		type: "Load",
+		x: 10,
+		load: 0,
+		def: [0, 0, 0],
+		distload: [0, 0, 0, 0],
+		id: 0
+	},
+	{
+		type: "Distload",
+		x: 10,
+		load: 0,
+		def: "__vue_devtool_undefined__",
+		distload: [0, 10, -100, -100],
+		id: 1
+	}
+];
+
+// let bc = new BeamService();
+// bc.import(test_points2);
+// console.log(bc.getResults());
+// console.log(bc.solution);
+// Answer = 0.0004414

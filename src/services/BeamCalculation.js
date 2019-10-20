@@ -68,13 +68,30 @@ class BeamCalculation {
 				}
 			}
 		}
-
+		// Найс костыль)
+		// И вот как теперь сделать???
+		// Новый костыль?
+		// эхх
 		let global_vector = zeros([this._elements.length * 3 + 3]);
 		let DGM = this._global_matrix.clone();
 
 		for (let i = 0; i < this._points.length; i++) {
 			global_vector.set(0 + 3 * i, this._points[i].load[0]);
-			global_vector.set(1 + 3 * i, this._points[i].load[1]);
+			// Внимание, костыли
+			if (i < this._elements.length) {
+				global_vector.set(
+					1 + 3 * i,
+					this._points[i].load[1] +
+						this._elements[i].distributed_load[0]
+				);
+			} else {
+				global_vector.set(
+					1 + 3 * i,
+					this._points[i].load[1] +
+						this._elements[i - 1].distributed_load[1]
+				);
+			}
+
 			global_vector.set(2 + 3 * i, this._points[i].moment);
 			for (let j = 0; j < 3; j++) {
 				if (this._points[i].defenitions[j]) {
@@ -82,25 +99,35 @@ class BeamCalculation {
 				}
 			}
 		}
+
 		// console.log(this._global_matrix);
 		// console.log(global_vector);
 		// console.log(DGM);
+		let sol = solve(DGM, global_vector);
 
-		return solve(DGM, global_vector);
+		for (let i = 0; i < this._points.length; i++) {
+			if (this._points[i].defenitions[1] == 1) {
+				console.log(sol.get(i*3+1))
+				console.log(sol.get(i*3+2))
+				sol.set(i * 3 + 1, 0);
+				sol.set(i * 3 + 2, 0);
+			}
+		}
+		return sol;
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 *   @param {Number} count - number of splits
-	 * 
+	 *
 	 * let we should split one element for several elements
 	 * now, let we have some length element, which we will do fragmentation - split_coeff
-	 * 
+	 *
 	 * if (element.length > split_coeff): then fragmentation
-	 * 
+	 *
 	 * then count for every element: count = element.length / split_coeff
-	 * 
+	 *
 	 */
 	_fragmentation(elements, split_coeff) {
 		/**
@@ -116,19 +143,16 @@ class BeamCalculation {
 			count = elements[i].length / split_coeff;
 			h = elements[i].length / count;
 			for (let j = 1; j < count; j++) {
-				// При разбиении добавляем в конец новые элементы.
-				// Формируем точки при этом 1 точка новая, 1 точка старая.
-				// Рзбиение идет на пустые точки
-				// Нужно чтобы в точках была распределенная нагрузка
-				// забираем из element[i].distributed_load: [x, y]
 				add_point = new Point([
 					elements[i].points[1].coordinates[0] - h,
 					0
 				]);
 				add_element = new Element(
 					[elements[i].points[0], add_point],
-					elements[i].material
+					elements[i].material,
+					elements[i].distributed_load
 				);
+
 				elements[i].points[0] = add_point;
 				elements.splice(i, 0, add_element);
 			}
@@ -140,7 +164,7 @@ class BeamCalculation {
 		let eps = 1000000;
 		let result1 = [];
 		let result2 = [];
-		for (let i = 0; i < this._solution.size / 3 - 1; i++) {
+		for (let i = 0; i < this._solution.size / 3; i++) {
 			result1.push(
 				Math.round(this._points[i].coordinates[0] * eps) / eps
 			);
