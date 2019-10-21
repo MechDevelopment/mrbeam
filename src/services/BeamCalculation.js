@@ -85,16 +85,23 @@ class BeamCalculation {
 		// console.log(global_vector);
 		// console.log(DGM);
 		let sol = LinearAlgebra.solve(DGM, global_vector);
-
+		let r = dot(sol, global) ;
 		for (let i = 0; i < this._points.length; i++) {
 			if (this._points[i].defenitions[1] == 1) {
 				sol.set(i * 3 + 1, 0);
 				sol.set(i * 3 + 2, 0);
 			}
 		}
-		return { solution: sol, reactions: dot(sol, global) };
+		return { solution: sol, reactions: r };
 	}
 
+	get solution(){
+		return {
+			labels: this.displacement[0],
+			displacement: this.displacement[1],
+			shear: this.shear[1]
+		}
+	}
 	get displacement() {
 		let eps = 1000000;
 		let result1 = [];
@@ -199,3 +206,11 @@ function fragmentation(elements, split_coeff) {
 	}
 	return elements;
 }
+
+function approximate(){
+	let flag = true;
+	flag ? console.log(123):console.log(321); 
+
+}
+
+approximate()

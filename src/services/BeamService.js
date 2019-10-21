@@ -118,9 +118,8 @@ class BeamService {
 		let BC = new BeamCalculation(elements, split_coeff);
 
 		// Save results calculation
-		this.results = BC.displacement;
-
-		this.solution = BC._solution;
+		this.results = BC.solution;
+		console.log(this.results)
 	}
 
 	// Getter
@@ -248,79 +247,3 @@ function createDistload(el, dl) {
 	// Теперь массив с элементами переделался и все хорошо!
 }
 export default BeamService;
-
-let test_points = [
-	{
-		type: "Load",
-		x: 0,
-		load: 0,
-		def: "__vue_devtool_undefined__",
-		distload: [0, 0, 0, 0],
-		id: 6
-	},
-	{
-		type: "Load",
-		x: 10,
-		load: 0,
-		def: "__vue_devtool_undefined__",
-		distload: [0, 0, 0, 0],
-		id: 7
-	},
-	{
-		type: "Defenition",
-		x: 1,
-		load: 0,
-		def: [1, 1, 0],
-		distload: [0, 0, 0, 0],
-		id: 8
-	},
-	{
-		type: "Defenition",
-		x: 9,
-		load: 0,
-		def: [0, 1, 0],
-		distload: [0, 0, 0, 0],
-		id: 9
-	},
-	{
-		type: "Distload",
-		x: 9,
-		load: 0,
-		def: "__vue_devtool_undefined__",
-		distload: [1, 9, -5, -5],
-		id: 10
-	}
-];
-
-let test_points2 = [
-	{
-		type: "Defenition",
-		x: 0,
-		load: 0,
-		def: [1, 1, 1],
-		distload: [0, 0, 0, 0],
-		id: 0
-	},
-	{
-		type: "Load",
-		x: 10,
-		load: 0,
-		def: [0, 0, 0],
-		distload: [0, 0, 0, 0],
-		id: 0
-	},
-	{
-		type: "Distload",
-		x: 10,
-		load: 0,
-		def: "__vue_devtool_undefined__",
-		distload: [0, 10, -100, -100],
-		id: 1
-	}
-];
-
-// let bc = new BeamService();
-// bc.import(test_points2);
-// console.log(bc.getResults());
-// console.log(bc.solution);
-// Answer = 0.0004414

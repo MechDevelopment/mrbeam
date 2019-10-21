@@ -1,9 +1,6 @@
 class Material {
 	/** Creating a material.
 	 *
-	 * @class
-	 * @this {Material}
-	 *
 	 * @param {Number} EJ - E or EJ
 	 * @param {Number} E - elastic modulus
 	 * @param {Number} J - moment of inertia
@@ -25,32 +22,3 @@ class Material {
 }
 
 export default Material;
-
-/**
- * @example
- *
- * // use constructor
- * let m = new Material(2);
- * console.log(m.EJ) // 2
- * console.log(m.E) // null
- * console.log(m.J) // null
- * console.log(m.A) // null
- *
- * m = new Material(2, 3);
- * console.log(m.EJ) // 6
- * console.log(m.E) // 2
- * console.log(m.J) // 3
- * console.log(m.A) // null
- *
- * m = new Material(2, 3, 1);
- * console.log(m.EJ) // 6
- * console.log(m.E) // 2
- * console.log(m.J) // 3
- * console.log(m.A) // 1
- *
- * // change parameters
- * m.EJ = 3056
- * m.E = 2^11
- * m.J = 15^-6
- * m.A = 25
- */

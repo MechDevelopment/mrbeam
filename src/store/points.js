@@ -29,7 +29,7 @@ export default {
         load: 0
       }
     ],
-    result: []
+    result: {}
   },
   mutations: {
     ADD_POINT(state, point) {
@@ -68,7 +68,7 @@ export default {
     },
     calculate(context) {
       context.commit("SET_PROCESSING", true);
-      context.commit("SET_RESULT", []);
+      context.commit("SET_RESULT", {});
 
       let promise = new Promise(function(resolve, reject) {
         setTimeout(() => {

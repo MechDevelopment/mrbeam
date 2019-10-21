@@ -5,8 +5,8 @@ class LinearAlgebra {
 	 *
 	 * @param {NdArray<NdArray<Number>>} matrix
 	 * @param {NdArray<Number>} vector
-     * 
-     * @return {NdArray<Number>}
+	 *
+	 * @return {NdArray<Number>}
 	 */
 	static solve(matrix, vector) {
 		// Check asserts
@@ -83,8 +83,8 @@ class LinearAlgebra {
 			matrix.shape[0] > index || index > 0,
 			"LinearAlgebra.zerosRowAndColumn: index out of range."
 		);
-        
-        // Programm
+
+		// Programm
 		for (let i = 0; i < matrix.shape[0]; i++) {
 			matrix.set(i, index, 0);
 			matrix.set(index, i, 0);
@@ -94,4 +94,3 @@ class LinearAlgebra {
 }
 
 export default LinearAlgebra;
-
