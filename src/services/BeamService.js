@@ -212,7 +212,6 @@ function createDistload(el, dl) {
 	 */
 
 	// Чекаем распределенную нагрузку
-	console.assert(dl[0] != null);
 	if (dl[0] == null) {
 		return null;
 	}
