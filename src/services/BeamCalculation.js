@@ -10,106 +10,36 @@ class BeamCalculation {
 	 * @param {Number} split_coeff
 	 */
 	constructor(elements, split_coeff = 1.0) {
-		// Переменные
-		this._points; // Избавиться!
-
 		// Разбиение
 		fragmentation(elements, split_coeff);
 
 		// Решение
-		let sol = this._calculate(elements);
+		let sol = calculate(elements);
 		this._solution = sol.solution;
 		this._reaction = sol.reactions;
+		this._labels = sol.labels;
 	}
 
-	/** Метод конечных элементов для балки */
-	_calculate(elements) {
-		// Параметры
-		let local; // Локальная матрица элемента
-		let global; // Глобальная матрица жесткости
-		let elements_count = elements.length;
-
-		// Заполняем глобальную матрицу
-		global = zeros([elements_count * 3 + 3, elements_count * 3 + 3]);
-		for (let index = 0; index < elements_count; index++) {
-			local = elements[index].local_matrix;
-			for (let i = 0; i < 6; i++) {
-				for (let j = 0; j < 6; j++) {
-					global.set(
-						i + 3 * index,
-						j + 3 * index,
-						global.get(i + 3 * index, j + 3 * index) + local[i][j]
-					);
-				}
-			}
-		}
-
-		// Создадим массив точек отдельно
-		this._points = [elements[0].points[0]];
-		for (let i = 0; i < elements_count; i++) {
-			this._points.push(elements[i].points[1]);
-		}
-
-		// Найс костыль)
-		// И вот как теперь сделать???
-		// Новый костыль?
-		// эхх
-		let global_vector = zeros([elements_count * 3 + 3]);
-		let DGM = global.clone();
-
-		for (let i = 0; i < this._points.length; i++) {
-			global_vector.set(0 + 3 * i, this._points[i].load[0]);
-			// Внимание, костыли
-			if (i < elements_count) {
-				global_vector.set(
-					1 + 3 * i,
-					this._points[i].load[1] + elements[i].distributed_load[0]
-				);
-			} else {
-				global_vector.set(
-					1 + 3 * i,
-					this._points[i].load[1] +
-						elements[i - 1].distributed_load[1]
-				);
-			}
-
-			global_vector.set(2 + 3 * i, this._points[i].moment);
-			for (let j = 0; j < 3; j++) {
-				if (this._points[i].defenitions[j]) {
-					LinearAlgebra.zerosRowAndColumn(DGM, i * 3 + j);
-				}
-			}
-		}
-
-		// console.log(global);
-		// console.log(global_vector);
-		// console.log(DGM);
-		let sol = LinearAlgebra.solve(DGM, global_vector);
-		let r = dot(sol, global) ;
-		for (let i = 0; i < this._points.length; i++) {
-			if (this._points[i].defenitions[1] == 1) {
-				sol.set(i * 3 + 1, 0);
-				sol.set(i * 3 + 2, 0);
-			}
-		}
-		return { solution: sol, reactions: r };
-	}
-
-	get solution(){
+	get solution() {
 		return {
-			labels: this.displacement[0],
+			labels: this.labels,
 			displacement: this.displacement[1],
 			shear: this.shear[1]
-		}
+		};
 	}
+
+	get labels() {
+		return this._labels;
+	}
+
 	get displacement() {
 		let eps = 1000000;
 		let result1 = [];
 		let result2 = [];
 		for (let i = 0; i < this._solution.size / 3; i++) {
-			result1.push(
-				Math.round(this._points[i].coordinates[0] * eps) / eps
-			);
+			// result1.push(
+			// 	Math.round(points[i].coordinates[0] * eps) / eps
+			// );
 			result2.push(Math.round(this._solution.get(1 + i * 3) * eps) / eps);
 		}
 		return [result1, result2];
@@ -129,10 +59,10 @@ class BeamCalculation {
 		let result2 = [];
 		let add = this._reaction.get(1);
 		for (let i = 0; i < this._reaction.size / 3 - 1; i++) {
-			result1.push(
-				Math.round(this._points[i].coordinates[0] * eps) / eps,
-				Math.round(this._points[i + 1].coordinates[0] * eps) / eps
-			);
+			// result1.push(
+			// 	Math.round(points[i].coordinates[0] * eps) / eps,
+			// 	Math.round(points[i + 1].coordinates[0] * eps) / eps
+			// );
 			result2.push(
 				Math.round(add * eps) / eps,
 				Math.round(add * eps) / eps
@@ -175,6 +105,16 @@ export default BeamCalculation;
  * @param {Number} split_coeff
  */
 function fragmentation(elements, split_coeff) {
+	/**
+	 * Что если удалять и забирать с помощью pop последний элемент
+	 * а затем сплайсить в конец ново-созданные разбитые элементы,
+	 * это должно немного упростить понимание той штуки внизу
+	 * Таким образом появится ещё одна функция создания новых элементов
+	 * на основе одного, а таким образом в дальнейшем можно будет разбить
+	 * отдельно - выбранный элемент для точности. При этом таким образом можно будет
+	 * задать при разбиении косоугольную распределенную нагрузку
+	 *
+	 */
 	// Параметры
 	let h;
 	let add_point;
@@ -207,10 +147,100 @@ function fragmentation(elements, split_coeff) {
 	return elements;
 }
 
-function approximate(){
-	let flag = true;
-	flag ? console.log(123):console.log(321); 
+/** Метод конечных элементов для балки */
+function calculate(elements) {
+	// Параметры
+	let local; // Локальная матрица элемента
+	let global; // Глобальная матрица жесткости
+	let elements_count = elements.length;
+	let points;
 
+	// Заполняем глобальную матрицу
+	global = zeros([elements_count * 3 + 3, elements_count * 3 + 3]);
+	for (let index = 0; index < elements_count; index++) {
+		local = elements[index].local_matrix;
+		for (let i = 0; i < 6; i++) {
+			for (let j = 0; j < 6; j++) {
+				global.set(
+					i + 3 * index,
+					j + 3 * index,
+					global.get(i + 3 * index, j + 3 * index) + local[i][j]
+				);
+			}
+		}
+	}
+
+	// Создадим массив точек отдельно
+	points = [elements[0].points[0]];
+	for (let i = 0; i < elements_count; i++) {
+		points.push(elements[i].points[1]);
+	}
+
+	// Найс костыль)
+	// И вот как теперь сделать???
+	// Новый костыль?
+	// эхх
+	let global_vector = zeros([elements_count * 3 + 3]);
+	let DGM = global.clone();
+
+	for (let i = 0; i < points.length; i++) {
+		global_vector.set(0 + 3 * i, points[i].load[0]);
+		// Внимание, костыли
+		if (i < elements_count) {
+			global_vector.set(
+				1 + 3 * i,
+				points[i].load[1] + elements[i].distributed_load[0]
+			);
+		} else {
+			global_vector.set(
+				1 + 3 * i,
+				points[i].load[1] + elements[i - 1].distributed_load[1]
+			);
+		}
+
+		global_vector.set(2 + 3 * i, points[i].moment);
+		for (let j = 0; j < 3; j++) {
+			if (points[i].defenitions[j]) {
+				LinearAlgebra.zerosRowAndColumn(DGM, i * 3 + j);
+			}
+		}
+	}
+
+	// console.log(global);
+	// console.log(global_vector);
+	// console.log(DGM);
+	let sol = LinearAlgebra.solve(DGM, global_vector);
+	let r = dot(sol, global);
+	for (let i = 0; i < points.length; i++) {
+		if (points[i].defenitions[1] == 1) {
+			sol.set(i * 3 + 1, 0);
+			sol.set(i * 3 + 2, 0);
+		}
+	}
+
+	let eps = 1000000;
+	let result1 = [];
+	for (let i = 0; i < sol.size / 3; i++) {
+		result1.push(Math.round(points[i].coordinates[0] * eps) / eps);
+	}
+
+	return { solution: sol, reactions: r, labels: result1 };
 }
 
-approximate()
+function interpolate(x, points) {
+	let error = 0.00001;
+	let interpolation = [points[1][0]];
+	
+	for (let i = 1; i < x.length; i++) {
+
+		let index = points[0].findIndex(element => element > x[i] - error) - 1;
+
+		let [fx0, fx1] = points[1].slice(index);
+		let [x0, x1] = points[0].slice(index);
+
+		interpolation.push(fx0 + ((fx1 - fx0) / (x1 - x0)) * (x[i] - x0));
+	}
+	return interpolation;
+}
+
+console.log(interpolate([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [[0, 1, 5, 10], [10, 2, 5, 8]]));
