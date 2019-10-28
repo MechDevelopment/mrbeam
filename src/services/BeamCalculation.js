@@ -1,6 +1,7 @@
 import LinearAlgebra from "./LinearAlgebra";
 import Point from "./Point";
 import Element from "./Element";
+import Interpolation from "./Interpolation";
 import { dot, max, min, zeros } from "numjs";
 
 class BeamCalculation {
@@ -11,7 +12,7 @@ class BeamCalculation {
 	 */
 	constructor(elements, split_coeff = 1.0) {
 		// Разбиение
-		fragmentation(elements, split_coeff);
+		fragmentation(...arguments);
 
 		// Решение
 		let sol = calculate(elements);
@@ -227,20 +228,6 @@ function calculate(elements) {
 	return { solution: sol, reactions: r, labels: result1 };
 }
 
-function interpolate(x, points) {
-	let error = 0.00001;
-	let interpolation = [points[1][0]];
-	
-	for (let i = 1; i < x.length; i++) {
 
-		let index = points[0].findIndex(element => element > x[i] - error) - 1;
 
-		let [fx0, fx1] = points[1].slice(index);
-		let [x0, x1] = points[0].slice(index);
 
-		interpolation.push(fx0 + ((fx1 - fx0) / (x1 - x0)) * (x[i] - x0));
-	}
-	return interpolation;
-}
-
-console.log(interpolate([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [[0, 1, 5, 10], [10, 2, 5, 8]]));
