@@ -42,7 +42,7 @@
       </b-radio>
     </b-field>
 
-    <!-- INPUTS -->
+    <!-- LOAD -->
 
     <b-field
       :type="{'is-danger': $v.$anyError}"
@@ -57,60 +57,35 @@
         placeholder="X-coordinate"
         type="number"
       ></b-input>
-      <b-select placeholder="Meters">
-        <option>Sm</option>
-        <option>Mm</option>
-      </b-select>
-      <!-- <p class="subtitle" v-if="!$v.xCoordinate.required">This field is required</p> -->
     </b-field>
 
     <b-field v-show="pointType != 'Defenition' && pointType != 'Distload'" label="Load" horizontal>
       <b-input v-model="load" placeholder="Load" type="number"></b-input>
-      <b-select placeholder="N/m">
-        <option>N/sm</option>
-        <option>kN/m</option>
-      </b-select>
     </b-field>
 
     <!-- DISTRIBUTED LOAD -->
 
     <b-field v-show="pointType == 'Distload'" label="Start" horizontal>
       <b-input v-model="x1" placeholder="Start position" type="number"></b-input>
-      <b-select placeholder="Meters">
-        <option>Sm</option>
-        <option>Mm</option>
-      </b-select>
     </b-field>
 
     <b-field v-show="pointType == 'Distload'" label="End" horizontal>
       <b-input v-model="x2" placeholder="End position" type="number"></b-input>
-      <b-select placeholder="Meters">
-        <option>Sm</option>
-        <option>Mm</option>
-      </b-select>
     </b-field>
 
     <b-field v-show="pointType == 'Distload'" label="Y1" horizontal>
       <b-input v-model="y1" placeholder="Y1" type="number"></b-input>
-      <b-select placeholder="Meters">
-        <option>Sm</option>
-        <option>Mm</option>
-      </b-select>
     </b-field>
 
     <b-field v-show="pointType == 'Distload'" label="Y2" horizontal>
       <b-input v-model="y2" placeholder="Y2" type="number"></b-input>
-      <b-select placeholder="Meters">
-        <option>Sm</option>
-        <option>Mm</option>
-      </b-select>
     </b-field>
 
     <!-- <b-field v-show="pointType == 'Load'" label="Angle" horizontal>
       <b-input v-model="angle" placeholder="Angle" type="number"></b-input>
     </b-field>-->
 
-    <hr>
+    <hr />
 
     <div class="buttons is-centered">
       <!-- <button type="submit" class="button is-primary">Submit</button> -->

@@ -1,15 +1,17 @@
 <template>
   <section class="section has-background-white-ter">
     <div class="container">
-      <div class="columns is-desktop">
-        <!-- <div class="column is-two-thirds"> -->
-        <div class="column">
-          <result-view />
-          <result-view />
-        </div>
-        <div class="column">
-          <add-point-form2 />
-          <table-points />
+      <div class="column">
+        <result-view />
+      </div>
+      <div class="column">
+        <div class="columns">
+          <div class="column">
+            <add-point-form2 />
+          </div>
+          <div class="column">
+            <table-points />
+          </div>
         </div>
       </div>
     </div>
@@ -43,12 +45,3 @@ export default {
   methods: {}
 };
 </script>
-
-<style lang="css">
-@media screen and (min-width: 960px) {
-  .columns {
-    display: -webkit-box;
-    /* display: flex; */
-  }
-}
-</style>

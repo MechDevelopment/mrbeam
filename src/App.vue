@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-    <!-- <b-navbar>
+    <b-navbar>
       <template slot="start">
         <b-navbar-item tag="router-link" :to="{ path: '/' }">Home</b-navbar-item>
         <b-navbar-item tag="router-link" :to="{ path: '/newbeam' }">New Beam</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ path: '/newbeam2' }">New Beam2</b-navbar-item>
       </template>
 
       <template slot="end">
@@ -16,11 +17,19 @@
           </div>
         </b-navbar-item>
       </template>
-    </b-navbar>-->
-    <router-view/>
+    </b-navbar>
+    <router-view />
     <footer class="footer">
       <div class="container-fluid">
-        <span>2019, MechDevelopment</span>
+        <span>© 2019, MechDevelopment</span>
+        <div class="block">
+          <a href="https://github.com/MechDevelopment">
+            <b-icon icon="github-circle"></b-icon>
+          </a>
+
+          <b-icon icon="telegram"></b-icon>
+          <b-icon icon="vk"></b-icon>
+        </div>
       </div>
     </footer>
   </div>
