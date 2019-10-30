@@ -1,16 +1,25 @@
+/** Interpolation class	(only static function)
+ *
+ * @static linear
+ * @static lagrange
+ * @static newton
+ */
 class Interpolation {
-	/** Function recovery points from points
+	//STATIC
+
+	/** Linear interpolation
 	 *
 	 * @param {Array<Number>} x list of labels
 	 * @param {Array<Array<Number>>} points list of bad points
 	 */
 	static linear(x, points) {
-		let error = 0.00001;
 		let interpolation = [points[1][0]];
 
 		for (let i = 1; i < x.length; i++) {
 			let index =
-				points[0].findIndex(element => element > x[i] - error) - 1;
+				points[0].findIndex(
+					element => element > x[i] - 0.0000000000001
+				) - 1;
 
 			let [fx0, fx1] = points[1].slice(index);
 			let [x0, x1] = points[0].slice(index);
@@ -20,7 +29,7 @@ class Interpolation {
 		return interpolation;
 	}
 
-	/** Function recovery points from points
+	/** Lagrange interpolation
 	 *
 	 * @param {Array<Number>} x list of labels
 	 * @param {Array<Array<Number>>} points list of bad points
@@ -28,8 +37,7 @@ class Interpolation {
 	static lagrange(label, points) {
 		let [x, y] = points;
 
-		/** Polinom multip */
-		function l(t, index) {
+		function basis(t, index) {
 			let P = 1;
 			for (let j = 0; j < x.length; j++) {
 				if (j != index) P *= (t - x[j]) / (x[index] - x[j]);
@@ -40,13 +48,13 @@ class Interpolation {
 		return label.map(element => {
 			let sum = 0;
 			for (let i = 0; i < x.length; i++) {
-				sum += y[i] * l(element, i);
+				sum += y[i] * basis(element, i);
 			}
 			return sum;
 		});
 	}
 
-	/** Function recovery points from points
+	/** Direct Newton interpolation
 	 *
 	 * @param {Array<Number>} x list of labels
 	 * @param {Array<Array<Number>>} points list of bad points
@@ -54,6 +62,7 @@ class Interpolation {
 	static newton(label, points) {
 		let [x, y] = points;
 
+		// Divided differences
 		function Delta(xy) {
 			let [x, y] = xy;
 
@@ -66,7 +75,7 @@ class Interpolation {
 			}
 		}
 
-		function l(t, index) {
+		function mult(t, index) {
 			let P = 1;
 			for (let j = 0; j < index + 1; j++) {
 				P *= t - x[j];
@@ -76,9 +85,9 @@ class Interpolation {
 
 		return label.map(element => {
 			let sum = y[0];
-			for (let i = 0; i < x.length-1; i++) {
+			for (let i = 0; i < x.length - 1; i++) {
 				let slice = points.map(arr => arr.slice(0, i + 2));
-				sum += l(element, i) * Delta(slice);
+				sum += mult(element, i) * Delta(slice);
 			}
 			return sum;
 		});
@@ -86,24 +95,3 @@ class Interpolation {
 }
 
 export default Interpolation;
-
-console.log(
-	Interpolation.linear(
-		[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-		[[0, 1, 5, 10], [10, 2, 5, 8]]
-	)
-);
-console.log(
-	Interpolation.lagrange(
-		[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-		[[0, 1, 5, 10], [10, 2, 5, 8]]
-	)
-);
-
-console.log(
-	Interpolation.newton(
-		[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-		[[0, 1, 5, 10], [10, 2, 5, 8]]
-	)
-);
-
