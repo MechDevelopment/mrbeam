@@ -1,9 +1,9 @@
 class Interpolation {
-    /** Function recovery points from points
-     * 
-     * @param {Array<Number>} x list of labels
-     * @param {Array<Array<Number>>} points list of bad points
-     */
+	/** Function recovery points from points
+	 *
+	 * @param {Array<Number>} x list of labels
+	 * @param {Array<Array<Number>>} points list of bad points
+	 */
 	static linear(x, points) {
 		let error = 0.00001;
 		let interpolation = [points[1][0]];
@@ -20,36 +20,72 @@ class Interpolation {
 		return interpolation;
 	}
 
-    /** Function recovery points from points
-     * 
-     * @param {Array<Number>} x list of labels
-     * @param {Array<Array<Number>>} points list of bad points
-     */
+	/** Function recovery points from points
+	 *
+	 * @param {Array<Number>} x list of labels
+	 * @param {Array<Array<Number>>} points list of bad points
+	 */
 	static lagrange(label, points) {
-        let [x, y] = points;
+		let [x, y] = points;
 
-        /** Polinom multip */
-        function l(t, index) {
-            let P = 1;
-            for (let j = 0; j < x.length; j++) {
-                if (j != index) P *= (t - x[j]) / (x[index] - x[j]);
-            }
-            return P;
-        }
+		/** Polinom multip */
+		function l(t, index) {
+			let P = 1;
+			for (let j = 0; j < x.length; j++) {
+				if (j != index) P *= (t - x[j]) / (x[index] - x[j]);
+			}
+			return P;
+		}
 
 		return label.map(element => {
-            let sum = 0;
-            for (let i = 0; i < x.length; i++) {
-                sum += y[i] * l(element, i);
-            }
-            return sum;
-        });
-    }
+			let sum = 0;
+			for (let i = 0; i < x.length; i++) {
+				sum += y[i] * l(element, i);
+			}
+			return sum;
+		});
+	}
+
+	/** Function recovery points from points
+	 *
+	 * @param {Array<Number>} x list of labels
+	 * @param {Array<Array<Number>>} points list of bad points
+	 */
+	static newton(label, points) {
+		let [x, y] = points;
+
+		function Delta(xy) {
+			let [x, y] = xy;
+
+			if (x.length == 2) {
+				return (y[1] - y[0]) / (x[1] - x[0]);
+			} else {
+				let bef = xy.map(arr => arr.slice(1));
+				let aft = xy.map(arr => arr.slice(0, arr.length - 1));
+				return (Delta(bef) - Delta(aft)) / (x[x.length - 1] - x[0]);
+			}
+		}
+
+		function l(t, index) {
+			let P = 1;
+			for (let j = 0; j < index + 1; j++) {
+				P *= t - x[j];
+			}
+			return P;
+		}
+
+		return label.map(element => {
+			let sum = y[0];
+			for (let i = 0; i < x.length-1; i++) {
+				let slice = points.map(arr => arr.slice(0, i + 2));
+				sum += l(element, i) * Delta(slice);
+			}
+			return sum;
+		});
+	}
 }
 
 export default Interpolation;
-
-
 
 console.log(
 	Interpolation.linear(
@@ -63,3 +99,11 @@ console.log(
 		[[0, 1, 5, 10], [10, 2, 5, 8]]
 	)
 );
+
+console.log(
+	Interpolation.newton(
+		[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+		[[0, 1, 5, 10], [10, 2, 5, 8]]
+	)
+);
+
