@@ -118,7 +118,7 @@ class BeamService {
 		let BC = new BeamCalculation(elements, split_coeff);
 
 		// Save results calculation
-		this.results = BC.solution;
+		this.results = BC.solution();
 		console.log(this.results)
 	}
 
