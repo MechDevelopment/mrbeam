@@ -56,10 +56,16 @@ class Interpolation {
 
 	/** Direct Newton interpolation
 	 *
+	 *  Please points[0] < 10, so long for points !!!
+	 *
 	 * @param {Array<Number>} x list of labels
 	 * @param {Array<Array<Number>>} points list of bad points
 	 */
 	static newton(label, points) {
+		console.assert(
+			points[0].length < 10,
+			"Interpoaltion.newton, points[0] >= 10!"
+		);
 		let [x, y] = points;
 
 		// Divided differences
@@ -95,3 +101,8 @@ class Interpolation {
 }
 
 export default Interpolation;
+
+Interpolation.newton(
+	[1, 2, 3, 4, 5],
+	[[1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+);
