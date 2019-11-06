@@ -19,11 +19,12 @@ class BeamCalculation {
 		this._solution = sol.solution;
 		this._reaction = sol.reactions;
 		this._labels = sol.labels;
+		this._res2 = sol.res2;
 	}
 
 	get solution() {
 		return {
-			labels: this.labels,
+			labels: this._res2,//this._labels,
 			displacement: this.displacement[1],
 			shear: this.shear[1]
 		};
@@ -34,6 +35,8 @@ class BeamCalculation {
 	}
 
 	get displacement() {
+		let label = Array.from(Array(1000), (el, index) => 0.01 * index);
+		
 		let eps = 1000000;
 		let result1 = [];
 		let result2 = [];
@@ -43,7 +46,8 @@ class BeamCalculation {
 			// );
 			result2.push(Math.round(this._solution.get(1 + i * 3) * eps) / eps);
 		}
-		return [result1, result2];
+
+		return [result1, result2]//Interpolation.linear(this._labels,[this._res2, result2])];
 	}
 
 	get moment() {
@@ -225,9 +229,14 @@ function calculate(elements) {
 		result1.push(Math.round(points[i].coordinates[0] * eps) / eps);
 	}
 
-	return { solution: sol, reactions: r, labels: result1 };
+	let res1 = [];
+	let steph = 0.01;
+	let nn = (result1[result1.length - 1] - result1[0]) / steph;
+	for (let i = 0; i < nn; i++) {
+		res1.push(steph*i)
+	}
+	
+	
+
+	return { solution: sol, reactions: r, res2: result1, labels: res1 };
 }
-
-
-
-

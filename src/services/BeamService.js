@@ -25,7 +25,7 @@ class BeamService {
 	 * defenition = [x, y, z],
 	 * several results
 	 */
-	import(objects, split_coeff = 0.1) {
+	import(objects, split_coeff = 0.5) {
 		// Variables
 		console.log("BeamService Imported: " + objects);
 		let push_flag; // flag for point push
