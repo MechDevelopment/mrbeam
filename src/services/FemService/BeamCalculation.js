@@ -7,46 +7,27 @@ import { dot, zeros } from "numjs";
 class BeamCalculation {
 	/** Beam calculation using the finite element method.
 	 *
-	 * @param {Array<Element>} elements
-	 * @param {Number} split_coeff
+	 * @param {Array<Element>} elements array with Elements
+	 * @param {Number} split_coeff coeff for fragmentation
 	 */
 	constructor(elements, split_coeff = 1.0) {
-		// Разбиение
 		fragmentation(...arguments);
-
-		// Рассчет
 		this.calculation = calculate(elements);
 	}
 
+	/** Chart points and numbers */
 	getSolution() {
-		console.log(this.calculation.labels)
 		return {
 			labels: this.calculation.labels,
-			displacement: ChartPoints.displacement(this.calculation)[1],
-			shear: ChartPoints.shear(this.calculation)[1]
+			displacement: ChartPoints.displacement(this.calculation),
+			shear: ChartPoints.shear(this.calculation)
 		};
 	}
 }
-
 export default BeamCalculation;
 
-/** Разбиение балки на много маленьких балок
- *
- * @param {Array<Element>} elements
- * @param {Number} split_coeff
- */
+/** Разбиение балки */
 function fragmentation(elements, split_coeff) {
-	/**
-	 * Что если удалять и забирать с помощью pop последний элемент
-	 * а затем сплайсить в конец ново-созданные разбитые элементы,
-	 * это должно немного упростить понимание той штуки внизу
-	 * Таким образом появится ещё одна функция создания новых элементов
-	 * на основе одного, а таким образом в дальнейшем можно будет разбить
-	 * отдельно - выбранный элемент для точности. При этом таким образом можно будет
-	 * задать при разбиении косоугольную распределенную нагрузку
-	 *  - не сработает!
-	 *
-	 */
 	// Параметры
 	let h;
 	let add_point;
@@ -156,19 +137,5 @@ function calculate(elements) {
 		result1.push(Math.round(points[i].coordinates[0] * eps) / eps);
 	}
 
-	let res1 = [];
-	let steph = 0.1;
-	let nn = (result1[result1.length - 1] - result1[0]) / steph;
-	for (let i = 0; i < nn; i++) {
-		res1.push(steph*i)
-	}
-	
-	
-
-	return { solution: sol, reactions: r, labels: result1, label: res1 };
+	return { solution: sol, reactions: r, labels: result1};
 }
-
-
-
-
-
