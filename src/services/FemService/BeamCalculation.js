@@ -17,10 +17,19 @@ class BeamCalculation {
 
 	/** Chart points and numbers */
 	getSolution() {
+		let calc = this.calculation;
+
+		let _shear = ChartPoints.shear(calc);
+		let _disp = ChartPoints.displacement(calc);
+
 		return {
-			labels: this.calculation.labels,
-			displacement: ChartPoints.displacement(this.calculation),
-			shear: ChartPoints.shear(this.calculation)
+			labels: calc.labels,
+			displacement: _disp,
+			max_displacement: Math.max(..._disp),
+			min_displacement: Math.min(..._disp),
+			shear: _shear,
+			max_shear: Math.max(..._shear),
+			min_shear: Math.min(..._shear)
 		};
 	}
 }
@@ -137,5 +146,5 @@ function calculate(elements) {
 		result1.push(Math.round(points[i].coordinates[0] * eps) / eps);
 	}
 
-	return { solution: sol, reactions: r, labels: result1};
+	return { solution: sol, reactions: r, labels: result1 };
 }

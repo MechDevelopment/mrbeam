@@ -45,14 +45,6 @@ class ChartPoints {
 	// get min_moment() {
 	// 	return min([this._reaction.get(2), this._reaction.get(5)]);
 	// }
-
-	// get max_shear() {
-	// 	return max([-this._reaction.get(1), this._reaction.get(4)]);
-	// }
-
-	// get min_shear() {
-	// 	return min([-this._reaction.get(1), this._reaction.get(4)]);
-	// }
 }
 
 export default ChartPoints;
