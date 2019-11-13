@@ -1,8 +1,8 @@
 // node -r esm
-import Material from "./Material";
-import Point from "./Point";
-import Element from "./Element";
-import BeamCalculation from "./BeamCalculation";
+import Material from "./FemService/Material";
+import Point from "./FemService/Point";
+import Element from "./FemService/Element";
+import BeamCalculation from "./FemService/BeamCalculation";
 
 class BeamService {
 	/** Service for Beam Calculation
@@ -118,7 +118,7 @@ class BeamService {
 		let BC = new BeamCalculation(elements, split_coeff);
 
 		// Save results calculation
-		this.results = BC.solution();
+		this.results = BC.getSolution();
 		console.log(this.results)
 	}
 

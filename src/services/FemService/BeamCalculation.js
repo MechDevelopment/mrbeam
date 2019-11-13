@@ -1,4 +1,5 @@
 import LinearAlgebra from "./LinearAlgebra";
+import ChartPoints from "./ChartPoints";
 import Point from "./Point";
 import Element from "./Element";
 import { dot, zeros } from "numjs";
@@ -17,83 +18,14 @@ class BeamCalculation {
 		this.calculation = calculate(elements);
 	}
 
-
-
-	displacement() {
-		let label = Array.from(Array(1000), (el, index) => 0.01 * index);
-		
-		let eps = 1000000;
-		let result1 = [];
-		let result2 = [];
-		for (let i = 0; i < this.calculation.solution.size / 3; i++) {
-			// result1.push(
-			// 	Math.round(points[i].coordinates[0] * eps) / eps
-			// );
-			result2.push(Math.round(this.calculation.solution.get(1 + i * 3) * eps) / eps);
-		}
-
-		return [result1, result2]
-	}
-
-	// get moment() {
-	// 	return [
-	// 		[elements[0].points[0].coordinates[0], this._reaction.get(2)],
-	// 		[elements[0].points[1].coordinates[0], this._reaction.get(5)]
-	// 	];
-	// }
-
-	/** Coordinates Shear-Diagram */
-	shear() {
-		let eps = 100000;
-		let result1 = [];
-		let result2 = [];
-		let add = this.calculation.reactions.get(1);
-		for (let i = 0; i < this.calculation.reactions.size / 3 - 1; i++) {
-			// result1.push(
-			// 	Math.round(points[i].coordinates[0] * eps) / eps,
-			// 	Math.round(points[i + 1].coordinates[0] * eps) / eps
-			// );
-			result2.push(
-				Math.round(add * eps) / eps,
-				Math.round(add * eps) / eps
-			);
-			add += this.calculation.reactions.get(1 + (i + 1) * 3);
-		}
-		return [result1, result2];
-	}
-
-	solution() {
+	getSolution() {
 		console.log(this.calculation.labels)
 		return {
 			labels: this.calculation.labels,
-			displacement: this.displacement()[1],
-			shear: this.shear()[1]
+			displacement: ChartPoints.displacement(this.calculation)[1],
+			shear: ChartPoints.shear(this.calculation)[1]
 		};
 	}
-
-	// get max_deflection() {
-	// 	return max([this._solution.get(1), this._solution.get(4)]);
-	// }
-
-	// get max_slope() {
-	// 	return max([this._solution.get(2), this._solution.get(5)]);
-	// }
-
-	// get max_moment() {
-	// 	return max([this._reaction.get(2), this._reaction.get(5)]);
-	// }
-
-	// get min_moment() {
-	// 	return min([this._reaction.get(2), this._reaction.get(5)]);
-	// }
-
-	// get max_shear() {
-	// 	return max([-this._reaction.get(1), this._reaction.get(4)]);
-	// }
-
-	// get min_shear() {
-	// 	return min([-this._reaction.get(1), this._reaction.get(4)]);
-	// }
 }
 
 export default BeamCalculation;
@@ -112,6 +44,7 @@ function fragmentation(elements, split_coeff) {
 	 * на основе одного, а таким образом в дальнейшем можно будет разбить
 	 * отдельно - выбранный элемент для точности. При этом таким образом можно будет
 	 * задать при разбиении косоугольную распределенную нагрузку
+	 *  - не сработает!
 	 *
 	 */
 	// Параметры
@@ -234,3 +167,8 @@ function calculate(elements) {
 
 	return { solution: sol, reactions: r, labels: result1, label: res1 };
 }
+
+
+
+
+
