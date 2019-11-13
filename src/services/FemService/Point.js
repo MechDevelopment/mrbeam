@@ -9,7 +9,7 @@ class Point {
 	 */
 	constructor(
 		coordinates,
-		defenitions = [0, 0, 0],
+		defenitions = [false, false, false],
 		load = [0, 0],
 		moment = 0,
 		joint = false

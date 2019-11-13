@@ -2,8 +2,8 @@ class ChartPoints {
 	static displacement(calc) {
 		let eps = 1000000;
 		let result = [];
-		for (let i = 0; i < calc.solution.size / 3; i++) {
-			result.push(Math.round(calc.solution.get(1 + i * 3) * eps) / eps);
+		for (let i = 0; i < calc.solutions.size / 3; i++) {
+			result.push(Math.round(calc.solutions.get(1 + i * 3) * eps) / eps);
 		}
 		return result;
 	}
@@ -44,7 +44,21 @@ class ChartPoints {
 
 	// get min_moment() {
 	// 	return min([this._reaction.get(2), this._reaction.get(5)]);
-	// }
+    // }
+    static createLabels(elements, h) {
+        // Переменные
+        const A = elements[0].points[0].coordinates[0];
+        const B = elements[elements.length - 1].points[1].coordinates[0];
+        const N = (B - A) / h;
+
+        // Заполняем массив
+        let labels = [];
+        for (let i = 0; i < N + 1; i++) {
+            labels.push(A + i * h);
+        }
+
+        return labels;
+    }
 }
 
 export default ChartPoints;

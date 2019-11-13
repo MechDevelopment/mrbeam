@@ -161,7 +161,7 @@ class BeamService {
         id: 0,
         type: "Defenition",
         x: 0,
-        def: [1, 1, 1]
+        def: [true, true, true]
       });
     } else {
       // Sharnirnoe zackreplenie
@@ -169,13 +169,13 @@ class BeamService {
         id: 0,
         type: "Defenition",
         x: 0,
-        def: [1, 1, 0]
+        def: [true, true, false]
       });
       points.push({
         id: count_of_points + 1,
         type: "Defenition",
         x: count_of_points + 1,
-        def: [0, 1, 0]
+        def: [false, true, false]
       });
     }
 
