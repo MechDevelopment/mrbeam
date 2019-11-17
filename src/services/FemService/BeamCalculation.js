@@ -2,7 +2,6 @@ import LinearAlgebra from "./LinearAlgebra";
 import ChartPoints from "./ChartPoints";
 import Point from "./Point";
 import Element from "./Element";
-import { dot } from "numjs";
 
 class BeamCalculation {
     /** Beam calculation using the finite element method.
@@ -11,29 +10,20 @@ class BeamCalculation {
      * @param {Number} split_coeff coeff for fragmentation
      */
     constructor(elements, split_coeff = 1.0) {
+        // Разбиваем элементы
         fragmentation(...arguments);
-		this.calculation = calculate(elements);
-        
-        // Добавляем лейблы
-		this.calculation.labels = ChartPoints.createLabels(...arguments);
+
+        // Рассчитываем балку
+        const CALCULATION = calculate(elements);
+
+        // Строим точки для графиков и не только
+        let CP = new ChartPoints(...arguments, ...CALCULATION);
+        this.solution = CP.getChartPoints();
     }
 
-    /** Chart points and numbers */
+    /** Решение - объект JSON с необходимыми данными */
     getSolution() {
-        let calc = this.calculation;
-
-        let _shear = ChartPoints.shear(calc);
-        let _disp = ChartPoints.displacement(calc);
-
-        return {
-            labels: calc.labels,
-            displacement: _disp,
-            max_displacement: Math.max(..._disp),
-            min_displacement: Math.min(..._disp),
-            shear: _shear,
-            max_shear: Math.max(..._shear),
-            min_shear: Math.min(..._shear),
-        };
+        return this.solution;
     }
 }
 export default BeamCalculation;
@@ -75,7 +65,7 @@ function fragmentation(elements, split_coeff) {
 /** Метод конечных элементов для балки */
 function calculate(elements) {
     // Количество элементов
-    const N = elements.length; // Count of elements
+    const N = elements.length;
 
     // Строим глобальная матрицу жесткости и глобальный вектор
     const MATRIX = LinearAlgebra.createGlobalMatrix(elements, N);
@@ -92,5 +82,5 @@ function calculate(elements) {
     const SOLUTIONS = LinearAlgebra.solve(DMATRIX, DVECTOR);
 	const REACTIONS = LinearAlgebra.multiply(SOLUTIONS, MATRIX);
 	
-    return { solutions: SOLUTIONS, reactions: REACTIONS};
+    return [SOLUTIONS, REACTIONS];
 }

@@ -1,24 +1,50 @@
 class ChartPoints {
-	static displacement(calc) {
+    constructor(elements, split_coeff, solutions, reactions) {
+        // Создадим 
+        this.solutions =  solutions;
+        this.reactions = reactions;
+
+        this.labels = createLabels(elements, split_coeff);
+
+        let _shear = this.shear();
+        let _disp = this.displacement();
+
+
+
+        this.chart_points =  {
+            labels: this.labels,
+            displacement: _disp,
+            max_displacement: Math.max(..._disp),
+            min_displacement: Math.min(..._disp),
+            shear: _shear,
+            max_shear: Math.max(..._shear),
+            min_shear: Math.min(..._shear)
+        }
+    }
+    getChartPoints(){
+        return this.chart_points;
+    }
+
+	displacement() {
 		let eps = 1000000;
 		let result = [];
-		for (let i = 0; i < calc.solutions.size / 3; i++) {
-			result.push(Math.round(calc.solutions.get(1 + i * 3) * eps) / eps);
+		for (let i = 0; i < this.solutions.size / 3; i++) {
+			result.push(Math.round(this.solutions.get(1 + i * 3) * eps) / eps);
 		}
 		return result;
 	}
 
 	/** Coordinates Shear-Diagram */
-	static shear(calc) {
+	shear() {
 		let eps = 100000;
 		let result = [];
-		let add = calc.reactions.get(1);
-		for (let i = 0; i < calc.reactions.size / 3 - 1; i++) {
+		let add = this.reactions.get(1);
+		for (let i = 0; i < this.reactions.size / 3 - 1; i++) {
 			result.push(
 				Math.round(add * eps) / eps,
 				Math.round(add * eps) / eps
 			);
-			add += calc.reactions.get(1 + (i + 1) * 3);
+			add += this.reactions.get(1 + (i + 1) * 3);
 		}
 		return result;
 	}
@@ -45,20 +71,23 @@ class ChartPoints {
 	// get min_moment() {
 	// 	return min([this._reaction.get(2), this._reaction.get(5)]);
     // }
-    static createLabels(elements, h) {
-        // Переменные
-        const A = elements[0].points[0].coordinates[0];
-        const B = elements[elements.length - 1].points[1].coordinates[0];
-        const N = (B - A) / h;
-
-        // Заполняем массив
-        let labels = [];
-        for (let i = 0; i < N + 1; i++) {
-            labels.push(A + i * h);
-        }
-
-        return labels;
-    }
+    
 }
 
 export default ChartPoints;
+
+
+function createLabels(elements, h) {
+    // Переменные
+    const A = elements[0].points[0].coordinates[0];
+    const B = elements[elements.length - 1].points[1].coordinates[0];
+    const N = (B - A) / h;
+
+    // Заполняем массив
+    let labels = [];
+    for (let i = 0; i < N + 1; i++) {
+        labels.push(A + i * h);
+    }
+
+    return labels;
+}
