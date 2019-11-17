@@ -1,16 +1,14 @@
 class ChartPoints {
     constructor(elements, split_coeff, solutions, reactions) {
-        // Создадим 
+        
+        // Необходимые переменные
         this.solutions =  solutions;
         this.reactions = reactions;
-
         this.labels = createLabels(elements, split_coeff);
 
+        // Заполняем словарик
         let _shear = this.shear();
         let _disp = this.displacement();
-
-
-
         this.chart_points =  {
             labels: this.labels,
             displacement: _disp,

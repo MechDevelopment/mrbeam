@@ -28,6 +28,32 @@ class BeamCalculation {
 }
 export default BeamCalculation;
 
+/** Метод конечных элементов для балки 
+ * 
+ * @param {Array<Element>} elements
+*/
+function calculate(elements) {
+    // Количество элементов
+    const N = elements.length;
+
+    // Строим глобальная матрицу жесткости и глобальный вектор
+    const MATRIX = LinearAlgebra.createGlobalMatrix(elements, N);
+    const VECTOR = LinearAlgebra.createGlobalVector(elements, N);
+
+    // Вектор граничных условий
+    const DEFENITIONS = LinearAlgebra.createDefVector(elements, N);
+
+    // Учитывая граничные условия имеем
+    const DMATRIX = LinearAlgebra.setDefMatrix(MATRIX, DEFENITIONS);
+    const DVECTOR = LinearAlgebra.setDefVector(VECTOR, DEFENITIONS);
+
+    // Получаем всевозможные решения
+    const SOLUTIONS = LinearAlgebra.solve(DMATRIX, DVECTOR);
+	const REACTIONS = LinearAlgebra.multiply(SOLUTIONS, MATRIX);
+	
+    return [SOLUTIONS, REACTIONS];
+}
+
 /** Разбиение балки */
 function fragmentation(elements, split_coeff) {
     // Параметры
@@ -60,27 +86,4 @@ function fragmentation(elements, split_coeff) {
         }
     }
     return elements;
-}
-
-/** Метод конечных элементов для балки */
-function calculate(elements) {
-    // Количество элементов
-    const N = elements.length;
-
-    // Строим глобальная матрицу жесткости и глобальный вектор
-    const MATRIX = LinearAlgebra.createGlobalMatrix(elements, N);
-    const VECTOR = LinearAlgebra.createGlobalVector(elements, N);
-
-    // Вектор граничных условий
-    const DEFENITIONS = LinearAlgebra.createDefVector(elements, N);
-
-    // Учитывая граничные условия имеем
-    const DMATRIX = LinearAlgebra.setDefMatrix(MATRIX, DEFENITIONS);
-    const DVECTOR = LinearAlgebra.setDefVector(VECTOR, DEFENITIONS);
-
-    // Получаем всевозможные решения
-    const SOLUTIONS = LinearAlgebra.solve(DMATRIX, DVECTOR);
-	const REACTIONS = LinearAlgebra.multiply(SOLUTIONS, MATRIX);
-	
-    return [SOLUTIONS, REACTIONS];
 }
