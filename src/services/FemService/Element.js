@@ -12,7 +12,7 @@ class Element {
 	 * @method local_matrix - local stiffness matrix
 	 * @method local_vector - local load vector
 	 */
-	constructor(points, material, distributed_load = [0, 0]) {
+	constructor(points, material, distributed_load = []) {
 		this.points = points;
 		this.material = material;
 		this.distributed_load = distributed_load;
@@ -97,13 +97,21 @@ class Element {
 	 */
 	get local_vector() {
 		let p1 = this.points[0];
-		let p2 = this.points[1];
+        let p2 = this.points[1];
+
+        let d1 = 0;
+        let d2 = 0;
+        this.distributed_load.forEach(func => {        
+            d1 += func(p1.coordinates[0]);
+            d2 += func(p2.coordinates[0])
+        });
+        
 		return [
 			p1.load[0],
-			p1.load[1] + this.distributed_load[0],
+			p1.load[1] + d1,
 			p1.moment,
 			p2.load[0],
-			p2.load[1] + this.distributed_load[1],
+			p2.load[1] + d2,
 			p2.moment
 		];
     }

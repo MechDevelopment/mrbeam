@@ -16,7 +16,7 @@ class BeamCalculation {
         // Рассчитываем балку
         const CALCULATION = calculate(elements);
 
-        // Строим точки для графиков и не только
+        // Строим точки для графиков
         let CP = new ChartPoints(...arguments, ...CALCULATION);
         this.solution = CP.getChartPoints();
     }
