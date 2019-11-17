@@ -14,7 +14,7 @@ class BeamCalculation {
         fragmentation(...arguments);
 
         // Рассчитываем балку
-        const CALCULATION = calculate(elements);
+        const CALCULATION = calculate(...arguments);
 
         // Строим точки для графиков
         let CP = new ChartPoints(...arguments, ...CALCULATION);
@@ -30,15 +30,16 @@ export default BeamCalculation;
 
 /** Метод конечных элементов для балки 
  * 
- * @param {Array<Element>} elements
+ * @param {Array<Element>} elements array with Elements
+ * @param {Number} split_coeff coeff for fragmentation
 */
-function calculate(elements) {
+function calculate(elements, split_coeff) {
     // Количество элементов
     const N = elements.length;
 
     // Строим глобальная матрицу жесткости и глобальный вектор
-    const MATRIX = LinearAlgebra.createGlobalMatrix(elements, N);
-    const VECTOR = LinearAlgebra.createGlobalVector(elements, N);
+    const MATRIX = LinearAlgebra.createGlobalMatrix(...arguments, N);
+    const VECTOR = LinearAlgebra.createGlobalVector(...arguments, N);
 
     // Вектор граничных условий
     const DEFENITIONS = LinearAlgebra.createDefVector(elements, N);
@@ -54,7 +55,11 @@ function calculate(elements) {
     return [SOLUTIONS, REACTIONS];
 }
 
-/** Разбиение балки */
+/** Разбиение балки 
+ * 
+ * @param {Array<Element>} elements array with Elements
+ * @param {Number} split_coeff coeff for fragmentation
+*/
 function fragmentation(elements, split_coeff) {
     // Параметры
     let h;

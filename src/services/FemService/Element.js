@@ -95,15 +95,15 @@ class Element {
 	 *
 	 * @return {Array<Number>}
 	 */
-	get local_vector() {
+	local_vector(step) {
 		let p1 = this.points[0];
         let p2 = this.points[1];
 
         let d1 = 0;
         let d2 = 0;
         this.distributed_load.forEach(func => {        
-            d1 += func(p1.coordinates[0]);
-            d2 += func(p2.coordinates[0])
+            d1 += func(p1.coordinates[0]) * step;
+            d2 += func(p2.coordinates[0]) * step;
         });
         
 		return [

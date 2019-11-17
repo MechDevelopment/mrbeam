@@ -73,7 +73,7 @@ class LinearAlgebra {
         return dot(vector, matrix);
     }
 
-    static createGlobalMatrix(elements, count) {
+    static createGlobalMatrix(elements, step, count) {
         // Переменные
         let local;
 
@@ -100,7 +100,7 @@ class LinearAlgebra {
         return matrix;
     }
 
-    static createGlobalVector(elements, count) {
+    static createGlobalVector(elements, step, count) {
         // Переменные
         let local;
 
@@ -110,7 +110,7 @@ class LinearAlgebra {
         // Проходимся по вектору
         for (let index = 0; index < count; index++) {
             // Забираем локальный вектор элемента
-            local = elements[index].local_vector;
+            local = elements[index].local_vector(step);
 
             // Вставляем локальный вектор в глобальный
             for (let j = 0; j < 6; j++) {
