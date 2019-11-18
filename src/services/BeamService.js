@@ -1,7 +1,5 @@
 // node -r esm
-import Material from './FemService/Material';
-import Point from './FemService/Point';
-import Element from './FemService/Element';
+import {Material, Point, Element} from './FemService/Element';
 import BeamCalculation from './FemService/BeamCalculation';
 
 class BeamService {

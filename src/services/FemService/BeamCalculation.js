@@ -1,7 +1,6 @@
 import LinearAlgebra from "./LinearAlgebra"; // Для МКЭ
 import ChartPoints from "./ChartPoints"; // Получение графиков
-import Point from "./Point"; // Для фрагментации
-import Element from "./Element"; // Для фрагментации
+import { Point, Element } from "./Element"; // Для фрагментации
 
 class BeamCalculation {
     /** Beam calculation using the finite element method.
@@ -30,7 +29,6 @@ class BeamCalculation {
 // Экспорт класса
 export default BeamCalculation;
 
-
 function calculate(elements, split_coeff) {
     // Количество элементов
     const N = elements.length;
@@ -52,7 +50,6 @@ function calculate(elements, split_coeff) {
 
     return [SOLUTIONS, REACTIONS];
 }
-
 
 function fragmentation(elements, split_coeff) {
     let count; // Количество новых элементов для "старого" элемента

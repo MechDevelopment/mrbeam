@@ -1,5 +1,4 @@
 import { NdArray, concatenate, zeros, ones, dot } from "numjs";
-import Element from "./Element";
 
 class LinearAlgebra {
     /** Solves a system of linear equations by Gauss-Jordan Elimination.
