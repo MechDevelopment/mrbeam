@@ -1,7 +1,7 @@
-import LinearAlgebra from "./LinearAlgebra";
-import ChartPoints from "./ChartPoints";
-import Point from "./Point";
-import Element from "./Element";
+import LinearAlgebra from "./LinearAlgebra"; // Для МКЭ
+import ChartPoints from "./ChartPoints"; // Получение графиков
+import Point from "./Point"; // Для фрагментации
+import Element from "./Element"; // Для фрагментации
 
 class BeamCalculation {
     /** Beam calculation using the finite element method.
@@ -21,18 +21,16 @@ class BeamCalculation {
         this.solution = CP.getChartPoints();
     }
 
-    /** Решение - объект JSON с вычисленными данными */
+    /** Solution - JSON object with calculated data */
     getSolution() {
         return this.solution;
     }
 }
+
+// Экспорт класса
 export default BeamCalculation;
 
-/** Метод конечных элементов для балки 
- * 
- * @param {Array<Element>} elements array with Elements
- * @param {Number} split_coeff coeff for fragmentation
-*/
+
 function calculate(elements, split_coeff) {
     // Количество элементов
     const N = elements.length;
@@ -55,11 +53,7 @@ function calculate(elements, split_coeff) {
     return [SOLUTIONS, REACTIONS];
 }
 
-/** Разбиение балки 
- * 
- * @param {Array<Element>} elements array with Elements
- * @param {Number} split_coeff coeff for fragmentation
-*/
+
 function fragmentation(elements, split_coeff) {
     let count; // Количество новых элементов для "старого" элемента
     let old_elem; // Для записи "старого" элемента
@@ -79,14 +73,14 @@ function fragmentation(elements, split_coeff) {
                 0
             ]);
 
-            // Дублируем елемент, изменяя вторую точку
+            // Дублируем элемент, изменяя вторую точку
             new_elem = new Element(
                 [old_elem.points[0], new_point],
                 old_elem.material,
                 old_elem.distributed_load
             );
 
-            // Уменьшаем "старый" елемент
+            // Уменьшаем "старый" элемент
             old_elem.points[0] = new_point;
 
             // Добавляем новый элемент перед "старым"
