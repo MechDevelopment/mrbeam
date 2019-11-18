@@ -25,7 +25,7 @@ class Element {
 	 *
 	 * @return {Number}
 	 */
-	get length() {
+	length() {
 		return (
 			((this.points[1].coordinates[0] - this.points[0].coordinates[0]) **
 				2 +
@@ -44,7 +44,7 @@ class Element {
 	 * @return {Array<Array<Number>>}
 	 */
 	get local_matrix() {
-		let l = this.length;
+		let l = this.length();
 		let EJ = this.material.EJ;
 		let EA = 1;
 		if (this.material.A != null && this.material.E != null) {

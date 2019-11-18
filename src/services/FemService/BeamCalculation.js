@@ -21,7 +21,7 @@ class BeamCalculation {
         this.solution = CP.getChartPoints();
     }
 
-    /** Решение - объект JSON с необходимыми данными */
+    /** Решение - объект JSON с вычисленными данными */
     getSolution() {
         return this.solution;
     }
@@ -42,7 +42,7 @@ function calculate(elements, split_coeff) {
     const VECTOR = LinearAlgebra.createGlobalVector(...arguments, N);
 
     // Вектор граничных условий
-    const DEFENITIONS = LinearAlgebra.createDefVector(elements, N);
+    const DEFENITIONS = LinearAlgebra.createDefVector(...arguments, N);
 
     // Учитывая граничные условия имеем
     const DMATRIX = LinearAlgebra.setDefMatrix(MATRIX, DEFENITIONS);
@@ -50,8 +50,8 @@ function calculate(elements, split_coeff) {
 
     // Получаем всевозможные решения
     const SOLUTIONS = LinearAlgebra.solve(DMATRIX, DVECTOR);
-	const REACTIONS = LinearAlgebra.multiply(SOLUTIONS, MATRIX);
-	
+    const REACTIONS = LinearAlgebra.multiply(SOLUTIONS, MATRIX);
+
     return [SOLUTIONS, REACTIONS];
 }
 
@@ -61,34 +61,36 @@ function calculate(elements, split_coeff) {
  * @param {Number} split_coeff coeff for fragmentation
 */
 function fragmentation(elements, split_coeff) {
-    // Параметры
-    let h;
-    let add_point;
-    let add_element;
-    let count;
+    let count; // Количество новых элементов для "старого" элемента
+    let old_elem; // Для записи "старого" элемента
+    let new_point; // Для записи новой точки
+    let new_elem; // Для записи нового элемента
 
-    // Проходимся по элементам с конца и разбиваем их
+    // Проходимся по массиву элементов с конца
     for (let i = elements.length - 1; i >= 0; i--) {
-        // Определяем количество новых элементов и шаг
-        count = elements[i].length / split_coeff;
-        h = elements[i].length / count;
+        // Запоминаем элемент, назовем его "старым"
+        old_elem = elements[i];
+        count = old_elem.length() / split_coeff;
 
-        // Создаем новые точки и элементы
         for (let j = 1; j < count; j++) {
-            add_point = new Point([
-                elements[i].points[1].coordinates[0] - h,
-                0,
+            // Создаем дополнительную пустую точку
+            new_point = new Point([
+                old_elem.points[1].coordinates[0] - split_coeff,
+                0
             ]);
-            add_element = new Element(
-                [elements[i].points[0], add_point],
-                elements[i].material,
-                elements[i].distributed_load
+
+            // Дублируем елемент, изменяя вторую точку
+            new_elem = new Element(
+                [old_elem.points[0], new_point],
+                old_elem.material,
+                old_elem.distributed_load
             );
 
-            // Добавляем новые элементы в конец
-            elements[i].points[0] = add_point;
-            elements.splice(i, 0, add_element);
+            // Уменьшаем "старый" елемент
+            old_elem.points[0] = new_point;
+
+            // Добавляем новый элемент перед "старым"
+            elements.splice(i, 0, new_elem);
         }
     }
-    return elements;
 }

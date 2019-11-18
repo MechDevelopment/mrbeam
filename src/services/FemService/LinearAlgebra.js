@@ -126,7 +126,7 @@ class LinearAlgebra {
         return vector;
     }
 
-    static createDefVector(elements, count) {
+    static createDefVector(elements, step, count) {
         // Переменные
         let local;
 
