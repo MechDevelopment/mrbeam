@@ -1,6 +1,7 @@
 // node -r esm
 import {Material, Point, Element} from './FemService/Element';
 import BeamCalculation from './FemService/BeamCalculation';
+import {test} from './Utilus'
 
 class BeamService {
     /** Service for Beam Calculation
@@ -25,6 +26,7 @@ class BeamService {
    */
     import(objects, split_coeff = 0.5) {
         // Variables
+        test();
         console.log('BeamService Imported: ' + objects);
         let push_flag; // flag for point push
 

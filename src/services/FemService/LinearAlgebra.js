@@ -184,6 +184,31 @@ class LinearAlgebra {
         }
         return vector;
     }
+
+    	/** Lagrange interpolation
+	 *
+	 * @param {Array<Number>} x list of labels
+	 * @param {Array<Array<Number>>} points list of bad points
+	 */
+	static lagrange(label, points) {
+		let [x, y] = points;
+
+		function basis(t, index) {
+			let P = 1;
+			for (let j = 0; j < x.length; j++) {
+				if (j != index) P *= (t - x[j]) / (x[index] - x[j]);
+			}
+			return P;
+		}
+
+		return label.map(element => {
+			let sum = 0;
+			for (let i = 0; i < x.length; i++) {
+				sum += y[i] * basis(element, i);
+			}
+			return sum;
+		});
+	}
 }
 
 export default LinearAlgebra;
