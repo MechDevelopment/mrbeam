@@ -50,7 +50,7 @@ function calculate(elements, split_coeff) {
 
     return [SOLUTIONS, REACTIONS];
 }
-
+/*
 function fragmentation(elements, split_coeff) {
     let count; // Количество новых элементов для "старого" элемента
     let old_elem; // Для записи "старого" элемента
@@ -61,12 +61,12 @@ function fragmentation(elements, split_coeff) {
     for (let i = elements.length - 1; i >= 0; i--) {
         // Запоминаем элемент, назовем его "старым"
         old_elem = elements[i];
-        count = old_elem.length() / split_coeff;
-
+        count = old_elem.length / split_coeff;
+        let h =  old_elem.length / count;
         for (let j = 1; j < count; j++) {
             // Создаем дополнительную пустую точку
             new_point = new Point([
-                old_elem.points[1].coordinates[0] - split_coeff,
+                old_elem.points[1].coordinates[0] - h,
                 0
             ]);
 
@@ -84,4 +84,37 @@ function fragmentation(elements, split_coeff) {
             elements.splice(i, 0, new_elem);
         }
     }
+}
+*/
+function fragmentation(elements, split_coeff) {
+    // Параметры
+    let h;
+    let add_point;
+    let add_element;
+    let count;
+
+    // Проходимся по элементам с конца и разбиваем их
+    for (let i = elements.length - 1; i >= 0; i--) {
+        // Определяем количество новых элементов и шаг
+        count = elements[i].length / split_coeff;
+        h = elements[i].length / count;
+
+        // Создаем новые точки и элементы
+        for (let j = 1; j < count; j++) {
+            add_point = new Point([
+                elements[i].points[1].coordinates[0] - h,
+                0,
+            ]);
+            add_element = new Element(
+                [elements[i].points[0], add_point],
+                elements[i].material,
+                elements[i].distributed_load
+            );
+
+            // Добавляем новые элементы в конец
+            elements[i].points[0] = add_point;
+            elements.splice(i, 0, add_element);
+        }
+    }
+    return elements;
 }
