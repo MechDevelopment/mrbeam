@@ -7,7 +7,7 @@
       <div class="column">
         <div class="columns">
           <div class="column">
-            <add-point-form2 />
+            <add-point-form />
           </div>
           <div class="column">
             <table-points />
@@ -20,7 +20,6 @@
 
 <script>
 import AddPointForm from "../components/AddPointForm.vue";
-import AddPointForm2 from "../components/AddPointForm2.vue";
 import TablePoints from "../components/TablePoints.vue";
 import ResultView from "../components/ResultView.vue";
 
@@ -28,7 +27,6 @@ export default {
   name: "NewBeam",
   components: {
     AddPointForm,
-    AddPointForm2,
     TablePoints,
     ResultView
   },
