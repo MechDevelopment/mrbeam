@@ -5,15 +5,15 @@
       <line-chart :chart-data="datacollection" :extra-options="defaultChart.extraOptions" />
       <!-- LOADER -->
       <b-loading :is-full-page="isFullPage" :active.sync="isProcessing" :can-cancel="true">
-        <!-- <b-icon pack="fas" icon="cog" size="is-large" custom-class="fa-spin"></b-icon>
+        <b-icon pack="fas" icon="cog" size="is-large" custom-class="fa-spin"></b-icon>
         <span>
           <strong>Calculating..</strong>
-        </span>-->
-        <img
+        </span>
+        <!-- <img
           src="https://img05.rl0.ru/afisha/-x700/s5.afisha.net/MediaStorage/b7/8d/d78fe037939e47a9909975a18db7.jpg"
           id="loading"
           alt
-        />
+        />-->
       </b-loading>
     </div>
   </div>

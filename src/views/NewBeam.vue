@@ -48,7 +48,7 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 @media screen and (min-width: 960px) {
   .columns {
     display: -webkit-box;

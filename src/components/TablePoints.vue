@@ -69,6 +69,7 @@ export default {
   },
   computed: {
     points() {
+      // TODO: Починить отображение координат для distload после нажатия Analyse
       let points = [...this.$store.getters.getPoints];
       points = points.map(el => {
         el.title = el.type;
