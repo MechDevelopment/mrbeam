@@ -21,7 +21,7 @@
         <template slot-scope="props">
           <b-table-column field="id" label="№" width="40" numeric>{{ props.row.id }}</b-table-column>
 
-          <b-table-column field="type" label="Type">{{ props.row.type }}</b-table-column>
+          <b-table-column field="type" label="Type">{{ props.row.title }}</b-table-column>
 
           <b-table-column field="x" label="Coordinate" numeric centered>{{ props.row.x }}</b-table-column>
 
@@ -69,7 +69,34 @@ export default {
   },
   computed: {
     points() {
-      return this.$store.getters.getPoints;
+      let points = [...this.$store.getters.getPoints];
+      points = points.map(el => {
+        el.title = el.type;
+        if (el.type == "Defenition") {
+          if (el.def) {
+            let arrLen = el.def.reduce((a, b) => a + b, 0);
+            switch (arrLen) {
+              case 3:
+                el.title = "Fixed Def";
+                break;
+              case 2:
+                el.title = "Pin Def";
+                break;
+              case 1:
+                el.title = "Roller Def";
+                break;
+            }
+          }
+        }
+        if (el.type == "Distload") {
+          el.x = [el.distload[0], el.distload[1]];
+          el.load = [el.distload[2], el.distload[3]];
+        }
+        return el;
+      });
+      // console.log(test);
+      // console.log(points);
+      return points;
     }
   },
   methods: {

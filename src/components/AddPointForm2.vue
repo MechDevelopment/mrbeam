@@ -186,17 +186,22 @@ export default {
         y2
       } = this;
 
+      // let title = pointType;
+
       let def;
       if (pointType === "Defenition") {
         switch (defenitionType) {
           case "1":
             def = [1, 1, 1];
+            // title = "Def Fixed";
             break;
           case "2":
             def = [1, 1, 0];
+            // title = "Def Pin";
             break;
           case "3":
             def = [0, 1, 0];
+            // title = "Def Roller";
             break;
           default:
             def = [0, 0, 0];
@@ -204,6 +209,7 @@ export default {
       }
 
       const newPoint = {
+        // title: title,
         type: pointType,
         x: Number(xCoordinate),
         // angle: angle,
