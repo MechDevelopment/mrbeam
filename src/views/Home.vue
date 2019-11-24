@@ -14,6 +14,7 @@
           </div>
 
           <div class="column is-6 is-offset-1 landing-caption">
+            <span>Online beam calculator</span>
             <h1 class="title is-size-1 has-text-weight-bold">MrBEAM</h1>
             <p class="subtitle is-muted">Create and analyse complex beams</p>
             <b-button
