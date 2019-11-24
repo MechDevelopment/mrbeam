@@ -1,8 +1,8 @@
-import { Bar, mixins } from "vue-chartjs";
-const { reactiveProp } = mixins;
+import { Line, mixins } from "vue-chartjs"
+const { reactiveProp } = mixins
 
 export default {
-  extends: Bar,
+  extends: Line,
   mixins: [reactiveProp],
   props: {
     extraOptions: Object
@@ -26,10 +26,10 @@ export default {
       "chartData",
       (newVal, oldVal) => {
         if (!oldVal) {
-          this.renderChart(this.chartData, this.extraOptions);
+          this.renderChart(this.chartData, this.extraOptions)
         }
       },
       { immediate: true }
-    );
+    )
   }
-};
+}
