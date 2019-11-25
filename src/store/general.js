@@ -17,5 +17,10 @@ export default {
   getters: {
     getProcessing: state => state.processing,
     getError: state => state.error
+  },
+  actions: {
+    processing(context, payload) {
+      context.commit("SET_PROCESSING", payload);
+    }
   }
 };

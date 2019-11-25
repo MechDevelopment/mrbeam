@@ -1,17 +1,23 @@
 {
   "name": "mrbeam",
   "version": "0.1.0",
+  "engines": {
+    "node": "8.10.0"
+  },
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "node server.js"
   },
   "dependencies": {
     "buefy": "^0.8.0",
-    "chart.js": "^2.8.0",
+    "chart.js": "2.8.0",
     "core-js": "^2.6.5",
+    "express": "^4.17.1",
     "numjs": "^0.16.0",
+    "serve-static": "^1.14.1",
     "vue": "^2.6.10",
     "vue-chartjs": "^3.4.2",
     "vue-router": "^3.0.3",

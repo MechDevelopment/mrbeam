@@ -1,38 +1,21 @@
 <template>
   <section class="section has-background-white-ter">
     <div class="container">
-      <div class="columns">
+      <div class="columns is-desktop">
         <!-- <div class="column is-two-thirds"> -->
         <div class="column">
-          <result-view/>
+          <!-- <div class="card">
+            <img
+              src="https://img05.rl0.ru/afisha/-x700/s5.afisha.net/MediaStorage/b7/8d/d78fe037939e47a9909975a18db7.jpg"
+              alt
+            />
+          </div>-->
+          <result-view />
+          <result-view />
         </div>
-        <div class="column is-two-fifths">
-          <div class="card">
-            <header class="card-header">
-              <p class="card-header-title">New Point</p>
-              <a href="#" class="card-header-icon" aria-label="more options">
-                <span class="icon">
-                  <i class="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-              </a>
-            </header>
-            <div class="card-content">
-              <add-point-form/>
-            </div>
-          </div>
-          <div class="card has-table">
-            <header class="card-header">
-              <p class="card-header-title">List of Points</p>
-              <a href="#" class="card-header-icon" aria-label="more options">
-                <span class="icon">
-                  <i class="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-              </a>
-            </header>
-            <div class="card-content">
-              <table-points/>
-            </div>
-          </div>
+        <div class="column">
+          <add-point-form />
+          <table-points />
         </div>
       </div>
     </div>
@@ -64,3 +47,12 @@ export default {
   methods: {}
 };
 </script>
+
+<style lang="css" scoped>
+@media screen and (min-width: 960px) {
+  .columns {
+    display: -webkit-box;
+    /* display: flex; */
+  }
+}
+</style>

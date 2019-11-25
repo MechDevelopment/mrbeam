@@ -1,32 +1,35 @@
-import { Bar, mixins } from 'vue-chartjs'
-const { reactiveProp } = mixins;
+import { Line, mixins } from "vue-chartjs"
+const { reactiveProp } = mixins
 
 export default {
-  extends: Bar,
+  extends: Line,
   mixins: [reactiveProp],
-	// data: () => ({
-	//   chartdata: {
-	//     labels: ['January', 'February'],
-	//     datasets: [
-	//       {
-	//         label: 'Data One',
-	//         backgroundColor: '#f87979',
-	//         data: [40, 20]
-	//       }
-	//     ]
-	//   },
+  props: {
+    extraOptions: Object
+  },
+  // data: () => ({
+  //   chartdata: {
+  //     labels: ['January', 'February'],
+  //     datasets: [
+  //       {
+  //         label: 'Data One',
+  //         backgroundColor: '#f87979',
+  //         data: [40, 20]
+  //       }
+  //     ]
+  //   },
 
-	// }),
+  // }),
 
-  mounted () {
-    this.$watch('chartData', (newVal, oldVal) => {
-      
-      if (!oldVal) {
-        this.renderChart(
-          this.chartData,
-          this.extraOptions
-        )
-      }
-    }, { immediate: true })
+  mounted() {
+    this.$watch(
+      "chartData",
+      (newVal, oldVal) => {
+        if (!oldVal) {
+          this.renderChart(this.chartData, this.extraOptions)
+        }
+      },
+      { immediate: true }
+    )
   }
-};
+}
