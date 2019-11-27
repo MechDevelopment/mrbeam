@@ -5,7 +5,10 @@ class Parser {
      * @param {Array<Object>} points JSON points
      * @method getElements() Use to get elements for FemService
      */
-    constructor(objects) {
+    constructor() {}
+    
+    
+    parse(objects){
         // Проходимся по всем объектам и делим их на две группы по типам
         let group_1 = [];
         let group_2 = [];
@@ -78,10 +81,7 @@ class Parser {
                 point_2 = new Point([group_1[i + 1].x[0], 0]);
             }
         }
-        this.results = elements;
-    }
-    getResults() {
-        return this.results;
+        return elements;
     }
 }
 

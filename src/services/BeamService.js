@@ -209,21 +209,6 @@ class BeamService {
 
 
         BeamService.sort(points);
-
-
-        /***
-         * 
-         * 
-         */
-
-        let Gen = new Generator(5);
-        let Par = new Parser(Gen.getResults())
-        console.log(Par.getResults())
-        let BC = new BeamCalculation(Par.getResults(), 0.5);
-
-        output(BC.getSolution());
-
-
         return points;
     }
 }
