@@ -12,7 +12,7 @@ class Element {
 	 * @method local_matrix - local stiffness matrix
 	 * @method local_vector - local load vector
 	 */
-    constructor(points, material, distributed_load = []) {
+    constructor(points, material = undefined, distributed_load = []) {
         this.points = points;
         this.material = material;
         this.distributed_load = distributed_load;
@@ -148,10 +148,10 @@ class Material {
 	 * @param {Number} A - area
 	 *
 	 */
-	constructor(EJ, J = null, A = null) {
-		this.E = EJ;
-		this.J = J;
-		this.A = A;
+	constructor(x) {
+		this.E = x[0];
+		this.J = x[1];
+		this.A = x[2];
 
 		if (this.J == null) {
 			this.EJ = this.E;

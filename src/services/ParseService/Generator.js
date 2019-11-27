@@ -1,3 +1,5 @@
+import {sortX} from "./Parser.js"
+
 class Generator {
     /** Create JSON points 
      * @param {Number} count count of point
