@@ -12,9 +12,14 @@ class Element {
 	 * @method local_matrix - local stiffness matrix
 	 * @method local_vector - local load vector
 	 */
-    constructor(points, material = undefined, distributed_load = []) {
+    constructor(points, material = "Auto", distributed_load = []) {
+        if (material = "Auto"){
+            this.material = new Material([1,1,1])           
+        } else {
+            this.material = material;
+        }
         this.points = points;
-        this.material = material;
+        
         this.distributed_load = distributed_load;
     }
 
@@ -45,7 +50,7 @@ class Element {
 	 */
     get local_matrix() {
         let l = this.length;
-        let EJ = this.material.EJ;
+        let EJ = 1; // this.material.EJ;
         let EA = 1;
         if (this.material.A != null && this.material.E != null) {
             EA = this.material.A * this.material.E;
@@ -158,7 +163,7 @@ class Material {
 			this.E = null;
 		} else {
 			this.EJ = this.E * this.J;
-		}
+        }
 	}
 }
 

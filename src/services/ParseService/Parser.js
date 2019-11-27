@@ -39,15 +39,17 @@ class Parser {
         let elements = []; // Массив для записи элементов
         let element; // Экземпляр класса Element
         let point_1; // Экземпляры класса Point
-        let point_2 = new Point(group_1[0].x[0]);
+        let point_2 = new Point([group_1[0].x[0], 0]);
 
         for (let i = 0; i < group_1.length; i++) {
             // Дополняем вторую точку объктом из первой группы
             decryption(point_2, group_1[i].type, group_1[i].value);
 
             // Если следующий объект имеет ту же координату
-            if (group_1[i].x[0] == group_1[i + 1].x[0]) {
-                continue;
+            if (i + 1 < group_1.length) {
+                if (group_1[i].x[0] == group_1[i + 1].x[0]) {
+                    continue;
+                }
             }
 
             // Если первая точка определена
@@ -55,7 +57,7 @@ class Parser {
                 // Создаем элемент
                 element = new Element([point_1, point_2]);
 
-                for (let j = 0; j < array.group_2; j++) {
+                for (let j = 0; j < group_2.length; j++) {
                     // Если объект из второй группы попадает в элемент
                     if (
                         collision(
@@ -73,9 +75,13 @@ class Parser {
             // Если точка была не последней
             if (i + 1 < group_1.length) {
                 point_1 = point_2;
-                point_2 = new Point(group_1[i + 1].x[0]);
+                point_2 = new Point([group_1[i + 1].x[0], 0]);
             }
         }
+        this.results = elements;
+    }
+    getResults() {
+        return this.results;
     }
 }
 
@@ -84,14 +90,20 @@ function emptyX(x) {
     return {
         x: x,
         type: 1,
-        value: 0
+        value: [0, 0]
     };
 }
 
 /** Sort JSON points from x */
 function sortX(objects) {
     objects.sort(function(a, b) {
-        return a.x > b.x ? 1 : 0;
+        if (a.x[0] < b.x[0]) {
+            return -1;
+        }
+        if (a.x[0] > b.x[0]) {
+            return 1;
+        }
+        return 0;
     });
 }
 
@@ -99,7 +111,9 @@ function sortX(objects) {
 function decryption(instance, type, value) {
     switch (type) {
         case 1:
-            instance.load += value[0];
+            let rad = value[1] * Math.PI / 180;
+            instance.load[0] += value[0] * Math.cos(rad);
+            instance.load[1] += value[0] * Math.sin(rad);
             break;
         case 2:
             instance.moment += value[0];

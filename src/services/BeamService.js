@@ -1,6 +1,9 @@
 import { Material, Point, Element } from "./FemService/Element";
 import BeamCalculation from "./FemService/BeamCalculation";
+import Generator from "./ParseService/Generator"
 import { output,  randint } from "./Utilus";
+import { Parser } from "./ParseService/Parser";
+import { create } from "domain";
 
 class BeamService {
     /** Class for communication with front end
@@ -15,6 +18,7 @@ class BeamService {
 
     /** Import objects from "store" */
     import(objects, split_coeff = 0.5) {
+        
         
         // Variables
         let push_flag; // flag for point push
@@ -104,12 +108,17 @@ class BeamService {
         // Fucking distload
         createDistload(elements, distloads);
 
+        console.log(1, elements)
         // Calculation
         let BC = new BeamCalculation(elements, split_coeff);
 
         // Save results calculation
         this._data.results = BC.getSolution();
         output(this._data.results);
+
+        
+
+
     }
 
     // Getter
@@ -137,6 +146,7 @@ class BeamService {
    * @return {Array<Object>}
    */
     static generate(count_of_points) {
+
         let points = [];
         const N = count_of_points - 1;
         let shift = null;
@@ -197,7 +207,23 @@ class BeamService {
             }
         }
 
+
         BeamService.sort(points);
+
+
+        /***
+         * 
+         * 
+         */
+
+        let Gen = new Generator(5);
+        let Par = new Parser(Gen.getResults())
+        console.log(Par.getResults())
+        let BC = new BeamCalculation(Par.getResults(), 0.5);
+
+        output(BC.getSolution());
+
+
         return points;
     }
 }
