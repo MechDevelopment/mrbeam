@@ -31,7 +31,7 @@ class BeamService {
 
         let distloads = [];
 
-        let material = new Material(12 * 10 ** 6, 0.04909, 0.7854);
+        let material = new Material([12 * 10 ** 6, 0.04909, 0.7854]);
 
   
         // Находим распределенную нагрузку и дублируем её
@@ -115,9 +115,6 @@ class BeamService {
         // Save results calculation
         this._data.results = BC.getSolution();
         output(this._data.results);
-
-        
-
 
     }
 

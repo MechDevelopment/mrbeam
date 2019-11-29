@@ -5,10 +5,7 @@ class Parser {
      * @param {Array<Object>} points JSON points
      * @method getElements() Use to get elements for FemService
      */
-    constructor() {}
-    
-    
-    parse(objects){
+    parse(objects) {
         // Проходимся по всем объектам и делим их на две группы по типам
         let group_1 = [];
         let group_2 = [];
@@ -22,7 +19,10 @@ class Parser {
 
         for (let i = 0; i < group_2.length; i++) {
             // Добавляем пустые объекты в первую группу
-            group_1.push(emptyX(group_2[i].x[0]), emptyX(group_2[i].x[1]));
+            if (group_2[i].x != undefined) {
+                // Если х задан
+                group_1.push(emptyX(group_2[i].x[0]), emptyX(group_2[i].x[1]));
+            }
 
             // Создаем функцию вместо value для распределенной нагрузки
             if (group_2[i].type == 4) {
@@ -62,10 +62,12 @@ class Parser {
 
                 for (let j = 0; j < group_2.length; j++) {
                     // Если объект из второй группы попадает в элемент
-                    if (
+                    if (group_2.x == undefined) {
+                        decryption(element, group_2[j].type, group_2[j].value);
+                    } else if (
                         collision(
                             [group_1[i - 1].x[0], group_1[i].x[0]],
-                            group_2[j].x[0]
+                            group_2[j].x
                         )
                     ) {
                         decryption(element, group_2[j].type, group_2[j].value);
