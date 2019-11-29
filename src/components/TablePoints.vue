@@ -103,7 +103,7 @@ export default {
   methods: {
     ...mapActions(["calculate"]),
     deletePoint(id) {
-      console.log(this.points.filter(point => point.id !== id));
+      //console.log(this.points.filter(point => point.id !== id));
       this.$store.commit("DELETE_POINT", id);
       this.$buefy.toast.open({
         message: "Point removed",

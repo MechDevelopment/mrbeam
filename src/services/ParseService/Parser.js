@@ -137,7 +137,8 @@ function decryption(instance, type, value) {
             }
             break;
         case 4:
-            instance.distload.push(value);
+            instance.distributed_load.push(value);
+            console.log(instance.distributed_load)
             break;
         case 5:
             instance.material = value;
@@ -147,12 +148,12 @@ function decryption(instance, type, value) {
 
 /** Функция для создания распределенной нагрузки */
 function dist_func(x, p) {
-    let [x1, y1] = [x[0], p[0]];
-    let [x2, y2] = [x[0], p[1]];
-    return function(x) {
+    let [x1, x2] = x;
+    let [y1, y2] = p;
+    return function(t) {
         let k = (y1 - y2) / (x1 - x2);
         let b = y1 - x1 * k;
-        return k * x + b;
+        return k * t + b;
     };
 }
 
