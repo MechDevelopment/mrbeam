@@ -13,7 +13,7 @@ class Element {
 	 * @method local_vector - local load vector
 	 */
     constructor(points, material = "Auto", distributed_load = []) {
-        if (material = "Auto"){
+        if (material == "Auto"){
             this.material = new Material([1,1,1])           
         } else {
             this.material = material;
@@ -50,11 +50,8 @@ class Element {
 	 */
     get local_matrix() {
         let l = this.length;
-        let EJ = 1; // this.material.EJ;
-        let EA = 1;
-        if (this.material.A != null && this.material.E != null) {
-            EA = this.material.A * this.material.E;
-        }
+        let EJ = this.material.EJ;
+        let EA = this.material.EA;
         return [
             [EA / l, 0, 0, -EA / l, 0, 0],
             [
@@ -156,14 +153,10 @@ class Material {
 	constructor(x) {
 		this.E = x[0];
 		this.J = x[1];
-		this.A = x[2];
-
-		if (this.J == null) {
-			this.EJ = this.E;
-			this.E = null;
-		} else {
-			this.EJ = this.E * this.J;
-        }
+        this.A = x[2];
+        
+        this.EJ = this.E * this.J;
+        this.EA = this.E * this.A;
 	}
 }
 

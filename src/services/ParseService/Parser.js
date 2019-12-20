@@ -45,7 +45,7 @@ class Parser {
         let point_2 = new Point([group_1[0].x[0], 0]);
 
         for (let i = 0; i < group_1.length; i++) {
-            // Дополняем вторую точку объктом из первой группы
+            // Дополняем вторую точку объектом из первой группы
             decryption(point_2, group_1[i].type, group_1[i].value);
 
             // Если следующий объект имеет ту же координату
@@ -54,7 +54,7 @@ class Parser {
                     continue;
                 }
             }
-
+            
             // Если первая точка определена
             if (point_1 != undefined) {
                 // Создаем элемент
@@ -138,7 +138,6 @@ function decryption(instance, type, value) {
             break;
         case 4:
             instance.distributed_load.push(value);
-            console.log(instance.distributed_load)
             break;
         case 5:
             instance.material = value;
