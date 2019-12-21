@@ -33,7 +33,6 @@ function parseUnits(units) {
 
   // Сортируем объекты первой группы по х
   sortX(group_1);
-
   let elements = []; // Массив для записи элементов
   let element; // Экземпляр класса Element
   let point_1; // Экземпляры класса Point
@@ -49,7 +48,7 @@ function parseUnits(units) {
         continue;
       }
     }
-
+    
     // Если первая точка определена
     if (point_1 != undefined) {
       // Создаем элемент
@@ -81,7 +80,7 @@ function parseUnits(units) {
 /** Create empty JSON point */
 function emptyX(x) {
   return {
-    x: x,
+    x: [x],
     type: 1,
     value: [0, 0]
   };

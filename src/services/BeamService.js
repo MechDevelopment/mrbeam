@@ -12,7 +12,7 @@ class BeamService {
   import(units, split_coeff = 0.5) {
     // Material
     units.push({ type: 5, value: [12e6, 0.04909, 0.7854] }); // [E, J, A]
-
+    
     // Parse units to elements for FEM
     let elements = parseUnits(units);
 
@@ -30,8 +30,8 @@ class BeamService {
   }
 
   /** Use to generate JSON units */
-  static generate(count_of_point, complexity = 0) {
-    return generateUnits(...arguments);
+  static generate(count_of_point, complexity = 2) {
+    return generateUnits(count_of_point, complexity);
   }
 }
 

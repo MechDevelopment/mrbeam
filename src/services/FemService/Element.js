@@ -93,7 +93,6 @@ class Element {
             d1 += func(p1.coordinates[0]) * step;
             d2 += func(p2.coordinates[0]) * step;
         });
-
         return [
             p1.load[0],
             p1.load[1] + d1,

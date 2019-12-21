@@ -11,17 +11,13 @@ import { randint } from "../Utilus";
     complexity 2 - Добавляем различный материал.
         
 */
-function generateUnits(count, complexity = "random") {
+function generateUnits(count, complexity) {
   let units = [];
   const N = count - 1;
   let shift = null;
   let type;
 
-  if (complexity == "random") {
-    complexity = 1;
-  }
-
-  if (complexity >= 1) {
+  if (complexity == 1) {
     // Первым делом сгенерируем закрепление(ия)
     if (randint(0, 1)) {
       // Жесткое
@@ -69,6 +65,14 @@ function generateUnits(count, complexity = "random") {
         }
       }
     }
+  } else if (complexity == 2){
+    // Шарнирное закрепление
+    shift = randint(0, ((N - 1) / 2) >> 0);
+    units.push(create(0, [0 + shift], 3, [2]));
+    units.push(create(1, [N - shift], 3, [1]));
+
+    // Распределенная нагрузка
+    units.push(create(2, [0,N], 4, [randint(-3, 3) * 50, randint(-3, 3) * 50]));
   }
   sortX(units);
   return units;
