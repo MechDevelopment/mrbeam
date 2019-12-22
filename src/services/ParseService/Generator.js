@@ -1,5 +1,5 @@
 import { sortX } from "./Parser";
-import { randint } from "../Utilus";
+import { randint } from "../FemService/LinearAlgebra";
 
 /** Create JSON points 
 * @param {Number} count count of point

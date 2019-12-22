@@ -1,3 +1,10 @@
+/* Данный файл и все связанные с ним строки кода
+ * в релизе программы должны будут удалены. 
+ *
+ * Необходим для удобного отслеживания 
+ * работы программы, а также для её отладки.
+ */
+
 /** Функция подсчета количества выводов */
 function counter() {
     let counter = 1;
@@ -21,10 +28,4 @@ function counter() {
 /** Функция вывода словаря */
 let output = counter();
 
-/** Get a random integer number from (min-0.5) to (max + 0.5) */
-function randint(min, max) {
-    let rand = min - 0.5 + Math.random() * (max - min + 1);
-    return Math.round(rand);
-}
-
-export {output, randint}
+export {output}

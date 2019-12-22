@@ -1,4 +1,4 @@
-import LinearAlgebra from "./LinearAlgebra"; // Для МКЭ
+import {LinearAlgebra} from "./LinearAlgebra"; // Для МКЭ
 import ChartPoints from "./ChartPoints"; // Получение графиков
 import { Point, Element } from "./Element"; // Для фрагментации
 

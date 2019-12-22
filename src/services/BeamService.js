@@ -1,7 +1,7 @@
 import BeamCalculation from "./FemService/BeamCalculation";
 import { generateUnits } from "./ParseService/Generator";
 import { parseUnits } from "./ParseService/Parser";
-import { output } from "./Utilus";
+import { output } from "./Temporary";
 
 class BeamService {
   constructor() {
