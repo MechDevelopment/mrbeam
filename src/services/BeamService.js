@@ -1,5 +1,5 @@
 import BeamCalculation from "./FemService/BeamCalculation";
-import { generateUnits, Generator } from "./ParseService/Generator";
+import Generator from "./ParseService/Generator";
 import { parseUnits } from "./ParseService/Parser";
 import { output } from "./Temporary";
 
@@ -35,9 +35,7 @@ class BeamService {
     // Control the Generator !!!
     const G = new Generator();
 
-    G.generate(5, [-5, 5]);
-
-    return generateUnits(count_of_point, complexity);
+    return G.generate(5, [-5, 5]);
   }
 }
 

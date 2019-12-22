@@ -3,11 +3,11 @@ class Generator {
   constructor() {
     this.settings = {
       defenition: true,
-      load: true,
+      load: false,
       angle: false,
-      joint: false,
       moment: false,
-      distload: false,
+      distload: true,
+      joint: false,
       material: false,
       dif_material: false,
       fixed_size: true
@@ -27,7 +27,17 @@ class Generator {
 
     // Create loads
     if (this.settings.load) {
-      createLoad(units, COORDINATES);
+      createLoad(units, COORDINATES, this.settings.angle);
+    }
+
+    // Create moments
+    if (this.settings.moment) {
+      createMoment(units, COORDINATES);
+    }
+
+    // Create distributed load
+    if (this.settings.distload) {
+      createDistload(units, COORDINATES);
     }
 
     // Create empty units
@@ -37,6 +47,7 @@ class Generator {
 
     console.log(COORDINATES);
     console.log(JSON.stringify(units));
+    return units;
   }
 }
 
@@ -69,8 +80,26 @@ function createDefenition(units, coords) {
   }
 }
 
-function createLoad(units, coords){
-  const N = coords.length - 1;
+function createLoad(units, coords, isAngle) {
+  for (let i = 0; i < coords.length; i++) {
+    let angle = isAngle ? randint(0, 360) : 90;
+    units.push(create([coords[i]], 1, [randint(-3, 3) * 50, angle]));
+  }
+}
+
+function createMoment(units, coords) {
+  for (let i = 0; i < coords.length; i++) {
+    units.push(create([coords[i]], 2, [randint(-3, 3) * 50]));
+  }
+}
+
+function createDistload(units, coords) {
+  units.push(
+    create([coords[0], coords[coords.length - 1]], 4, [
+      randint(-3, 3) * 50,
+      randint(-3, 3) * 50
+    ])
+  );
 }
 
 function createEmpty(units, coords) {
@@ -107,80 +136,4 @@ function sortUnits(units) {
   });
 }
 
-/** 
-    complexity 0 - Симметричные балки с распределнной нагрузкой,
-    моментами или силами, на выходе будем иметь только эпюры и реакции.
-    complexity 1 - Убираем симметрию, добавляем шарниры и единый материал. 
-    complexity 2 - Добавляем различный материал.
-        
-*/
-function generateUnits(count, complexity) {
-  let units = [];
-  const N = count - 1;
-  let shift = null;
-  let type;
-
-  if (complexity == 1) {
-    // Первым делом сгенерируем закрепление(ия)
-    if (randint(0, 1)) {
-      // Жесткое
-      if (randint(0, 1)) {
-        // В начале отрезка
-        units.push(create(0, [0], 3, [3]));
-      } else {
-        // В конце отрезка
-        units.push(create(N, [N], 3, [3]));
-      }
-    } else {
-      // Шарнирное
-      shift = randint(0, ((N - 1) / 2) >> 0);
-      units.push(create(0 + shift, [0 + shift], 3, [2]));
-      units.push(create(N - shift, [N - shift], 3, [1]));
-    }
-
-    // Сгенерируем тип нагрузки
-    if (randint(0, 1)) {
-      type = 1;
-      for (let id = 0; id < count; id++) {
-        // Не стоит создавать лишние точки
-        if (shift != null) {
-          if (units[0].id != id && units[1].id != id) {
-            units.push(create(id, [id], type, [randint(-3, 3) * 50, 90]));
-          }
-        } else {
-          if (units[0].id != id) {
-            units.push(create(id, [id], type, [randint(-3, 3) * 50, 90]));
-          }
-        }
-      }
-    } else {
-      type = 2;
-      for (let id = 0; id < count; id++) {
-        // Не стоит создавать лишние точки
-        if (shift != null) {
-          if (units[0].id != id && units[1].id != id) {
-            units.push(create(id, [id], type, [randint(-3, 3) * 50]));
-          }
-        } else {
-          if (units[0].id != id) {
-            units.push(create(id, [id], type, [randint(-3, 3) * 50]));
-          }
-        }
-      }
-    }
-  } else if (complexity == 2) {
-    // Шарнирное закрепление
-    shift = randint(0, ((N - 1) / 2) >> 0);
-    units.push(create(0, [0 + shift], 3, [2]));
-    units.push(create(1, [N - shift], 3, [1]));
-
-    // Распределенная нагрузка
-    units.push(
-      create(2, [0, N], 4, [randint(-3, 3) * 50, randint(-3, 3) * 50])
-    );
-  }
-  sortUnits(units);
-  return units;
-}
-
-export { generateUnits, Generator };
+export default Generator;
