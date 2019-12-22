@@ -1,9 +1,113 @@
+class Generator {
+  /** Class can generate units, see settings inside */
+  constructor() {
+    this.settings = {
+      defenition: true,
+      load: true,
+      angle: false,
+      joint: false,
+      moment: false,
+      distload: false,
+      material: false,
+      dif_material: false,
+      fixed_size: true
+    };
+  }
 
+  generate(count_of_units, section) {
+    let units = []; // result
 
-/** Create JSON points 
-* @param {Number} count count of point
-* @param {Number} complexity beam complexity (from 0 to 2)
-* 
+    // Create a vector with coordinates
+    const COORDINATES = createCoord(...arguments);
+
+    // Create defenition units
+    if (this.settings.defenition) {
+      createDefenition(units, COORDINATES);
+    }
+
+    // Create loads
+    if (this.settings.load) {
+      createLoad(units, COORDINATES);
+    }
+
+    // Create empty units
+    if (this.settings.fixed_size) {
+      createEmpty(units, COORDINATES);
+    }
+
+    console.log(COORDINATES);
+    console.log(JSON.stringify(units));
+  }
+}
+
+function createCoord(count_of_units, section) {
+  const [A, B] = section;
+  const H = Math.abs(B - A) / (count_of_units - 1);
+  const result = [];
+  for (let i = 0; i < count_of_units; i++) {
+    result.push(A + H * i);
+  }
+  return result;
+}
+
+function createDefenition(units, coords) {
+  const N = coords.length - 1;
+  if (randint(0, 1)) {
+    // Fixed
+    if (randint(0, 1)) {
+      // At start
+      units.push(create([coords[0]], 3, [3]));
+    } else {
+      // In the end
+      units.push(create([coords[N]], 3, [3]));
+    }
+  } else {
+    // Swivel
+    let shift = randint(0, ((N - 1) / 2) >> 0);
+    units.push(create([coords[0 + shift]], 3, [2]));
+    units.push(create([coords[N - shift]], 3, [1]));
+  }
+}
+
+function createLoad(units, coords){
+  const N = coords.length - 1;
+}
+
+function createEmpty(units, coords) {
+  const N = coords.length - 1;
+  sortUnits(units);
+  // In the end
+  if (units[units.length - 1].x[0] != coords[N]) {
+    units.push(create([coords[N]], 1, [0, 0]));
+  }
+  // At start
+  if (units[0].x[0] != coords[0]) {
+    units.push(create([coords[0]], 1, [0, 0]));
+  }
+}
+
+function create(x, type, value) {
+  return { x, type, value };
+}
+
+function randint(min, max) {
+  let rand = min - 0.5 + Math.random() * (max - min + 1);
+  return Math.round(rand);
+}
+
+function sortUnits(units) {
+  units.sort(function(a, b) {
+    if (a.x[0] < b.x[0]) {
+      return -1;
+    }
+    if (a.x[0] > b.x[0]) {
+      return 1;
+    }
+    return 0;
+  });
+}
+
+/** 
     complexity 0 - Симметричные балки с распределнной нагрузкой,
     моментами или силами, на выходе будем иметь только эпюры и реакции.
     complexity 1 - Убираем симметрию, добавляем шарниры и единый материал. 
@@ -64,39 +168,19 @@ function generateUnits(count, complexity) {
         }
       }
     }
-  } else if (complexity == 2){
+  } else if (complexity == 2) {
     // Шарнирное закрепление
     shift = randint(0, ((N - 1) / 2) >> 0);
     units.push(create(0, [0 + shift], 3, [2]));
     units.push(create(1, [N - shift], 3, [1]));
 
     // Распределенная нагрузка
-    units.push(create(2, [0,N], 4, [randint(-3, 3) * 50, randint(-3, 3) * 50]));
+    units.push(
+      create(2, [0, N], 4, [randint(-3, 3) * 50, randint(-3, 3) * 50])
+    );
   }
   sortUnits(units);
   return units;
 }
 
-function create(id, x, type, value) {
-  return { id, x, type, value };
-}
-
-/** Get a random integer number from (min-0.5) to (max + 0.5) */
-function randint(min, max) {
-  let rand = min - 0.5 + Math.random() * (max - min + 1);
-  return Math.round(rand);
-}
-
-function sortUnits(units) {
-  units.sort(function(a, b) {
-    if (a.x[0] < b.x[0]) {
-      return -1;
-    }
-    if (a.x[0] > b.x[0]) {
-      return 1;
-    }
-    return 0;
-  });
-}
-
-export { generateUnits };
+export { generateUnits, Generator };

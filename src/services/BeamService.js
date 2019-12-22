@@ -1,5 +1,5 @@
 import BeamCalculation from "./FemService/BeamCalculation";
-import { generateUnits } from "./ParseService/Generator";
+import { generateUnits, Generator } from "./ParseService/Generator";
 import { parseUnits } from "./ParseService/Parser";
 import { output } from "./Temporary";
 
@@ -33,6 +33,10 @@ class BeamService {
   /** Use to generate JSON units */
   static generate(count_of_point, complexity = 2) {
     // Control the Generator !!!
+    const G = new Generator();
+
+    G.generate(5, [-5, 5]);
+
     return generateUnits(count_of_point, complexity);
   }
 }
