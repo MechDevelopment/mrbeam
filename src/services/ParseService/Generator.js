@@ -1,4 +1,4 @@
-import { sortX } from "./Parser";
+
 
 /** Create JSON points 
 * @param {Number} count count of point
@@ -73,7 +73,7 @@ function generateUnits(count, complexity) {
     // Распределенная нагрузка
     units.push(create(2, [0,N], 4, [randint(-3, 3) * 50, randint(-3, 3) * 50]));
   }
-  sortX(units);
+  sortUnits(units);
   return units;
 }
 
@@ -87,5 +87,16 @@ function randint(min, max) {
   return Math.round(rand);
 }
 
+function sortUnits(units) {
+  units.sort(function(a, b) {
+    if (a.x[0] < b.x[0]) {
+      return -1;
+    }
+    if (a.x[0] > b.x[0]) {
+      return 1;
+    }
+    return 0;
+  });
+}
 
 export { generateUnits };
