@@ -4,6 +4,7 @@ import { parseUnits } from "./ParseService/Parser";
 import { output } from "./Temporary";
 
 class BeamService {
+  /** Service for interface and server communication */
   constructor() {
     this._results;
   }

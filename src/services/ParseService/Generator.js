@@ -1,5 +1,4 @@
 import { sortX } from "./Parser";
-import { randint } from "../FemService/LinearAlgebra";
 
 /** Create JSON points 
 * @param {Number} count count of point
@@ -81,5 +80,12 @@ function generateUnits(count, complexity) {
 function create(id, x, type, value) {
   return { id, x, type, value };
 }
+
+/** Get a random integer number from (min-0.5) to (max + 0.5) */
+function randint(min, max) {
+  let rand = min - 0.5 + Math.random() * (max - min + 1);
+  return Math.round(rand);
+}
+
 
 export { generateUnits };

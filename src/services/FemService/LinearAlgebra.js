@@ -211,10 +211,10 @@ class LinearAlgebra {
 	}
 }
 
-/** Get a random integer number from (min-0.5) to (max + 0.5) */
-function randint(min, max) {
-    let rand = min - 0.5 + Math.random() * (max - min + 1);
-    return Math.round(rand);
-}
+// /** Get a random integer number from (min-0.5) to (max + 0.5) */
+// function randint(min, max) {
+//     let rand = min - 0.5 + Math.random() * (max - min + 1);
+//     return Math.round(rand);
+// }
 
-export {LinearAlgebra, randint};
+export {LinearAlgebra /*, randint*/};

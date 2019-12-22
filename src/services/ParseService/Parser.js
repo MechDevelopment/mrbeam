@@ -1,5 +1,6 @@
 import { Material, Point, Element } from "../FemService/Element";
 
+/** Parse Units to instances of class Element */
 function parseUnits(units) {
   // Проходимся по всем объектам и делим их на две группы по типам
   let group_1 = [];
