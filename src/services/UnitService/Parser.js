@@ -92,13 +92,13 @@ function preparation(group_1, group_2) {
     }
 
     // Create distributed load as a function
-    if (group_2[i].type == 4 && typeof group_2[i].value != typeof Function) {
+    if (group_2[i].type === 4 && typeof group_2[i].value != typeof Function) {
       let distload = dist_func(group_2[i].x, group_2[i].value);
       group_2[i].value = distload;
     }
 
     // Create material as instance class Material
-    if (group_2[i].type == 5) {
+    if (group_2[i].type === 5 && !(group_2[i].value instanceof Material)) {
       group_2[i].value = new Material(group_2[i].value);
     }
   }

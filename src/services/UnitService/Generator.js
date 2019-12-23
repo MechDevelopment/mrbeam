@@ -79,7 +79,7 @@ class Generator {
 
     sortUnits(units);
     createId(units);
-    console.log(COORDINATES);
+  
     console.log(JSON.stringify(units));
     return units;
   }
