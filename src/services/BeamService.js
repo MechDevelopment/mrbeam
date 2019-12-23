@@ -30,9 +30,9 @@ class BeamService {
   /** Use to generate JSON units */
   static generate(count_of_point, complexity = 2) {
     // Control the Generator !!!
-    const G = new Generator();
-
-    return G.generate(5, [-5, 5]);
+    const GEN = new Generator();
+    GEN.setSettings('ones')
+    return GEN.generate(5, [-5, 5]);
   }
 }
 

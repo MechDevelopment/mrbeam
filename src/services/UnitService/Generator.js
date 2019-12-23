@@ -7,14 +7,62 @@ class Generator {
       moment: false,
       distload: false,
       material: false,
-      one_load: true,
-      one_moment: true,
-      one_distload: true,
-      one_material: true,
-      defenition: true,
+      one_load: false,
+      one_moment: false,
+      one_distload: false,
+      one_material: false,
+      defenition: false,
       one_joint: false,
-      fixed_size: true
+      fixed_size: false
     };
+    this.setSettings('default');
+  }
+
+  /** Set auto settings by key
+   *  @param {String} key - 'default', 'ones', 'all'
+   */
+  setSettings(key = "default") {
+    this.settings = {};
+    switch (key) {
+      case "default":
+        this.settings = {
+          one_load: true,
+          one_material: true,
+          defenition: true,
+          fixed_size: true
+        };
+        break;
+      case "ones":
+        this.settings = {
+          one_load: true,
+          one_moment: true,
+          one_distload: true,
+          one_material: true,
+          defenition: true,
+        };
+        break;
+      case "all":
+        this.settings = {
+          load: true,
+          angle: true,
+          moment: true,
+          distload: true,
+          material: true,
+          one_load: true,
+          one_material: true,
+          defenition: true,
+        };
+        break;
+
+      default:
+        this.settings = {
+          one_load: true,
+          one_material: true,
+          defenition: true,
+          fixed_size: true
+        };
+        break;
+    }
   }
 
   generate(count_of_units, section) {
@@ -79,7 +127,7 @@ class Generator {
 
     sortUnits(units);
     createId(units);
-  
+
     console.log(JSON.stringify(units));
     return units;
   }
