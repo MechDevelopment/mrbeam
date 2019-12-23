@@ -1,6 +1,6 @@
 import BeamCalculation from "./FemService/BeamCalculation";
-import Generator from "./ParseService/Generator";
-import { parseUnits } from "./ParseService/Parser";
+import Generator from "./UnitService/Generator";
+import { parseUnits } from "./UnitService/Parser";
 import { output } from "./Temporary";
 
 class BeamService {

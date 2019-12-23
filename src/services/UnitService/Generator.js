@@ -51,6 +51,7 @@ class Generator {
   }
 }
 
+/** Vector with coordinates */
 function createCoord(count_of_units, section) {
   const [A, B] = section;
   const H = Math.abs(B - A) / (count_of_units - 1);
@@ -61,6 +62,7 @@ function createCoord(count_of_units, section) {
   return result;
 }
 
+/** Set defenitions */
 function createDefenition(units, coords) {
   const N = coords.length - 1;
   if (randint(0, 1)) {
@@ -80,6 +82,7 @@ function createDefenition(units, coords) {
   }
 }
 
+/** Set load in all nodes */
 function createLoad(units, coords, isAngle) {
   for (let i = 0; i < coords.length; i++) {
     let angle = isAngle ? randint(0, 360) : 90;
@@ -87,12 +90,14 @@ function createLoad(units, coords, isAngle) {
   }
 }
 
+/** Set moment in all nodes */
 function createMoment(units, coords) {
   for (let i = 0; i < coords.length; i++) {
     units.push(create([coords[i]], 2, [randint(-3, 3) * 50]));
   }
 }
 
+/** Set one distload */
 function createDistload(units, coords) {
   units.push(
     create([coords[0], coords[coords.length - 1]], 4, [
@@ -102,6 +107,7 @@ function createDistload(units, coords) {
   );
 }
 
+/** Create fixed_size  */
 function createEmpty(units, coords) {
   const N = coords.length - 1;
   sortUnits(units);
@@ -115,15 +121,18 @@ function createEmpty(units, coords) {
   }
 }
 
+/** Create one Unit */
 function create(x, type, value) {
   return { x, type, value };
 }
 
+/** Random intedger from min to max */
 function randint(min, max) {
   let rand = min - 0.5 + Math.random() * (max - min + 1);
   return Math.round(rand);
 }
 
+/** Sort units by x[0] */
 function sortUnits(units) {
   units.sort(function(a, b) {
     if (a.x[0] < b.x[0]) {
