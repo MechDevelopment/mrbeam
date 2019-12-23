@@ -11,9 +11,6 @@ class BeamService {
 
   /** Use to import objects from "store" */
   import(units, split_coeff = 0.5) {
-    // Material
-    units.push({ type: 5, value: [12e6, 0.04909, 0.7854] }); // [E, J, A]
-
     // Parse units to elements for FEM
     let elements = parseUnits(units);
 
