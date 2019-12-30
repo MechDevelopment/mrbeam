@@ -20,6 +20,7 @@ class BeamService {
 
     // Console output
     output(BC.getSolution());
+    output(BC.solution2);
   }
 
   /** Use to get points for charts */

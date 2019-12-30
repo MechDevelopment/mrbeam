@@ -14,10 +14,13 @@ class BeamCalculation {
 
         // Рассчитываем балку
         const CALCULATION = calculate(...arguments);
+        const CALCULATION2 = calculate2(...arguments);
 
         // Строим точки для графиков
         let CP = new ChartPoints(...arguments, ...CALCULATION);
+        let CP2 = new ChartPoints(...arguments, ...CALCULATION2);
         this.solution = CP.getChartPoints();
+        this.solution2 = CP2.getChartPoints();
     }
 
     /** Solution - JSON object with calculated data */
@@ -36,7 +39,7 @@ function calculate(elements, split_coeff) {
     // Строим глобальная матрицу жесткости и глобальный вектор
     const MATRIX = LinearAlgebra.createGlobalMatrix(...arguments, N);
     const VECTOR = LinearAlgebra.createGlobalVector(...arguments, N);
-
+    
     // Вектор граничных условий
     const DEFENITIONS = LinearAlgebra.createDefVector(...arguments, N);
 
@@ -47,8 +50,31 @@ function calculate(elements, split_coeff) {
     // Получаем всевозможные решения
     const SOLUTIONS = LinearAlgebra.solve(DMATRIX, DVECTOR);
     const REACTIONS = LinearAlgebra.multiply(SOLUTIONS, MATRIX);
-
+    console.log(DMATRIX == MATRIX)
     return [SOLUTIONS.tolist(), REACTIONS.tolist()];
+}
+
+function calculate2(elements, split_coeff) {
+    // Количество элементов
+    const N = elements.length;
+
+    // Строим глобальная матрицу жесткости и глобальный вектор
+    const MATRIX = LinearAlgebra2.createGlobalMatrix(...arguments, N);
+    const VECTOR = LinearAlgebra2.createGlobalVector(...arguments, N);
+
+    
+    // Вектор граничных условий
+    const DEFENITIONS = LinearAlgebra2.createDefVector(...arguments, N);
+
+    // Учитывая граничные условия имеем
+    const DMATRIX = LinearAlgebra2.setDefMatrix(MATRIX, DEFENITIONS);
+    const DVECTOR = LinearAlgebra2.setDefVector(VECTOR, DEFENITIONS);
+
+    // Получаем всевозможные решения
+    const SOLUTIONS = LinearAlgebra2.solve(DMATRIX, DVECTOR);
+    const REACTIONS = LinearAlgebra2.multiply(SOLUTIONS, MATRIX);
+    console.log(DMATRIX ==  MATRIX)
+    return [SOLUTIONS, REACTIONS];
 }
 
 function fragmentation(elems, split_coeff) {

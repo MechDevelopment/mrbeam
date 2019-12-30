@@ -347,7 +347,7 @@ class LinearAlgebra2 {
   
       // Не забываем про самую последнюю точку
       vector[3 + 3 * (count - 1)] = local[3];
-      vector[4 + 3 * (count - 1)] = local[5];
+      vector[4 + 3 * (count - 1)] = local[4];
       vector[5 + 3 * (count - 1)] = local[5];
   
       return vector;
@@ -373,7 +373,7 @@ class LinearAlgebra2 {
   
       // Не забываем про самую последнюю точку
       vector[3 + 3 * (count - 1)] = local[3];
-      vector[4 + 3 * (count - 1)] = local[5];
+      vector[4 + 3 * (count - 1)] = local[4];
       vector[5 + 3 * (count - 1)] = local[5];
   
       return vector;
@@ -384,8 +384,9 @@ class LinearAlgebra2 {
       const N = def.length;
   
       // Clone
+      let a = [];
       for (let i = 0; i < matrix.length; i++) {
-        matrix[i] = [...matrix[i]];
+        a[i] = [...matrix[i]];
       }
   
       // Проходимся по вектору def
@@ -393,13 +394,13 @@ class LinearAlgebra2 {
         // Находим закрепление
         if (def[index]) {
           for (let i = 0; i < N; i++) {
-            matrix[i][index] = 0;
-            matrix[index][i] = 0;
+            a[i][index] = 0;
+           a[index][i] = 0;
           }
-          matrix[index][index] = 1;
+          a[index][index] = 1;
         }
       }
-      return matrix;
+      return a;
     }
   
     static setDefVector(vector, def) {
