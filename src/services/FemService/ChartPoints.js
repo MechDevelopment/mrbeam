@@ -26,8 +26,8 @@ class ChartPoints {
 	displacement() {
 		let eps = 1000000;
 		let result = [];
-		for (let i = 0; i < this.solutions.size / 3; i++) {
-			result.push(Math.round(this.solutions.get(1 + i * 3) * eps) / eps);
+		for (let i = 0; i < this.solutions.length / 3; i++) {
+			result.push(Math.round(this.solutions[1 + i * 3] * eps) / eps);
 		}
 		return result;
 	}
@@ -36,13 +36,13 @@ class ChartPoints {
 	shear() {
 		let eps = 100000;
 		let result = [];
-		let add = this.reactions.get(1);
-		for (let i = 0; i < this.reactions.size / 3 - 1; i++) {
+		let add = this.reactions[1];
+		for (let i = 0; i < this.reactions.length / 3 - 1; i++) {
 			result.push(
 				Math.round(add * eps) / eps,
 				Math.round(add * eps) / eps
 			);
-			add += this.reactions.get(1 + (i + 1) * 3);
+			add += this.reactions[1 + (i + 1) * 3];
 		}
 		return result;
 	}

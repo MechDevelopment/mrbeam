@@ -48,7 +48,7 @@ function calculate(elements, split_coeff) {
     const SOLUTIONS = LinearAlgebra.solve(DMATRIX, DVECTOR);
     const REACTIONS = LinearAlgebra.multiply(SOLUTIONS, MATRIX);
 
-    return [SOLUTIONS, REACTIONS];
+    return [SOLUTIONS.tolist(), REACTIONS.tolist()];
 }
 
 function fragmentation(elems, split_coeff) {

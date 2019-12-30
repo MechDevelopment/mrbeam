@@ -32,7 +32,7 @@ class BeamService {
     // Control the Generator !!!
     const GEN = new Generator();
     GEN.setSettings('ones')
-    return GEN.generate(5, [-5, 5]);
+    return GEN.generate(5, [0, 5]);
   }
 }
 
