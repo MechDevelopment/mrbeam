@@ -70,8 +70,10 @@ function preparation(group_1, group_2) {
     let [x1, x2] = x;
     let [y1, y2] = p;
     return function(t) {
-      let k = (y1 - y2) / (x1 - x2);
+      // Catch division by zero
+      let k = x1 - x2 ? (y1 - y2) / (x1 - x2) : 0;
       let b = y1 - x1 * k;
+
       return k * t + b;
     };
   }
