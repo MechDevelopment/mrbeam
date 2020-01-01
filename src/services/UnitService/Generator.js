@@ -232,6 +232,7 @@ function createOneMaterial(units, coords) {
 function createDefenition(units, coords, isJoint) {
   const N = coords.length - 1;
   if (isJoint) {
+    let shift = randint(0, ((N - 1) / 2) >> 0);
     if (randint(0, 1)) {
       // Fixed
       // At start
