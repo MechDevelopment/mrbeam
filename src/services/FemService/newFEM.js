@@ -256,3 +256,128 @@ function point(x, def = [0, 0, 0], load = 0, moment = 0, joint = false) {
   const sol = solve(DGM, DGV);
   
   console.log("Example 1", reaction(elems, sol, index));
+
+  
+//////////////////////////////////////////////////////////////
+const p21 = point(0, [1, 1, 1]);
+const p22 = point(10, [0, 0, 0]);
+
+const e21 = element([p21, p22], [10, 10], { E: 12.0e6, J: 0.04909, A: 0.7854 });
+
+const elems2 = [e21];
+const index2 = indexM(elems2);
+const GM2 = globalM(elems2, index2);
+const GV2 = globalF(elems2, index2);
+const DGM2 = defM(GM2, index2);
+const DGV2 = defF(GV2, index2);
+
+const sol2 = solve(DGM2, DGV2);
+console.log("Example 2", solve(DGM2, DGV2));
+console.log("Example 2", reaction(elems2, sol2, index2));
+
+//////////////////////////////////////////////////////////////
+const p31 = point(0, [1, 1, 0]);
+const p32 = point(5, [0, 0, 0], -100);
+const p33 = point(10, [0, 1, 0]);
+
+const e31 = element([p31, p32], [-60, -60], { E: 1, J: 1, A: 1 });
+const e32 = element([p32, p33]);
+
+const elems3 = [e31, e32];
+const index3 = indexM(elems3);
+const GM3 = globalM(elems3, index3);
+const GV3 = globalF(elems3, index3);
+const DGM3 = defM(GM3, index3);
+const DGV3 = defF(GV3, index3);
+
+const sol3 = solve(DGM3, DGV3);
+console.log("Example 3", solve(DGM3, DGV3));
+console.log("Example 3", reaction(elems3, sol3, index3));
+
+// КОСАЯ НАГРУЗКА
+//////////////////////////////////////////////////////////////
+const p41 = point(0, [1, 1, 1]);
+const p42 = point(10);
+
+const e41 = element([p41, p42], [0, -10], { E: 1, J: 1, A: 1 });
+
+const elems4 = [e41];
+const index4 = indexM(elems4);
+const GM4 = globalM(elems4, index4);
+const GV4 = globalF(elems4, index4);
+const DGM4 = defM(GM4, index4);
+const DGV4 = defF(GV4, index4);
+
+const sol4 = solve(DGM4, DGV4);
+console.log("Example 4", solve(DGM4, DGV4));
+console.log("Example 4", reaction(elems4, sol4, index4));
+
+
+// СЛОЖНАЯ БАЛКА
+//////////////////////////////////////////////////////////////
+const p51 = point(0, [1, 1, 0]);
+const p52 = point(2, [0, 0, 0], 0, 20);
+const p53 = point(3, [0, 1, 0]);
+const p54 = point(4.5, [0,0,0], -10);
+
+const e51 = element([p51, p52], [-10, -10], { E: 1, J: 1, A: 1 });
+const e52 = element([p52, p53], [-10, -10], { E: 1, J: 1, A: 1 });
+const e53 = element([p53, p54], [0, 0], { E: 1, J: 1, A: 1 });
+
+const elems5 = [e51,e52, e53];
+const index5 = indexM(elems5);
+const GM5 = globalM(elems5, index5);
+const GV5 = globalF(elems5, index5);
+const DGM5 = defM(GM5, index5);
+const DGV5 = defF(GV5, index5);
+
+const sol5 = solve(DGM5, DGV5);
+console.log("Example 5", solve(DGM5, DGV5));
+console.log("Example 5", reaction(elems5, sol5, index5));
+
+// СЛОЖНАЯ БАЛКА С ШАРНИРОМ
+//////////////////////////////////////////////////////////////
+const p61 = point(0, [1, 1, 1]);
+const p62 = point(4, [0, 0, 0], 0, 0, true);
+const p63 = point(6, [0, 1, 0], 0, -5);
+
+
+const e61 = element([p61, p62], [-2, -2], { E: 1, J: 1, A: 1 });
+const e62 = element([p62, p63]);
+
+const elems6 = [e61,e62];
+const index6 = indexM(elems6);
+const GM6 = globalM(elems6, index6);
+const GV6 = globalF(elems6, index6);
+const DGM6 = defM(GM6, index6);
+const DGV6 = defF(GV6, index6);
+
+const sol6 = solve(DGM6, DGV6);
+console.log("Example 6", solve(DGM6, DGV6));
+console.log("Example 6", reaction(elems6, sol6, index6));
+
+// СУПЕР СЛОЖНАЯ БАЛКА С ШАРНИРОМ
+//////////////////////////////////////////////////////////////
+const p71 = point(0, [0, 0, 0], -10);
+const p72 = point(2, [0, 1, 0]);
+const p73 = point(4, [0, 0, 0], 0, 0, true);
+const p74 = point(6, [1, 1, 0], 0, -4);
+const p75 = point(8, [0, 0, 0]);
+const p76 = point(10, [0, 1, 0]);
+
+const e71 = element([p71, p72]);
+const e72 = element([p72, p73]);
+const e73 = element([p73, p74]);
+const e74 = element([p74, p75],[-2,-2]);
+const e75 = element([p75, p76],[-2,-2]);
+
+const elems7 = [e71,e72,e73,e74,e75];
+const index7 = indexM(elems7);
+const GM7 = globalM(elems7, index7);
+const GV7 = globalF(elems7, index7);
+const DGM7 = defM(GM7, index7);
+const DGV7 = defF(GV7, index7);
+
+const sol7 = solve(DGM7, DGV7);
+console.log("Example 7", solve(DGM7, DGV7));
+console.log("Example 7", reaction(elems7, sol7, index7));
