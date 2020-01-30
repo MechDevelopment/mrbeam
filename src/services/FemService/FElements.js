@@ -27,15 +27,15 @@
  *                             / локальный вектор из распределенной нагрузки
  */
 
-function node(x, def = [0, 0, 0], load = 0, moment = 0, joint = false) {
-  return { x, def, load, moment, joint };
-}
-
 function element(nodes, distload = null, mat = { E: 1, J: 1, A: 1 }) {
   const len = nodes[1].x - nodes[0].x;
   const loc = local(len, mat);
   const fdist = fdistload(len, distload);
   return { nodes, distload, mat, len, loc, fdist };
+}
+
+function node(x, def = [0, 0, 0], load = 0, moment = 0, joint = false) {
+  return { x, def, load, moment, joint };
 }
 
 function local(l, mat) {
@@ -83,3 +83,6 @@ function fdistload(l, q) {
   }
   return dist;
 }
+
+//export { element, node };
+module.exports = { element, node };
