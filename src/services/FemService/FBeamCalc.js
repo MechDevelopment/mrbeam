@@ -1,3 +1,12 @@
+/** Beam calculation
+ *
+ * Calculation progress:
+ *  1. fragmentation elements / увеличение количества элементов
+ *  2. global matrix and global vector formation / ансамблирование элементов
+ *  3. SLAU solution and finding reactions / решение СЛАУ и отыскание реакций опор
+ *  4. chart results creation / создание результатов и графиков
+ */
+
 //import { element, node } from "./FElements";
 //import { supporting, globalM, globalV, solve, reaction } from "./FAlgebra";
 
