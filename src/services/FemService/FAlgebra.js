@@ -177,4 +177,5 @@ function reaction(elems, sol, { indexs }) {
   return elems.map(e => e.reaction);
 }
 
+//export { indexM, globalM, globalF, defM, defF, solve, reaction };
 module.exports = { indexM, globalM, globalF, defM, defF, solve, reaction };

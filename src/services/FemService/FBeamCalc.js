@@ -28,3 +28,6 @@ const e3 = element([p3, p4], [-4, -4], { E: 2, J: 1, A: 1 });
 
 const elems = [e1, e2, e3];
 beamCalculate(elems);
+
+//export { beamCalculate }
+module.exports = { beamCalculate };
