@@ -87,6 +87,36 @@ function defF(v, { defs }) {
   return v;
 }
 
+/** Умножение матрицы на вектор */
+function multiply(v, M) {
+  if (M[0].length != v.length) console.log("incorrect size matrix");
+  let sum;
+  let result = [];
+  for (let i = 0; i < M.length; i++) {
+    sum = 0;
+    for (let j = 0; j < M[0].length; j++) {
+      sum += M[i][j] * v[j];
+    }
+    result.push(sum);
+  }
+  return result;
+}
+
+function reaction(elems, sol, { indexs }) {
+  for (let i in elems) {
+    elems[i].reaction = multiply(
+      [
+        sol[indexs[i][0]],
+        sol[indexs[i][1]],
+        sol[indexs[i][2]],
+        sol[indexs[i][3]]
+      ],
+      elems[i].loc
+    ).map((el, ind) => el - elems[i].fdist[ind]);
+  }
+  return elems.map(e => e.reaction);
+}
+
 function solve(M, f) {
   // Константы
   let a = [];
@@ -147,35 +177,58 @@ function solve(M, f) {
   return result;
 }
 
-/** Умножение матрицы на вектор */
-function multiply(v, M) {
-  if (M[0].length != v.length) console.log("incorrect size matrix");
-  let sum;
-  let result = [];
+function SLAU(M, f) {
+  // Константы
+  let a = [];
   for (let i = 0; i < M.length; i++) {
-    sum = 0;
-    for (let j = 0; j < M[0].length; j++) {
-      sum += M[i][j] * v[j];
+    a[i] = [...M[i]];
+  }
+
+  let n = a.length;
+  let flag;
+
+  // Составляем СЛАУ
+  for (let i = 0; i < n; i++) {
+    a[i].push(f[i]);
+  }
+
+  // Вычисления
+  for (let i = 0; i < n; i++) {
+    // Идем по диагонали
+    if (a[i][i] != 1) {
+      // Убираем число неравное 1
+      let aii = a[i][i];
+      for (let j = i - 4 > 0 ? i - 4 : 0; j < n + 1; j++) {
+        a[i][j] /= aii;
+      }
     }
-    result.push(sum);
+    // Изменяем строки
+    for (let j = 0; j < (i + 5 < n ? i + 5 : n); j++) {
+      if (j == i || a[j][i] == 0) {
+        continue;
+      }
+      let aji = a[j][i];
+      for (let k = i; k < n + 1; k++) {
+        a[j][k] -= a[i][k] * aji;
+      }
+    }
+  }
+  // Возвращаем результат
+  let result = [];
+  for (let i = 0; i < n; i++) {
+    result.push(a[i][n]);
   }
   return result;
 }
 
-function reaction(elems, sol, { indexs }) {
-  for (let i in elems) {
-    elems[i].reaction = multiply(
-      [
-        sol[indexs[i][0]],
-        sol[indexs[i][1]],
-        sol[indexs[i][2]],
-        sol[indexs[i][3]]
-      ],
-      elems[i].loc
-    ).map((el, ind) => el - elems[i].fdist[ind]);
-  }
-  return elems.map(e => e.reaction);
-}
-
 //export { indexM, globalM, globalF, defM, defF, solve, reaction };
-module.exports = { indexM, globalM, globalF, defM, defF, solve, reaction };
+module.exports = {
+  indexM,
+  globalM,
+  globalF,
+  defM,
+  defF,
+  solve,
+  SLAU,
+  reaction
+};

@@ -4,7 +4,7 @@
 
 const { element, node } = require("./FElements");
 const { indexM, globalM, globalF, defM, defF } = require("./FAlgebra");
-const { solve, reaction } = require("./FAlgebra");
+const { SLAU, solve, reaction } = require("./FAlgebra");
 
 function beamCalculate(elems, split_coeff = 1.0) {
   const index = indexM(elems);
@@ -12,9 +12,15 @@ function beamCalculate(elems, split_coeff = 1.0) {
   const GV = globalF(elems, index);
   const DGM = defM(GM, index);
   const DGV = defF(GV, index);
-  const solution = solve(DGM, DGV);
-  console.log("Solution: ", solution);
-  console.log("Reactions: ", reaction(elems, solution, index));
+  console.time("1: ");
+  const solution = solve(Object.assign([], DGM), DGV);
+  console.timeEnd("1: ");
+  console.time("2: ");
+  const solution2 = SLAU(Object.assign([], DGM), DGV);
+  console.timeEnd("2: ");
+  console.log(solution, solution2)
+  //console.log("Solution: ", solution);
+  //console.log("Reactions: ", reaction(elems, solution, index));
 }
 
 const p1 = node(0, [1, 1, 1]);
