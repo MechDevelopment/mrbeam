@@ -1,26 +1,27 @@
 //import { element, node } from "./FElements";
-//import { indexM, globalM, globalF, defM, defF } from "./FAlgebra";
+//import { indexM, globalM, globalV, defM, defF } from "./FAlgebra";
 //import { solve, reaction } from "./FAlgebra";
 
 const { element, node } = require("./FElements");
-const { indexM, globalM, globalF, defM, defF } = require("./FAlgebra");
-const { SLAU, solve, reaction } = require("./FAlgebra");
+const { supporting, globalM, globalV, solve, reaction } = require("./FAlgebra");
 
 function beamCalculate(elems, split_coeff = 1.0) {
-  const index = indexM(elems);
-  const GM = globalM(elems, index);
-  const GV = globalF(elems, index);
-  const DGM = defM(GM, index);
-  const DGV = defF(GV, index);
+  // ансамблирование элементов
+  const index = supporting(elems);
+
+  const DGM = globalM(elems, index);
+  const DGV = globalV(elems, index);
+  //const DGM = defM(GM, index);
+  //const DGV = defF(GV, index);
   console.time("1: ");
   const solution = solve(Object.assign([], DGM), DGV);
   console.timeEnd("1: ");
-  console.time("2: ");
-  const solution2 = SLAU(Object.assign([], DGM), DGV);
-  console.timeEnd("2: ");
-  console.log(solution, solution2)
-  //console.log("Solution: ", solution);
-  //console.log("Reactions: ", reaction(elems, solution, index));
+  // console.time("2: ");
+  // const solution2 = SLAU(Object.assign([], DGM), DGV);
+  // console.timeEnd("2: ");
+  // console.log(solution, solution2)
+  console.log("Solution: ", solution);
+  console.log("Reactions: ", reaction(elems, solution, index));
 }
 
 const p1 = node(0, [1, 1, 1]);
