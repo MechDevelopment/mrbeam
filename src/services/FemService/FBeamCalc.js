@@ -1,41 +1,55 @@
 //import { element, node } from "./FElements";
-//import { indexM, globalM, globalV, defM, defF } from "./FAlgebra";
-//import { solve, reaction } from "./FAlgebra";
+//import { supporting, globalM, globalV, solve, reaction } from "./FAlgebra";
 
 const { element, node } = require("./FElements");
 const { supporting, globalM, globalV, solve, reaction } = require("./FAlgebra");
 
-function beamCalculate(elems, split_coeff = 1.0) {
-  // ансамблирование элементов
-  const index = supporting(elems);
+function beamCalculate(elems, split_coeff = 1) {
+  // fragmenetation
+  fragmentation(elems, split_coeff);
 
-  const DGM = globalM(elems, index);
-  const DGV = globalV(elems, index);
-  //const DGM = defM(GM, index);
-  //const DGV = defF(GV, index);
-  console.time("1: ");
-  const solution = solve(Object.assign([], DGM), DGV);
-  reaction(elems, solution, index)
-  console.timeEnd("1: ");
-  // console.time("2: ");
-  // const solution2 = SLAU(Object.assign([], DGM), DGV);
-  // console.timeEnd("2: ");
-  // console.log(solution, solution2)
+  // ansamblirovanie elements
+  const support = supporting(elems);
+  const GM = globalM(elems, support);
+  const GV = globalV(elems, support);
+
+  const solution = solve(GM, GV);
+  reaction(elems, solution, support);
+
   console.log("Solution: ", solution);
-  console.log("Reactions: ", elems.map(e => e.reaction));
+  // console.log(
+  //   "Reactions: ",
+  //   elems.map(e => e.reaction)
+  // );
 }
 
-const p1 = node(0, [1, 1, 1]);
-const p2 = node(6, [0, 0, 0], -8, 0, true);
-const p3 = node(11, [0, 1, 0]);
-const p4 = node(15, [0, 1, 0]);
+function fragmentation(elems, split_coeff) {
+  // variables
+  let count, new_node, new_elem;
 
-const e1 = element([p1, p2], [-4, -4], { E: 3, J: 1, A: 1 });
-const e2 = element([p2, p3], [-4, -4], { E: 1, J: 1, A: 1 });
-const e3 = element([p3, p4], [-4, -4], { E: 2, J: 1, A: 1 });
+  // go array elements from the end
+  for (let i = elems.length - 1; i >= 0; i--) {
+    count = elems[i].len / split_coeff;
 
-const elems = [e1, e2, e3];
-beamCalculate(elems);
+    for (let j = 1; j < count; j++) {
+      // create an additional node
+      new_node = node(elems[i].nodes[1].x - split_coeff);
+
+      // duplicate the element by changing the second node
+      new_elem = element(
+        [elems[i].nodes[0], new_node],
+        elems[i].distload,
+        elems[i].mat
+      );
+
+      // reduce the "old" element
+      elems[i].nodes[0] = new_node;
+
+      // add a new element before the "old"
+      elems.splice(i, 0, new_elem);
+    }
+  }
+}
 
 //export { beamCalculate }
 module.exports = { beamCalculate };
