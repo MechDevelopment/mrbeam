@@ -9,9 +9,11 @@
 
 //import { element, node } from "./FElements";
 //import { supporting, globalM, globalV, solve, reaction } from "./FAlgebra";
+//import { chartResults } from "./FCharts";
 
 const { element, node } = require("./FElements");
 const { supporting, globalM, globalV, solve, reaction } = require("./FAlgebra");
+const { chartResults } = require("./FCharts");
 
 function beamCalculate(elems, split_coeff = 1) {
   // fragmenetation
@@ -30,6 +32,8 @@ function beamCalculate(elems, split_coeff = 1) {
   //   "Reactions: ",
   //   elems.map(e => e.reaction)
   // );
+
+  return chartResults(elems, solution);
 }
 
 function fragmentation(elems, split_coeff) {
