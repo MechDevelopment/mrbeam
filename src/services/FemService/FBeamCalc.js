@@ -15,13 +15,14 @@ function beamCalculate(elems, split_coeff = 1.0) {
   //const DGV = defF(GV, index);
   console.time("1: ");
   const solution = solve(Object.assign([], DGM), DGV);
+  reaction(elems, solution, index)
   console.timeEnd("1: ");
   // console.time("2: ");
   // const solution2 = SLAU(Object.assign([], DGM), DGV);
   // console.timeEnd("2: ");
   // console.log(solution, solution2)
   console.log("Solution: ", solution);
-  console.log("Reactions: ", reaction(elems, solution, index));
+  console.log("Reactions: ", elems.map(e => e.reaction));
 }
 
 const p1 = node(0, [1, 1, 1]);

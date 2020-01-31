@@ -7,10 +7,10 @@
  *  s        - size of global matrix          / размер глобальной матрицы
  *  globalM  - global matrix (size: [s, s])   / глобальная матрица
  *  globalV  - global vector (size: [s])      / глобальный грузовой вектор
- * 
+ *
  *  solve    - SLAU solution (matrix,vector)  / решение СЛАУ, возвращает вектор
  *  reaction - add support reactions (R, M)   / добавляет реакции опор
- *  
+ *
  *  multiply - matrix vector multiplication   / умножение матрицы на вектор
  *  filled   - creating a filled array        / создание заполненного массива
  */
@@ -88,100 +88,62 @@ function globalV(elems, { indexM, defV, s }) {
 
 /////////////////////////////////////////////////////////////////////////
 
-function solve(M,f) {
-  // Константы
-  let a = [];
-  for (let i = 0; i < M.length; i++) {
-    a[i] = [...M[i]];
-  }
+function solve(matrix, vector) {
+  // size
+  const n = matrix.length;
 
-  let n = a.length;
-  let flag;
+  // create SLAU
+  for (let i = 0; i < n; i++) matrix[i].push(vector[i]);
 
-  // Составляем СЛАУ
+  // go along the diagonal elements
   for (let i = 0; i < n; i++) {
-    a[i].push(f[i]);
-  }
-
-  // Вычисления
-  for (let i = 0; i < n; i++) {
-    // Идем по диагонали
-    if (a[i][i] != 1) {
-      // Убираем 0
-      if (a[i][i] == 0) {
-        flag = true;
-        for (let j = i + 1; j < n - 1; j++) {
-          if (a[j][i] != 0) {
-            let ai = a[i];
-            a[i] = a[j];
-            a[j] = ai;
-            flag = false;
-          }
-        }
-        // Выводим null, если нельзя убрать 0
-        if (flag) {
-          return null;
-        }
-      }
-      // Убираем число неравное 1
-      let aii = a[i][i];
-      for (let j = 0; j < n + 1; j++) { // for (let j = i - 4 > 0 ? i - 4 : 0; j < n + 1; j++)
-        a[i][j] /= aii;
-      }
+    // make diagonal equal one
+    if (matrix[i][i] != 1) {
+      let aii = matrix[i][i];
+      for (let j = 0; j < n + 1; j++) matrix[i][j] /= aii;
     }
-    // Изменяем строки
-    for (let j = 0; j < n; j++) { // for (let j = 0; j < (i + 5 < n ? i + 5 : n); j++) {
-      if (j == i || a[j][i] == 0) {
-        continue;
-      }
-      let aji = a[j][i];
+
+    // change the other lines
+    for (let j = 0; j < n; j++) {
+      if (j == i || matrix[j][i] == 0) continue;
+
+      let aji = matrix[j][i];
       for (let k = i; k < n + 1; k++) {
-        a[j][k] -= a[i][k] * aji;
+        matrix[j][k] -= matrix[i][k] * aji;
       }
     }
   }
-  // Возвращаем результат
-  let result = [];
-  for (let i = 0; i < n; i++) {
-    result.push(a[i][n]);
-  }
-  return result;
+
+  return matrix.map(element => element[n]);
 }
 
-function reaction(elems, sol, { indexM }) {
+function reaction(elems, solution, { indexM }) {
   for (let i in elems) {
-    elems[i].reaction = multiply(
-      [
-        sol[indexM[i][0]],
-        sol[indexM[i][1]],
-        sol[indexM[i][2]],
-        sol[indexM[i][3]]
-      ],
-      elems[i].loc
-    ).map((el, ind) => el - elems[i].fdist[ind]);
+    const sol = indexM[i].map(element => solution[element]);
+
+    elems[i].reaction = multiply(elems[i].loc, sol).map(
+      (element, index) => element - elems[i].fdist[index]
+    );
   }
-  return elems.map(e => e.reaction);
 }
 
 /////////////////////////////////////////////////////////////////////////
 
-/** Умножение матрицы на вектор */
-function multiply(v, M) {
-  if (M[0].length != v.length) console.log("incorrect size matrix");
+function multiply(matrix, vector) {
   let sum;
   let result = [];
-  for (let i = 0; i < M.length; i++) {
+  for (let i = 0; i < matrix.length; i++) {
     sum = 0;
-    for (let j = 0; j < M[0].length; j++) {
-      sum += M[i][j] * v[j];
+    for (let j = 0; j < matrix[0].length; j++) {
+      sum += matrix[i][j] * vector[j];
     }
     result.push(sum);
   }
   return result;
 }
 
-// zeros, ones alternative
 function filled(list, value) {
+  // zeros, ones alternative
   // list: [n] - vector, [n, m] - matrix
   let result = [];
   for (let i = 0; i < list[0]; i++) {
@@ -191,7 +153,8 @@ function filled(list, value) {
   return result;
 }
 
-//export { indexM, globalM, globalV, defM, defF, solve, reaction };
+//export { supporting, globalM, globalV, solve, reaction };
+
 module.exports = {
   supporting,
   globalM,
