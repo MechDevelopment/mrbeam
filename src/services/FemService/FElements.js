@@ -71,13 +71,12 @@ function local(l, mat) {
 function fdistload(x1, x2, l, distload) {
   // q - [функция, функция]
   const dist = [0, 0, 0, 0];
-  if (!distload) return dist;
+  if (!distload[0]) return dist;
   let q = [0, 0];
   distload.map(element => {
     q[0] += element(x1);
     q[1] += element(x2);
   });
-
   if (q) {
     if (q[0] == q[1]) {
       dist[0] = (q[0] * l ** 1) / 2;

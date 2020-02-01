@@ -8,7 +8,7 @@ function chartResults(elems) {
   for (let i in elems) {
     labels.push(elems[i].nodes[0].x, elems[i].nodes[1].x);
     displacement.push(elems[i].solution[0], elems[i].solution[2]);
-    shear.push(elems[i].reaction[0], elems[i].reaction[1]);
+    shear.push(elems[i].reaction[0], elems[i].reaction[2]);
   }
 
   console.log(labels, displacement, shear);

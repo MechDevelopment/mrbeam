@@ -136,13 +136,13 @@ function decryption(instance, type, value) {
     case 3:
       switch (value[0]) {
         case 1:
-          instance.def = [0, 1, 0];
+          instance.def = [1, 1, 1];
           break;
         case 2:
           instance.def = [1, 1, 0];
           break;
         case 3:
-          instance.def = [1, 1, 1];
+          instance.def = [0, 1, 1];
           break;
         case 4:
           instance.joint = true;
