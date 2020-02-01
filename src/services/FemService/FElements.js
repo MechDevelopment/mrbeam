@@ -27,10 +27,10 @@
  *                              / локальный вектор из распределенной нагрузки
  */
 
-function element(nodes, distload = null, mat = { E: 1, J: 1, A: 1 }) {
+function element(nodes, distload = [], mat = { E: 1, J: 1, A: 1 }) {
   const len = nodes[1].x - nodes[0].x;
   const loc = local(len, mat);
-  const fdist = fdistload(len, distload);
+  const fdist = fdistload(nodes[0].x, nodes[1].x, len, distload);
   return { nodes, distload, mat, len, loc, fdist };
 }
 
@@ -68,8 +68,16 @@ function local(l, mat) {
   ];
 }
 
-function fdistload(l, q) {
+function fdistload(x1, x2, l, distload) {
+  // q - [функция, функция]
   const dist = [0, 0, 0, 0];
+  if (!distload) return dist;
+  let q = [0, 0];
+  distload.map(element => {
+    q[0] += element(x1);
+    q[1] += element(x2);
+  });
+
   if (q) {
     if (q[0] == q[1]) {
       dist[0] = (q[0] * l ** 1) / 2;

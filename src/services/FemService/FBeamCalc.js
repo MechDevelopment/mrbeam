@@ -11,9 +11,10 @@ import { element, node } from "./FElements";
 import { supporting, globalM, globalV, solve, reaction } from "./FAlgebra";
 import { chartResults } from "./FCharts";
 
-function beamCalculate(elems, split_coeff = 1) {
+function beamCalculate(elems, split_coeff = 0.1) {
   // fragmenetation
-  fragmentation(elems, split_coeff);
+  //fragmentation(elems, split_coeff);
+  elems = elems.map(e => element(e.nodes, e.distload, e.map));
 
   // ansamblirovanie elements
   const support = supporting(elems);

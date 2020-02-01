@@ -12,10 +12,10 @@ class BeamService {
   /** Use to import objects from "store" */
   import(units, split_coeff = 0.5) {
     // Parse units to elements for FEM
-    let elements = parseUnits(units);
+    let elems = parseUnits(units);
 
     // Create FEM solution
-    const BC = beamCalculate();
+    const BC = beamCalculate(elems);
     this._results = BC;
 
     // Console output
