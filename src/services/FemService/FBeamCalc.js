@@ -27,13 +27,13 @@ function beamCalculate(elems, split_coeff = 1) {
   const solution = solve(GM, GV);
   reaction(elems, solution, support);
 
-  console.log("Solution: ", solution);
+  //console.log("Solution: ", solution);
   // console.log(
   //   "Reactions: ",
   //   elems.map(e => e.reaction)
   // );
 
-  return chartResults(elems, solution);
+  return chartResults(elems);
 }
 
 function fragmentation(elems, split_coeff) {

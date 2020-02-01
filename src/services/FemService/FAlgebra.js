@@ -119,9 +119,8 @@ function solve(matrix, vector) {
 
 function reaction(elems, solution, { indexM }) {
   for (let i in elems) {
-    const sol = indexM[i].map(element => solution[element]);
-
-    elems[i].reaction = multiply(elems[i].loc, sol).map(
+    elems[i].solution = indexM[i].map(element => solution[element]);
+    elems[i].reaction = multiply(elems[i].loc, elems[i].solution).map(
       (element, index) => element - elems[i].fdist[index]
     );
   }
