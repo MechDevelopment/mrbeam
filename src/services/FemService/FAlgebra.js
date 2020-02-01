@@ -152,12 +152,4 @@ function filled(list, value) {
   return result;
 }
 
-//export { supporting, globalM, globalV, solve, reaction };
-
-module.exports = {
-  supporting,
-  globalM,
-  globalV,
-  solve,
-  reaction
-};
+export { supporting, globalM, globalV, solve, reaction };

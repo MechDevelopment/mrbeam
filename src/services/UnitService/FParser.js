@@ -166,4 +166,4 @@ function isCollision(group_1, group_2, i, j) {
   let [y1, y2] = p2;
   return y1 <= x1 && y2 >= x2;
 }
-export { parseUnits };
+export default parseUnits;

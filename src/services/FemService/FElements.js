@@ -84,5 +84,4 @@ function fdistload(l, q) {
   return dist;
 }
 
-//export { element, node };
-module.exports = { element, node };
+export { element, node };

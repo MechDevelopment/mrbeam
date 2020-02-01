@@ -24,5 +24,4 @@ function chartResults(elems) {
   };
 }
 
-//export { chartResults }
-module.exports = { chartResults };
+export { chartResults };

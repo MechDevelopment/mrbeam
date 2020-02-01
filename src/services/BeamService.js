@@ -1,6 +1,6 @@
-import BeamCalculation from "./FemService/BeamCalculation";
+import beamCalculate from "./FemService/FBeamCalc";
 import Generator from "./UnitService/Generator";
-import { parseUnits } from "./UnitService/Parser";
+import parseUnits from "./UnitService/FParser";
 import { output } from "./Temporary";
 
 class BeamService {
@@ -15,11 +15,11 @@ class BeamService {
     let elements = parseUnits(units);
 
     // Create FEM solution
-    let BC = new BeamCalculation(elements, split_coeff);
-    this._results = BC.getSolution();
+    const BC = beamCalculate();
+    this._results = BC;
 
     // Console output
-    output(BC.getSolution());
+    output(BC);
   }
 
   /** Use to get points for charts */
