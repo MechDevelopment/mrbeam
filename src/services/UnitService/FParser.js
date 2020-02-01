@@ -29,10 +29,10 @@ function parseUnits(units) {
 
     if (node_1 != undefined) {
       elem = element([node_1, node_2]);
-
+      
       // Filling instance of class Element
       for (let j = 0; j < group_2.length; j++) {
-        if (group_2.x == undefined || isCollision(group_1, group_2, i, j)) {
+        if (group_2[j].x == undefined || isCollision(elem, group_2, i, j)) {
           decryption(elem, group_2[j].type, group_2[j].value);
         }
       }
@@ -127,8 +127,7 @@ function sortUnits(units) {
 function decryption(instance, type, value) {
   switch (type) {
     case 1:
-      let rad = (value[1] * Math.PI) / 180;
-      instance.load += value[0] * Math.cos(rad);
+      instance.load += value[0];
       break;
     case 2:
       instance.moment += value[0];
@@ -142,7 +141,7 @@ function decryption(instance, type, value) {
           instance.def = [1, 1, 0];
           break;
         case 3:
-          instance.def = [0, 1, 1];
+          instance.def = [0, 1, 0];
           break;
         case 4:
           instance.joint = true;
@@ -163,8 +162,8 @@ function decryption(instance, type, value) {
 }
 
 /** Group_2 include points from group_1 ?   */
-function isCollision(group_1, group_2, i, j) {
-  let p1 = [group_1[i - 1].x[0], group_1[i].x[0]];
+function isCollision(elem, group_2, i, j) {
+  let p1 = [elem.nodes[0].x, elem.nodes[1].x]
   let p2 = group_2[j].x;
   let [x1, x2] = p1;
   let [y1, y2] = p2;
