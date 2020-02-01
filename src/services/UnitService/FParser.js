@@ -1,4 +1,4 @@
-import { Material, Point, Element } from "../FemService/Element";
+import { element, node } from "../FemService/FElements";
 
 /** Parse Units to instances of class Element */
 function parseUnits(units) {
@@ -12,13 +12,13 @@ function parseUnits(units) {
   sortUnits(group_1);
 
   let result = [];
-  let element; // instance of class Element
-  let point_1; // instances of class Point
-  let point_2 = new Point([group_1[0].x[0], 0]);
+  let elem; // instance of class Element
+  let node_1; // instances of class node
+  let node_2 = node(group_1[0].x[0]);
 
   for (let i = 0; i < group_1.length; i++) {
-    // Filling instance of class Point
-    decryption(point_2, group_1[i].type, group_1[i].value);
+    // Filling instance of class node
+    decryption(node_2, group_1[i].type, group_1[i].value);
 
     // if next Unit have same coordinates - continue
     if (i + 1 < group_1.length) {
@@ -27,23 +27,23 @@ function parseUnits(units) {
       }
     }
 
-    if (point_1 != undefined) {
-      element = new Element([point_1, point_2]);
+    if (node_1 != undefined) {
+      elem = element([node_1, node_2]);
 
       // Filling instance of class Element
       for (let j = 0; j < group_2.length; j++) {
         if (group_2.x == undefined || isCollision(group_1, group_2, i, j)) {
-          decryption(element, group_2[j].type, group_2[j].value);
+          decryption(elem, group_2[j].type, group_2[j].value);
         }
       }
 
-      result.push(element);
+      result.push(elem);
     }
 
     // Swap points
     if (i + 1 < group_1.length) {
-      point_1 = point_2;
-      point_2 = new Point([group_1[i + 1].x[0], 0]);
+      node_1 = node_2;
+      node_2 = node(group_1[i + 1].x[0]);
     }
   }
   return result;
@@ -100,8 +100,12 @@ function preparation(group_1, group_2) {
     }
 
     // Create material as instance class Material
-    if (group_2[i].type === 5 && !(group_2[i].value instanceof Material)) {
-      group_2[i].value = new Material(group_2[i].value);
+    if (group_2[i].type === 5 && !(group_2[i].value instanceof Object)) {
+      group_2[i].value = {
+        E: group_2[i].value[0],
+        J: group_2[i].value[1],
+        A: group_2[i].value[2]
+      };
     }
   }
 }
@@ -124,8 +128,7 @@ function decryption(instance, type, value) {
   switch (type) {
     case 1:
       let rad = (value[1] * Math.PI) / 180;
-      instance.load[0] += value[0] * Math.cos(rad);
-      instance.load[1] += value[0] * Math.sin(rad);
+      instance.load += value[0] * Math.cos(rad);
       break;
     case 2:
       instance.moment += value[0];
@@ -133,13 +136,13 @@ function decryption(instance, type, value) {
     case 3:
       switch (value[0]) {
         case 1:
-          instance.defenitions = [false, true, false];
+          instance.def = [false, true, false];
           break;
         case 2:
-          instance.defenitions = [true, true, false];
+          instance.def = [true, true, false];
           break;
         case 3:
-          instance.defenitions = [true, true, true];
+          instance.def = [true, true, true];
           break;
         case 4:
           instance.joint = true;
@@ -147,7 +150,7 @@ function decryption(instance, type, value) {
       }
       break;
     case 4:
-      instance.distributed_load.push(value);
+      instance.distload.push(value);
       break;
     case 5:
       instance.material = value;
