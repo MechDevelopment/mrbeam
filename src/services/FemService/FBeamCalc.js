@@ -13,7 +13,9 @@ import { chartResults } from "./FCharts";
 
 function beamCalculate(elems, split_coeff = 0.1) {
   // fragmenetation
-  //fragmentation(elems, split_coeff);
+  fragmentation(elems, split_coeff);
+
+  // Recalculate
   elems = elems.map(e => element(e.nodes, e.distload, e.map));
 
   // ansamblirovanie elements
@@ -23,12 +25,6 @@ function beamCalculate(elems, split_coeff = 0.1) {
 
   const solution = solve(GM, GV);
   reaction(elems, solution, support);
-
-  //console.log("Solution: ", solution);
-  // console.log(
-  //   "Reactions: ",
-  //   elems.map(e => e.reaction)
-  // );
 
   return chartResults(elems);
 }

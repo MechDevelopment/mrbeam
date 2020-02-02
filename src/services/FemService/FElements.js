@@ -27,7 +27,7 @@
  *                              / локальный вектор из распределенной нагрузки
  */
 
-function element(nodes, distload = [], mat = { E: 1, J: 1, A: 1 }) {
+function element(nodes, distload = [], mat = { E: null, J: null, A: null }) {
   const len = nodes[1].x - nodes[0].x;
   const loc = local(len, mat);
   const fdist = fdistload(nodes[0].x, nodes[1].x, len, distload);
@@ -39,7 +39,8 @@ function node(x, def = [0, 0, 0], load = 0, moment = 0, joint = false) {
 }
 
 function local(l, mat) {
-  const EJ = mat.E * mat.J;
+  const EJ = !mat.E || !mat.J ? 1 : mat.E * mat.J;
+
   return [
     [
       (1 / l ** 3) * (EJ * 12),
