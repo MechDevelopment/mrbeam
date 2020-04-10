@@ -1,77 +1,33 @@
-// Variables
-$color-black: #000;
-$color-white: #fff;
-$color-alpha: #ff0000;
+@import "./assets/themes/themes.scss";
+@import "./assets/themes/themify.scss";
 
-$themes: (
-  blue: (
-    color-alpha: blue,
-    color-beta: orange
-  ),
-  red: (
-    color-alpha: $color-alpha,
-    color-beta: $color-white
-  )
-);
-
-@function map-fetch($map, $keys) {
-  $key: nth($keys, 1);
-  $length: length($keys);
-  $value: map-get($map, $key);
-
-  @if $value != null {
-    @if $length > 1 {
-      $rest: ();
-
-      @for $i from 2 through $length {
-        $rest: append($rest, nth($keys, $i));
-      }
-
-      @return map-fetch($value, $rest);
-    } @else {
-      @return $value;
-    }
-  } @else {
-    @return false;
-  }
-}
-
-@function getThemifyVariable($key) {
-  @return map-get($theme-map, $key);
-}
-
-@mixin themify($themes: $themes) {
-  @each $theme, $map in $themes {
-    .#{$theme} & {
-      // Define theme color
-      $theme-map: (
-        color-alpha: blue
-      ) !global;
-
-      @each $key, $submap in $map {
-        $value: map-fetch($themes, $theme "#{$key}");
-        $theme-map: map-merge(
-          $theme-map,
-          (
-            $key: $value
-          )
-        ) !global;
-      }
-
-      @content;
-
-      // reset theme color to null
-      $theme-map: null !global;
-    }
-  }
-}
-
-//
-// USAGE
-//
-.component {
+// CLASSES
+.main {
   @include themify() {
-    background-color: getThemifyVariable("color-alpha");
-    color: getThemifyVariable("color-beta");
+    background: key("main");
+  }
+}
+
+.primary {
+  @include themify() {
+    background: key("primary");
+  }
+}
+
+.secondary {
+  @include themify() {
+    background: key("secondary");
+  }
+}
+
+.accent {
+  @include themify() {
+    background: key("accent");
+  }
+}
+
+.success {
+  @include themify() {
+    background: key("success");
   }
 }

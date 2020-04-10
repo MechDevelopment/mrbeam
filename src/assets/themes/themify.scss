@@ -1,0 +1,51 @@
+@function map-fetch($map, $keys) {
+  $key: nth($keys, 1);
+  $length: length($keys);
+  $value: map-get($map, $key);
+
+  @if $value != null {
+    @if $length > 1 {
+      $rest: ();
+
+      @for $i from 2 through $length {
+        $rest: append($rest, nth($keys, $i));
+      }
+
+      @return map-fetch($value, $rest);
+    } @else {
+      @return $value;
+    }
+  } @else {
+    @return false;
+  }
+}
+
+@function key($key) {
+  @return map-get($theme-map, $key);
+}
+
+@mixin themify($themes: $themes) {
+  @each $theme, $map in $themes {
+    .#{$theme} & {
+      // Define theme color
+      $theme-map: (
+        color-back: #eeeedd
+      ) !global;
+
+      @each $key, $submap in $map {
+        $value: map-fetch($themes, $theme "#{$key}");
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value
+          )
+        ) !global;
+      }
+
+      @content;
+
+      // reset theme color to null
+      $theme-map: null !global;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 <template>
-  <div :class="theme ? 'red' : 'blue'" id="app">
+  <div class="main" :class="theme ? 'light' : 'dark'" id="app">
     <Layout />
     <button @click="theme = !theme">CLICK</button>
   </div>
