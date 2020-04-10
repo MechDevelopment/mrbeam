@@ -1,7 +1,7 @@
 <template>
-  <div class="main" :class="theme ? 'light' : 'dark'" id="app">
+  <div id="app">
     <Layout />
-    <button @click="theme = !theme">CLICK</button>
+    <button class="main" @click="changeTheme">CLICK</button>
   </div>
 </template>
 
@@ -11,6 +11,13 @@ export default {
   data: () => ({
     theme: true
   }),
+
+  methods: {
+    changeTheme() {
+      const html = document.querySelector("html");
+      html.className = html.className == "dark" ? "light" : "dark";
+    }
+  },
 
   components: {
     Layout

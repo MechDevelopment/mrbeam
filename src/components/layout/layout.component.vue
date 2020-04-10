@@ -1,5 +1,5 @@
 <template>
-  <div class="secondary" @click="Check">check</div>
+  <div class="primary" @click="Check">check</div>
 </template>
 
 <style lang="sass" scoped>
