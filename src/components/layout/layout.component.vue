@@ -7,6 +7,8 @@
     />
 
     <transition
+      v-for="(component, index) in ['Info', 'Input', 'Chart', 'Data']"
+      :key="index + 'component'"
       name="fade"
       :enter-active-class="
         anim == 'left' ? 'animated slideInLeft' : 'animated slideInRight'
@@ -15,50 +17,8 @@
         anim == 'left' ? 'animated slideOutRight' : 'animated slideOutLeft'
       "
     >
-      <div v-show="show[0]" class="toggle" :style="toggle_style[0] + t_s[0]">
-        <Info class="item main"></Info>
-      </div>
-    </transition>
-
-    <transition
-      name="fade"
-      :enter-active-class="
-        anim == 'left' ? 'animated slideInLeft' : 'animated slideInRight'
-      "
-      :leave-active-class="
-        anim == 'left' ? 'animated slideOutRight' : 'animated slideOutLeft'
-      "
-    >
-      <div v-show="show[1]" class="toggle" :style="toggle_style[1] + t_s[1]">
-        <div class="item main">1</div>
-      </div>
-    </transition>
-
-    <transition
-      name="fade"
-      :enter-active-class="
-        anim == 'left' ? 'animated slideInLeft' : 'animated slideInRight'
-      "
-      :leave-active-class="
-        anim == 'left' ? 'animated slideOutRight' : 'animated slideOutLeft'
-      "
-    >
-      <div v-show="show[2]" class="toggle" :style="toggle_style[2] + t_s[2]">
-        <div class="item main">2</div>
-      </div>
-    </transition>
-
-    <transition
-      name="fade"
-      :enter-active-class="
-        anim == 'left' ? 'animated slideInLeft' : 'animated slideInRight'
-      "
-      :leave-active-class="
-        anim == 'left' ? 'animated slideOutRight' : 'animated slideOutLeft'
-      "
-    >
-      <div v-show="show[3]" class="toggle" :style="toggle_style[3] + t_s[3]">
-        <div class="item main">3</div>
+      <div v-show="show[index]" class="toggle" :style="toggle_style[index] + t_s[index]">
+        <component v-bind:is="component" class="item main"></component>
       </div>
     </transition>
 
@@ -72,6 +32,10 @@
 
 <script>
 import Info from "../info/info.component";
+import Input from "../input/input.component";
+import Chart from "../chart/chart.component";
+import Data from "../data/data.component";
+
 export default {
   data: () => ({
     n: 4,
@@ -103,20 +67,19 @@ export default {
       this.anim = "left";
       this.show.push(this.show.shift());
       let s = this.show;
-      this.show = [0,0,0,0];
+      this.show = [0, 0, 0, 0];
       this.t_s.push(this.t_s.shift());
-      
+
       setTimeout(() => {
         this.show = s;
       });
-      
     },
 
     right() {
       this.anim = "right";
       this.show.unshift(this.show.pop());
       let s = this.show;
-      this.show = [0,0,0,0];
+      this.show = [0, 0, 0, 0];
       this.t_s.unshift(this.t_s.pop());
 
       setTimeout(() => {
@@ -146,7 +109,10 @@ export default {
   },
 
   components: {
-    Info
+    Info,
+    Input,
+    Chart,
+    Data
   }
 };
 </script>
