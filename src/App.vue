@@ -1,17 +1,14 @@
 <template>
   <div id="app">
-    <Layout />
+    
     <button class="main" @click="changeTheme">CLICK</button>
+    <Layout />
   </div>
 </template>
 
 <script>
 import Layout from "./components/layout/layout.component";
 export default {
-  data: () => ({
-    theme: true
-  }),
-
   methods: {
     changeTheme() {
       const html = document.querySelector("html");

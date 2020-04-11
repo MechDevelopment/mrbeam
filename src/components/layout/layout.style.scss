@@ -1,1 +1,24 @@
+.container {
+}
 
+.toggle {
+  flex-grow: 1;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+}
+
+.item {
+  height: 500px;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+.dots {
+  position: fixed;
+  bottom: 10px;
+  width: 200px;
+  text-align: center;
+  background: yellow;
+  left: calc(50% - 200px / 2);
+}
