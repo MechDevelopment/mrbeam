@@ -64,7 +64,7 @@
 
     <div class="dots">
       <button @click="left">LEFT</button>
-      OOOO
+      {{show}}
       <button @click="right">RIGHT</button>
     </div>
   </div>
