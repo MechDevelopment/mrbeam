@@ -16,7 +16,7 @@
       "
     >
       <div v-show="show[0]" class="toggle">
-        <div class="item main">0</div>
+        <Info class="item main"></Info>
       </div>
     </transition>
 
@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import Info from "../info/info.component"
 export default {
   data: () => ({
     n: 4,
@@ -103,6 +104,10 @@ export default {
         }
       });
     }
+  },
+
+  components: {
+    Info
   }
 };
 </script>
