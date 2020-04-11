@@ -7,8 +7,8 @@
     />
 
     <transition
-      v-for="(component, index) in ['Info', 'Input', 'Chart', 'Data']"
-      :key="index + 'component'"
+      v-for="(component, index) in components"
+      :key="component"
       name="fade"
       :enter-active-class="
         anim == 'left' ? 'animated slideInLeft' : 'animated slideInRight'
@@ -38,11 +38,12 @@ import Data from "../data/data.component";
 
 export default {
   data: () => ({
+    components: ['Info', 'Input', 'Chart', 'Data'],
     n: 4,
     m: undefined,
     show: [0, 1, 1, 0],
     anim: "left",
-    toggle_style: ["", "", "", ""],
+    toggle_style: ["width: 50%", "width: 50%", "width: 50%", "width: 50%"],
     t_s: ["", "left: 0%", "left: 50%", "left: 50%"]
   }),
 
@@ -68,11 +69,14 @@ export default {
       this.show.push(this.show.shift());
       let s = this.show;
       this.show = [0, 0, 0, 0];
-      this.t_s.push(this.t_s.shift());
+      
 
       setTimeout(() => {
+        this.t_s.push(this.t_s.shift());
         this.show = s;
       });
+
+      
     },
 
     right() {
@@ -80,11 +84,14 @@ export default {
       this.show.unshift(this.show.pop());
       let s = this.show;
       this.show = [0, 0, 0, 0];
-      this.t_s.unshift(this.t_s.pop());
+      
 
       setTimeout(() => {
+        this.t_s.unshift(this.t_s.pop());
         this.show = s;
       });
+
+     
       console.log(this.t_s);
     }
   },

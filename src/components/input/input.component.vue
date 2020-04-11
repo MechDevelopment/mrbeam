@@ -1,6 +1,7 @@
 <template>
   <div>
     INPUT
+    <img src="https://chajnikam.ru/uploads/posts/2013-02/1362055133_chto-takoe-vvod-dannyh.jpg"/>
   </div>
 </template>
 
