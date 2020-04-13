@@ -1,16 +1,14 @@
-.container {
-}
-
 .toggle {
   position: absolute;
   left: 0px;
-  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  height: 100%;
 }
 
 .item {
-  height: 500px;
-  margin: 20px;
-  border-radius: 10px;
+  height: calc(100% - 20px * 2);
+  margin: 15px;
 }
 
 .dots {

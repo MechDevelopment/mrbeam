@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <link
       href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1"
       rel="stylesheet"
@@ -9,7 +9,6 @@
     <transition
       v-for="(component, index) in components"
       :key="component"
-      :duration="duration"
       name="fade"
       :enter-active-class="
         anim == 'left' ? 'animated slideInLeft' : 'animated slideInRight'
@@ -48,8 +47,8 @@ export default {
     m: undefined,
     show: [0, 1, 1, 0],
     anim: "left",
-    toggle_style: ["width: 50%", "width: 50%", "width: 50%", "width: 50%"],
-    t_s: ["", "left: 0%", "left: 50%", "left: 50%"],
+    toggle_style: ["width: 46%", "width: 46%", "width: 46%", "width: 46%"],
+    t_s: ["", "left: 4%", "left: 50%", "left: 50%"],
     commands: [],
     timer: undefined,
     duration: 1000
@@ -136,7 +135,7 @@ export default {
           this.toggle_style = ["", "", "", ""];
         } else {
           for (let i = 0; i < this.n; i++) {
-            this.toggle_style[i] = `width: ${100 / this.m}%;`;
+            this.toggle_style[i] = `width: ${100 / this.m - 4}%;`;
           }
         }
         console.log(this.toggle_style);

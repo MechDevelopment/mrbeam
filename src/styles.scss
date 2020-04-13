@@ -5,6 +5,7 @@
 .main {
   @include themify() {
     background: key("main");
+    color: key("accent")
   }
 }
 
@@ -33,10 +34,15 @@
 }
 
 html {
+  height: 0px;
   overflow: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 ::-webkit-scrollbar {
   width: 0px;
+}
+
+body {
+  margin: 0px;
 }
