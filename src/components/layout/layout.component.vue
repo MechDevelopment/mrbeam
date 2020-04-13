@@ -9,6 +9,7 @@
     <transition
       v-for="(component, index) in components"
       :key="component"
+      :duration="duration"
       name="fade"
       :enter-active-class="
         anim == 'left' ? 'animated slideInLeft' : 'animated slideInRight'
@@ -17,7 +18,11 @@
         anim == 'left' ? 'animated slideOutRight' : 'animated slideOutLeft'
       "
     >
-      <div v-show="show[index]" class="toggle" :style="toggle_style[index] + t_s[index]">
+      <div
+        v-show="show[index]"
+        class="toggle"
+        :style="toggle_style[index] + t_s[index]"
+      >
         <component v-bind:is="component" class="item main"></component>
       </div>
     </transition>
@@ -38,13 +43,16 @@ import Data from "../data/data.component";
 
 export default {
   data: () => ({
-    components: ['Info', 'Input', 'Chart', 'Data'],
+    components: ["Info", "Input", "Chart", "Data"],
     n: 4,
     m: undefined,
     show: [0, 1, 1, 0],
     anim: "left",
     toggle_style: ["width: 50%", "width: 50%", "width: 50%", "width: 50%"],
-    t_s: ["", "left: 0%", "left: 50%", "left: 50%"]
+    t_s: ["", "left: 0%", "left: 50%", "left: 50%"],
+    commands: [],
+    timer: undefined,
+    duration: 1000
   }),
 
   created() {
@@ -65,34 +73,55 @@ export default {
     },
 
     left() {
+      if (this.commands.length < 1) {
+        this.commands.push(this.l);
+        this.go();
+      }
+    },
+
+    right() {
+      if (this.commands.length < 1) {
+        this.commands.push(this.r);
+        this.go();
+      }
+    },
+
+    go() {
+      if (!this.timer) {
+        if (this.commands) {
+          this.duration = 1200;
+          const command = this.commands.shift()();
+
+          this.timer = setTimeout(() => {
+            this.timer = undefined;
+            this.go();
+          }, this.duration);
+        }
+      }
+    },
+
+    l() {
       this.anim = "left";
       this.show.push(this.show.shift());
       let s = this.show;
       this.show = [0, 0, 0, 0];
-      
 
       setTimeout(() => {
         this.t_s.push(this.t_s.shift());
         this.show = s;
       });
-
-      
     },
 
-    right() {
+    r() {
       this.anim = "right";
       this.show.unshift(this.show.pop());
       let s = this.show;
       this.show = [0, 0, 0, 0];
-      
 
       setTimeout(() => {
         this.t_s.unshift(this.t_s.pop());
         this.show = s;
       });
-
-     
-      console.log(this.t_s);
     }
   },
 
