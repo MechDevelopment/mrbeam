@@ -5,10 +5,9 @@
       rel="stylesheet"
       type="text/css"
     />
-
     <transition
-      v-for="(component, index) in components"
-      :key="component"
+      v-for="(component, index) in $slots.default"
+      :key="index + 'component'"
       name="fade"
       :enter-active-class="
         anim == 'left' ? 'animated slideInLeft' : 'animated slideInRight'
@@ -22,7 +21,9 @@
         class="toggle"
         :style="toggle_style[index] + t_s[index]"
       >
-        <component v-bind:is="component" class="item main"></component>
+        <div class="item main">
+          <Render :vnode="component"></Render>
+        </div>
       </div>
     </transition>
 
@@ -35,11 +36,6 @@
 </template>
 
 <script>
-import Info from "../info/info.component";
-import Input from "../input/input.component";
-import Chart from "../chart/chart.component";
-import Data from "../data/data.component";
-
 export default {
   data: () => ({
     components: ["Info", "Input", "Chart", "Data"],
@@ -51,10 +47,11 @@ export default {
     t_s: ["", "left: 4%", "left: 50%", "left: 50%"],
     commands: [],
     timer: undefined,
-    duration: 1000
+    duration: 1000,
   }),
 
   created() {
+
     this.onResize();
   },
 
@@ -121,7 +118,7 @@ export default {
         this.t_s.unshift(this.t_s.pop());
         this.show = s;
       });
-    }
+    },
   },
 
   beforeDestroy() {
@@ -140,15 +137,15 @@ export default {
         }
         console.log(this.toggle_style);
       });
-    }
+    },
   },
 
   components: {
-    Info,
-    Input,
-    Chart,
-    Data
-  }
+    Render: {
+      functional: true,
+      render: (h, ctx) => ctx.props.vnode
+    },
+  },
 };
 </script>
 
