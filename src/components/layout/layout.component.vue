@@ -16,14 +16,18 @@
         direction == 'left' ? 'animated slideOutRight' : 'animated slideOutLeft'
       "
     >
-      <div v-show="show_slots[index]" class="wrap" :style="wrap_style[index]">
+      <div
+        v-show="show_slots[index]"
+        class="wrap"
+        :style="wrap_style[direction][index]"
+      >
         <div class="item main">
           <Render :vnode="component"></Render>
         </div>
       </div>
     </transition>
 
-    <div class="dots">
+    <div v-if="tools" class="dots">
       <button @click="left">LEFT</button>
       {{ show_slots }}
       <button @click="right">RIGHT</button>
@@ -38,13 +42,11 @@ export default {
     first_active_slot: 0,
 
     show_slots: undefined,
-    wrap_style: undefined,
+    wrap_style: { left: undefined, right: undefined },
 
     direction: "left",
-    
-    commands: [],
     timer: undefined,
-    duration: 1000,
+    tools: true,
   }),
 
   created() {
@@ -61,18 +63,34 @@ export default {
       }
 
       // build wrap_style
-      this.wrap_style = [];
+      this.wrap_style = { left: [], right: [] };
       let j = 0;
       let left = "0%";
       for (let i = 0; i < n; i++) {
+        // direction left
         if (this.show_slots[i] == 1 || j == m) {
           if (j == m) left = `${(100 / m) * (j - 1)}%`;
           else left = `${(100 / m) * j}%`;
-          j++;
         } else {
           left = "0%";
         }
-        this.wrap_style.push({
+        this.wrap_style.left.push({
+          width: `${100 / m}%`,
+          left: left,
+        });
+        // direction right
+
+        if (this.show_slots[i] == 1 || j == m) {
+          if (j == m) left = `${(100 / m) * 0}%`;
+          else left = `${(100 / m) * j}%`;
+        } else {
+          left = "0%";
+        }
+
+        j++;
+
+
+        this.wrap_style.right.push({
           width: `${100 / m}%`,
           left: left,
         });
@@ -82,71 +100,60 @@ export default {
     },
 
     onResize() {
-      if (window.innerWidth > 800) {
-        this.count_of_slots = 2;
-      } else {
-        this.count_of_slots = 1;
+      const N = this.$slots.default.length;
+      let m = this.count_of_slots;
+      this.count_of_slots = Math.ceil(window.innerWidth / 800);
+      this.tools = N == this.count_of_slots ? false : true;
+
+      if (m != this.count_of_slots) {
+        this.buildData(N, this.count_of_slots);
       }
-
-      console.log("n, m", this.$slots.default.length, this.count_of_slots);
-
-      this.buildData(this.$slots.default.length, this.count_of_slots);
     },
 
     left() {
-      if (this.commands.length < 1) {
-        this.commands.push(this.l);
-        this.go();
+      if (!this.timer) {
+        this.direction = "left";
+        this.show_slots.push(this.show_slots.shift());
+        let s = this.show_slots;
+        this.show_slots = [0, 0, 0, 0];
+
+        setTimeout(() => {
+          this.wrap_style.right.push(this.wrap_style.right.shift());
+          this.wrap_style.left.push(this.wrap_style.left.shift());
+          this.show_slots = s;
+
+          console.group("left");
+          this.wrap_style.left.forEach((el) => console.log(el.left));
+          console.groupEnd();
+        });
+
+        this.timer = setTimeout(() => {
+          this.timer = undefined;
+        }, 1000);
       }
     },
 
     right() {
-      if (this.commands.length < 1) {
-        this.commands.push(this.r);
-        this.go();
-      }
-    },
-
-    go() {
       if (!this.timer) {
-        if (this.commands) {
-          this.duration = 1200;
-          const command = this.commands.shift()();
+        this.direction = "right";
+        this.show_slots.unshift(this.show_slots.pop());
+        let s = this.show_slots;
+        this.show_slots = [0, 0, 0, 0];
 
-          this.timer = setTimeout(() => {
-            this.timer = undefined;
-            this.go();
-          }, this.duration);
-        }
+        setTimeout(() => {
+          this.wrap_style.right.unshift(this.wrap_style.right.pop());
+          this.wrap_style.left.unshift(this.wrap_style.left.pop());
+          this.show_slots = s;
+
+          console.group("right");
+          this.wrap_style.right.forEach((el) => console.log(el.left));
+          console.groupEnd();
+        });
+
+        this.timer = setTimeout(() => {
+          this.timer = undefined;
+        }, 1000);
       }
-    },
-
-    l() {
-      this.direction = "left";
-      this.show_slots.push(this.show_slots.shift());
-      let s = this.show_slots;
-      this.show_slots = [0, 0, 0, 0];
-
-      setTimeout(() => {
-        this.wrap_style.push(this.wrap_style.shift());
-        this.show_slots = s;
-      });
-
-      console.log(this.wrap_style);
-    },
-
-    r() {
-      this.direction = "right";
-      this.show_slots.unshift(this.show_slots.pop());
-      let s = this.show_slots;
-      this.show_slots = [0, 0, 0, 0];
-
-      setTimeout(() => {
-        this.wrap_style.unshift(this.wrap_style.pop());
-        this.show_slots = s;
-      });
-
-      console.log(this.wrap_style);
     },
   },
 
@@ -156,20 +163,6 @@ export default {
 
   beforeDestroy() {
     window.removeEventListener("resize", this.onResize);
-  },
-
-  watch: {
-    m(key) {
-      setTimeout(() => {
-        if (key == 1) {
-          this.wrap_style = ["", "", "", ""];
-        } else {
-          for (let i = 0; i < this.$slots.default.length; i++) {
-            this.wrap_style[i] = `width: ${100 / this.count_of_elems - 4}%;`;
-          }
-        }
-      });
-    },
   },
 
   components: {
