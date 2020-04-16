@@ -27,7 +27,13 @@
     <!-- DOTS BEHAVIOR -->
     <div v-if="tools" class="dots">
       <button @click="queue.add('left')">LEFT</button>
-      {{ show_slots }}
+      <span
+        v-for="(component, index) in $slots.default"
+        :key="index + 'dots'"
+      >
+      <button @click="queue.add('right')">{{ show_slots[index] }}</button>
+      </span>
+      
       <button @click="queue.add('right')">RIGHT</button>
     </div>
   </div>
@@ -54,35 +60,35 @@ export default {
   created() {
     this.onResize();
 
-    this.queue = new Queue({
-      left: () => {
-        this.direction = "left";
-        this.show_slots.push(this.show_slots.shift());
-        let s = this.show_slots;
-        this.show_slots = [0, 0, 0, 0];
+    this.queue = new Queue(
+      {
+        left: () => {
+          this.direction = "left";
+          this.show_slots.push(this.show_slots.shift());
+          let s = this.show_slots;
+          this.show_slots = [0, 0, 0, 0];
 
-        setTimeout(() => {
-          this.wrap_style.right.push(this.wrap_style.right.shift());
-          this.wrap_style.left.push(this.wrap_style.left.shift());
-          this.show_slots = s;
+          setTimeout(() => {
+            this.wrap_style.right.push(this.wrap_style.right.shift());
+            this.wrap_style.left.push(this.wrap_style.left.shift());
+            this.show_slots = s;
+          });
+        },
+        right: () => {
+          this.direction = "right";
+          this.show_slots.unshift(this.show_slots.pop());
+          let s = this.show_slots;
+          this.show_slots = [0, 0, 0, 0];
 
-   
-        });
+          setTimeout(() => {
+            this.wrap_style.right.unshift(this.wrap_style.right.pop());
+            this.wrap_style.left.unshift(this.wrap_style.left.pop());
+            this.show_slots = s;
+          });
+        },
       },
-      right: () => {
-        this.direction = "right";
-        this.show_slots.unshift(this.show_slots.pop());
-        let s = this.show_slots;
-        this.show_slots = [0, 0, 0, 0];
-
-        setTimeout(() => {
-          this.wrap_style.right.unshift(this.wrap_style.right.pop());
-          this.wrap_style.left.unshift(this.wrap_style.left.pop());
-          this.show_slots = s;
-
-        });
-      },
-    }, 400);
+      400
+    );
   },
 
   methods: {

@@ -13,11 +13,23 @@
 
 .dots {
   position: fixed;
-  bottom: 10px;
-  width: 200px;
+  bottom: 20px;
+  height: 27px;
+  width: 240px;
   text-align: center;
-  background: yellow;
-  left: calc(50% - 200px / 2);
+  left: calc(50% - 240px / 2);
+
+  button {
+    height: 27px;
+    width: 60px;
+  }
+
+  span {
+    button {
+      height: 27px;
+      width: 27px;
+    }
+  }
 }
 
 // SLIDERS ANIMATION
