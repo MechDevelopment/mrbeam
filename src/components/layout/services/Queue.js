@@ -22,10 +22,10 @@ export default class Queue {
       // Длительность выполнения инструкции
       if (this._queue.length > 1) {
         this._duration = this.time / 3;
-      }
-
-      if (this._queue.length > 3) {
+      } else if (this._queue.length > 3) {
         this._duration = this.time / this._queue.length;
+      } else {
+        this._duration = this.time;
       }
 
       // Запуск выполнения инструкции

@@ -1,10 +1,11 @@
 <template>
   <div>
+    <!-- SLOTS BEHAVIOR -->
     <transition
       v-for="(component, index) in $slots.default"
       :key="index + 'component'"
       name="fade"
-      :duration="dur"
+      :duration="queue.getDuration()"
       :enter-active-class="
         direction == 'left' ? 'animated slideInLeft' : 'animated slideInRight'
       "
@@ -23,10 +24,11 @@
       </div>
     </transition>
 
+    <!-- DOTS BEHAVIOR -->
     <div v-if="tools" class="dots">
-      <button @click="left">LEFT</button>
+      <button @click="queue.add('left')">LEFT</button>
       {{ show_slots }}
-      <button @click="right">RIGHT</button>
+      <button @click="queue.add('right')">RIGHT</button>
     </div>
   </div>
 </template>
@@ -80,7 +82,7 @@ export default {
 
         });
       },
-    });
+    }, 400);
   },
 
   methods: {
@@ -137,21 +139,6 @@ export default {
       if (m != this.count_of_slots) {
         this.buildData(N, this.count_of_slots);
       }
-    },
-
-    left() {
-      this.queue.add("left");
-    },
-
-    right() {
-      this.queue.add("right");
-    },
-  },
-
-  computed: {
-    dur() {
-      console.log(this.queue.getDuration())
-      return this.queue.getDuration();
     },
   },
 
