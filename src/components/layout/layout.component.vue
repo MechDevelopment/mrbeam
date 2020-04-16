@@ -1,10 +1,5 @@
 <template>
   <div>
-    <link
-      href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1"
-      rel="stylesheet"
-      type="text/css"
-    />
     <transition
       v-for="(component, index) in $slots.default"
       :key="index + 'component'"
@@ -178,4 +173,5 @@ export default {
 <style lang="sass" scoped>
 @import "../../styles.scss"
 @import "./layout.style.scss"
+@import "./layout.animation.scss"
 </style>
