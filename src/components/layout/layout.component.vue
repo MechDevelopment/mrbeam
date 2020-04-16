@@ -26,15 +26,12 @@
 
     <!-- DOTS BEHAVIOR -->
     <div v-if="tools" class="dots">
-      <button @click="queue.add('left')">LEFT</button>
-      <span
-        v-for="(component, index) in $slots.default"
-        :key="index + 'dots'"
-      >
-      <button @click="queue.add('right')">{{ show_slots[index] }}</button>
+      <button @click="queue.add(['left'])">LEFT</button>
+      <span v-for="(component, index) in $slots.default" :key="index + 'dots'">
+        <button @click="clickDots(index)">{{ show_slots[index] }}</button>
       </span>
-      
-      <button @click="queue.add('right')">RIGHT</button>
+
+      <button @click="queue.add(['right'])">RIGHT</button>
     </div>
   </div>
 </template>
@@ -92,6 +89,45 @@ export default {
   },
 
   methods: {
+    clickDots(dot) {
+      let init = this.show_slots.indexOf(1, 0);
+      console.log(init)
+      if (this.show_slots[this.show_slots.length - 1] == 1) {
+        init = this.show_slots.lastIndexOf(0, this.show_slots.length - 1) + 1;
+        console.log(init)
+      }
+      
+
+      if (init != dot) {
+        const len = this.show_slots.length;
+
+        let left;
+        let right;
+
+        if (init < dot) {
+          left = init + len - dot;
+          right = dot - init;
+        }
+
+        if (init > dot) {
+          left = init - dot;
+          right = dot + len - init;
+        }
+
+        if (left == right) {
+          if (init < dot) {
+            this.queue.add([...Array(right).keys()].map((el) => "right"));
+          } else {
+            this.queue.add([...Array(left).keys()].map((el) => "left"));
+          }
+        } else if (left < right) {
+          this.queue.add([...Array(left).keys()].map((el) => "left"));
+        } else {
+          this.queue.add([...Array(right).keys()].map((el) => "right"));
+        }
+      }
+    },
+
     buildData(n, m) {
       // build show_slots
       this.show_slots = [];
