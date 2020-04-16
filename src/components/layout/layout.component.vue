@@ -4,6 +4,7 @@
       v-for="(component, index) in $slots.default"
       :key="index + 'component'"
       name="fade"
+      :duration="dur"
       :enter-active-class="
         direction == 'left' ? 'animated slideInLeft' : 'animated slideInRight'
       "
@@ -31,6 +32,8 @@
 </template>
 
 <script>
+import Queue from "./services/Queue";
+
 export default {
   data: () => ({
     count_of_slots: undefined,
@@ -42,10 +45,42 @@ export default {
     direction: "left",
     timer: undefined,
     tools: true,
+
+    queue: undefined,
   }),
 
   created() {
     this.onResize();
+
+    this.queue = new Queue({
+      left: () => {
+        this.direction = "left";
+        this.show_slots.push(this.show_slots.shift());
+        let s = this.show_slots;
+        this.show_slots = [0, 0, 0, 0];
+
+        setTimeout(() => {
+          this.wrap_style.right.push(this.wrap_style.right.shift());
+          this.wrap_style.left.push(this.wrap_style.left.shift());
+          this.show_slots = s;
+
+   
+        });
+      },
+      right: () => {
+        this.direction = "right";
+        this.show_slots.unshift(this.show_slots.pop());
+        let s = this.show_slots;
+        this.show_slots = [0, 0, 0, 0];
+
+        setTimeout(() => {
+          this.wrap_style.right.unshift(this.wrap_style.right.pop());
+          this.wrap_style.left.unshift(this.wrap_style.left.pop());
+          this.show_slots = s;
+
+        });
+      },
+    });
   },
 
   methods: {
@@ -84,7 +119,6 @@ export default {
 
         j++;
 
-
         this.wrap_style.right.push({
           width: `${100 / m}%`,
           left: left,
@@ -106,49 +140,18 @@ export default {
     },
 
     left() {
-      if (!this.timer) {
-        this.direction = "left";
-        this.show_slots.push(this.show_slots.shift());
-        let s = this.show_slots;
-        this.show_slots = [0, 0, 0, 0];
-
-        setTimeout(() => {
-          this.wrap_style.right.push(this.wrap_style.right.shift());
-          this.wrap_style.left.push(this.wrap_style.left.shift());
-          this.show_slots = s;
-
-          console.group("left");
-          this.wrap_style.left.forEach((el) => console.log(el.left));
-          console.groupEnd();
-        });
-
-        this.timer = setTimeout(() => {
-          this.timer = undefined;
-        }, 1000);
-      }
+      this.queue.add("left");
     },
 
     right() {
-      if (!this.timer) {
-        this.direction = "right";
-        this.show_slots.unshift(this.show_slots.pop());
-        let s = this.show_slots;
-        this.show_slots = [0, 0, 0, 0];
+      this.queue.add("right");
+    },
+  },
 
-        setTimeout(() => {
-          this.wrap_style.right.unshift(this.wrap_style.right.pop());
-          this.wrap_style.left.unshift(this.wrap_style.left.pop());
-          this.show_slots = s;
-
-          console.group("right");
-          this.wrap_style.right.forEach((el) => console.log(el.left));
-          console.groupEnd();
-        });
-
-        this.timer = setTimeout(() => {
-          this.timer = undefined;
-        }, 1000);
-      }
+  computed: {
+    dur() {
+      console.log(this.queue.getDuration())
+      return this.queue.getDuration();
     },
   },
 
@@ -173,5 +176,4 @@ export default {
 <style lang="sass" scoped>
 @import "../../styles.scss"
 @import "./layout.style.scss"
-@import "./layout.animation.scss"
 </style>
