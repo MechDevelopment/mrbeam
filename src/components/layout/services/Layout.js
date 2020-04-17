@@ -22,7 +22,7 @@ export default class Layout {
 
   newBuild() {
     const INIT_SLOT = this.initSlot();
-    
+
     // build show_slots
     this._show_array = [];
     for (let i = 0; i < this._count_slots; i++) {
@@ -67,19 +67,14 @@ export default class Layout {
   }
 
   initSlot() {
-    let init;
+    if (!this._show_array) return 0;
+    const LAST = this._show_array.length - 1;
 
-    try {
-      init = this._show_array.indexOf(1, 0);
-
-      if (this._show_array[this._show_array.length - 1] == 1) {
-        init = this._show_array.lastIndexOf(0, this._show_array.length - 1) + 1;
-      }
-    } catch {
-      return 0;
+    if (this._show_array[LAST] == 1) {
+      return this._show_array.lastIndexOf(0, LAST) + 1;
+    } else {
+      return this._show_array.indexOf(1, 0);
     }
-
-    return init;
   }
 
   // INSTRUCTIONS
