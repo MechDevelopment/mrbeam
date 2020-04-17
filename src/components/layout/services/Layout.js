@@ -1,6 +1,6 @@
 export default class Layout {
   constructor(context) {
-    this.context = context;
+    this.len = context;
 
 
     this.n = undefined;
@@ -16,6 +16,12 @@ export default class Layout {
   }
 
   left() {
+
+    
+    console.log(this.count_of_slots)
+    console.log(this.show_slots)
+    console.log(this.wrap_style)
+    
     this.direction = "left";
     this.show_slots.push(this.show_slots.shift());
     let s = this.show_slots;
@@ -118,12 +124,11 @@ export default class Layout {
         left: left,
       });
     }
+
   }
 
   onResize() {
-
-    const N = this.context.$slots.default.length;
-    console.log(this.count_of_slots)
+    const N = this.len;
     let m = this.count_of_slots;
     this.count_of_slots = Math.ceil(window.innerWidth / 800);
     this.tools = N == this.count_of_slots ? false : true;
@@ -131,7 +136,6 @@ export default class Layout {
     if (m != this.count_of_slots) {
       this.buildData(N, this.count_of_slots);
     }
-    console.log(2)
   }
 
   isTools() {
@@ -143,7 +147,6 @@ export default class Layout {
   }
 
   getShow(index) {
-    console.log(this.show_slots)
     return this.show_slots[index];
   }
 

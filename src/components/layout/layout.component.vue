@@ -28,12 +28,11 @@
     </transition>
 
     <!-- DOTS BEHAVIOR -->
-
     <div v-if="layout.isTools()" class="dots">
       <button @click="queue.add(['left'])">LEFT</button>
 
       <span v-for="(component, index) in $slots.default" :key="index + 'dots'">
-        <button @click="this.layout.dots(index, queue)">
+        <button @click="layout.dots(index, queue)">
           {{ layout.getShow(index) }}
         </button>
       </span>
@@ -54,11 +53,11 @@ export default {
   }),
 
   beforeMount() {
-    this.layout = new Layout(this);
+    this.layout = new Layout(this.$slots.default.length);
     this.queue = new Queue(
       {
-        left: this.layout.left,
-        right: this.layout.right,
+        left: this.layout.left.bind(this.layout),
+        right: this.layout.right.bind(this.layout),
       },
       400
     );
