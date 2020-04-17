@@ -4,19 +4,22 @@
     <transition
       v-for="(component, index) in $slots.default"
       :key="index + 'component'"
-      name="fade"
       :duration="queue.getDuration()"
       :enter-active-class="
-        direction == 'left' ? 'animated slideInLeft' : 'animated slideInRight'
+        layout.getDirection() == 'left'
+          ? 'animated slideInLeft'
+          : 'animated slideInRight'
       "
       :leave-active-class="
-        direction == 'left' ? 'animated slideOutRight' : 'animated slideOutLeft'
+        layout.getDirection() == 'left'
+          ? 'animated slideOutRight'
+          : 'animated slideOutLeft'
       "
     >
       <div
-        v-show="show_slots[index]"
         class="wrap"
-        :style="wrap_style[direction][index]"
+        v-show="layout.getShow(index)"
+        :style="layout.getStyle(index)"
       >
         <div class="item main">
           <Render :vnode="component"></Render>
@@ -25,10 +28,14 @@
     </transition>
 
     <!-- DOTS BEHAVIOR -->
-    <div v-if="tools" class="dots">
+
+    <div v-if="layout.isTools()" class="dots">
       <button @click="queue.add(['left'])">LEFT</button>
+
       <span v-for="(component, index) in $slots.default" :key="index + 'dots'">
-        <button @click="clickDots(index)">{{ show_slots[index] }}</button>
+        <button @click="this.layout.dots(index, queue)">
+          {{ layout.getShow(index) }}
+        </button>
       </span>
 
       <button @click="queue.add(['right'])">RIGHT</button>
@@ -38,158 +45,33 @@
 
 <script>
 import Queue from "./services/Queue";
+import Layout from "./services/Layout";
 
 export default {
   data: () => ({
-    count_of_slots: undefined,
-    first_active_slot: 0,
-
-    show_slots: undefined,
-    wrap_style: { left: undefined, right: undefined },
-
-    direction: "left",
-    timer: undefined,
-    tools: true,
-
+    layout: undefined,
     queue: undefined,
   }),
 
-  created() {
-    this.onResize();
-
+  beforeMount() {
+    this.layout = new Layout(this);
     this.queue = new Queue(
       {
-        left: () => {
-          this.direction = "left";
-          this.show_slots.push(this.show_slots.shift());
-          let s = this.show_slots;
-          this.show_slots = [0, 0, 0, 0];
-
-          setTimeout(() => {
-            this.wrap_style.right.push(this.wrap_style.right.shift());
-            this.wrap_style.left.push(this.wrap_style.left.shift());
-            this.show_slots = s;
-          });
-        },
-        right: () => {
-          this.direction = "right";
-          this.show_slots.unshift(this.show_slots.pop());
-          let s = this.show_slots;
-          this.show_slots = [0, 0, 0, 0];
-
-          setTimeout(() => {
-            this.wrap_style.right.unshift(this.wrap_style.right.pop());
-            this.wrap_style.left.unshift(this.wrap_style.left.pop());
-            this.show_slots = s;
-          });
-        },
+        left: this.layout.left,
+        right: this.layout.right,
       },
       400
     );
-  },
 
-  methods: {
-    clickDots(dot) {
-      let init = this.show_slots.indexOf(1, 0);
-      console.log(init)
-      if (this.show_slots[this.show_slots.length - 1] == 1) {
-        init = this.show_slots.lastIndexOf(0, this.show_slots.length - 1) + 1;
-        console.log(init)
-      }
-      
-
-      if (init != dot) {
-        const len = this.show_slots.length;
-
-        let left;
-        let right;
-
-        if (init < dot) {
-          left = init + len - dot;
-          right = dot - init;
-        }
-
-        if (init > dot) {
-          left = init - dot;
-          right = dot + len - init;
-        }
-
-        if (left == right) {
-          if (init < dot) {
-            this.queue.add([...Array(right).keys()].map((el) => "right"));
-          } else {
-            this.queue.add([...Array(left).keys()].map((el) => "left"));
-          }
-        } else if (left < right) {
-          this.queue.add([...Array(left).keys()].map((el) => "left"));
-        } else {
-          this.queue.add([...Array(right).keys()].map((el) => "right"));
-        }
-      }
-    },
-
-    buildData(n, m) {
-      // build show_slots
-      this.show_slots = [];
-      for (let i = 0; i < n; i++) {
-        if (i < m) this.show_slots.push(1);
-        else this.show_slots.push(0);
-      }
-
-      // build wrap_style
-      this.wrap_style = { left: [], right: [] };
-      let j = 0;
-      let left = "0%";
-      for (let i = 0; i < n; i++) {
-        // direction left
-        if (this.show_slots[i] == 1 || j == m) {
-          if (j == m) left = `${(100 / m) * (j - 1)}%`;
-          else left = `${(100 / m) * j}%`;
-        } else {
-          left = "0%";
-        }
-        this.wrap_style.left.push({
-          width: `${100 / m}%`,
-          left: left,
-        });
-        // direction right
-
-        if (this.show_slots[i] == 1 || j == m) {
-          if (j == m) left = `${(100 / m) * 0}%`;
-          else left = `${(100 / m) * j}%`;
-        } else {
-          left = "0%";
-        }
-
-        j++;
-
-        this.wrap_style.right.push({
-          width: `${100 / m}%`,
-          left: left,
-        });
-      }
-
-      console.log(this.show_slots, this.wrap_style);
-    },
-
-    onResize() {
-      const N = this.$slots.default.length;
-      let m = this.count_of_slots;
-      this.count_of_slots = Math.ceil(window.innerWidth / 800);
-      this.tools = N == this.count_of_slots ? false : true;
-
-      if (m != this.count_of_slots) {
-        this.buildData(N, this.count_of_slots);
-      }
-    },
+    this.layout.onResize();
   },
 
   mounted() {
-    window.addEventListener("resize", this.onResize);
+    window.addEventListener("resize", this.layout.onResize());
   },
 
   beforeDestroy() {
-    window.removeEventListener("resize", this.onResize);
+    window.removeEventListener("resize", this.layout.onResize());
   },
 
   components: {
