@@ -20,7 +20,7 @@ export default class Queue {
   _run() {
     if (!this._timer && this._queue.length) {
       // Длительность выполнения инструкции
-      this._duration = this.time / this._queue.length;
+      this._duration = this.time / ((this._queue.length + 1) / 2);
 
       // Запуск выполнения инструкции
       this.instructions[this._queue.shift()]();

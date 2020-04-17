@@ -28,7 +28,7 @@
     </transition>
 
     <!-- DOTS BEHAVIOR -->
-    <div v-if="layout.isTools()" class="dots">
+    <div v-if="layout.getControl()" class="dots">
       <button @click="queue.add(['left'])">LEFT</button>
 
       <span v-for="(component, index) in $slots.default" :key="index + 'dots'">
@@ -61,16 +61,14 @@ export default {
       },
       400
     );
-
-    this.layout.onResize();
   },
 
   mounted() {
-    window.addEventListener("resize", this.layout.onResize());
+    window.addEventListener("resize", this.layout.rebuild.bind(this.layout));
   },
 
   beforeDestroy() {
-    window.removeEventListener("resize", this.layout.onResize());
+    window.removeEventListener("resize", this.layout.rebuild.bind(this.layout));
   },
 
   components: {
