@@ -1,0 +1,15 @@
+import store from "../../store";
+import ru from "../locales/ru.json";
+import en from "../locales/en.json";
+
+const locales = {
+  "ru-RU": ru,
+  "en-US": en,
+};
+
+export default function localizeFilter(key) {
+  const locale = store.getters.locale || "ru-RU";
+
+  console.log(locales[locale]);
+  return locales[locale][key] || `[Localize error]: key ${key} not found`;
+}

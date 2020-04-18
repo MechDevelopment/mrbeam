@@ -3,6 +3,9 @@ import App from './App.vue'
 import './registerServiceWorker'
 import store from './store'
 
+import localizeFilter from "./shared/filters/localize.filter"
+Vue.filter("localize", localizeFilter);
+
 Vue.config.productionTip = false
 
 new Vue({
