@@ -2,7 +2,7 @@
   <div class="container">
     INFO
     <button class="main" @click="changeTheme">CLICK</button>
-        <p>
+    <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit saepe
       aliquam tempora ducimus doloremque ad omnis impedit dolorum voluptatum,
       consequuntur itaque, repellendus veniam qui! Distinctio dicta qui aperiam
@@ -70,12 +70,17 @@
 
 <script>
 export default {
+  beforeCreate() {
+    const html = document.querySelector("html");
+    html.className = localStorage.theme || "light";
+  },
   methods: {
     changeTheme() {
       const html = document.querySelector("html");
       html.className = html.className == "dark" ? "light" : "dark";
-    }
-  }
+      localStorage.theme = html.className;
+    },
+  },
 };
 </script>
 
