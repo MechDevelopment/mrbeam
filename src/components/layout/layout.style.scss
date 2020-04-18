@@ -7,9 +7,17 @@
 }
 
 .item {
-  height: calc(100% - 20px * 2);
-  margin: 15px;
+  height: calc(100% - 10px * 2);
+  margin: 10px;
 }
+.left {
+  margin-left: 50px;
+}
+
+.right {
+  margin-right: 50px;
+}
+
 
 .dots {
   position: fixed;
@@ -30,7 +38,6 @@
       width: 27px;
     }
   }
-  
 }
 
 // SLIDERS ANIMATION

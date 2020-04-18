@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     DATA
         <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit saepe

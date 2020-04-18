@@ -5,6 +5,7 @@ export default class Layout {
     this._control = true; // Включено ли управление
     this._show_array = undefined; // Логический массив показа слотов
     this._style_array = undefined; // Массив стилей для слотов
+    this._class_array = ['left','right','','']; // Массив классов для слотов
     this._direction = "left"; // Направление анимации
     this.max_width = max_width; // Максимальная ширина слота
 
@@ -31,6 +32,10 @@ export default class Layout {
 
     // Построение массива стилей для оберки слотов
     this._style_array = this._createStyle(INIT, N, M);
+
+
+    // Построение массива классов для оберки слотов
+    //this._class_array = this._createClass(INIT, N, M);
   }
 
   _initSlot() {
@@ -149,5 +154,9 @@ export default class Layout {
 
   getStyle(index) {
     return this._style_array[index][this._direction];
+  }
+
+  getClass(index) {
+    return this._class_array[index];
   }
 }

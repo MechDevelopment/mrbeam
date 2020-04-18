@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     INFO
     <button class="main" @click="changeTheme">CLICK</button>
         <p>

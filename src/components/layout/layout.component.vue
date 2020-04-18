@@ -67,6 +67,17 @@ export default {
 
   mounted() {
     window.addEventListener("resize", this.layout.rebuild.bind(this.layout));
+
+    document.onkeydown = (e) => {
+      switch (e.keyCode) {
+        case 37:
+          this.queue.add(["left"]);
+          break;
+        case 39:
+          this.queue.add(["right"]);
+          break;
+      }
+    };
   },
 
   beforeDestroy() {
