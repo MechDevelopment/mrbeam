@@ -1,17 +1,18 @@
 export default class Layout {
-  constructor(count_of_slots) {
+  constructor(count_of_slots, max_width) {
     this._count_slots = count_of_slots; // Общее кол-во слотов
     this._visible_slots = undefined; // Кол-во видимых слотов
     this._control = true; // Включено ли управление
     this._show_array = undefined; // Логический массив показа слотов
     this._style_array = undefined; // Массив стилей для слотов
     this._direction = "left"; // Направление анимации
+    this.max_width = max_width; // Максимальная ширина слота
 
     this.rebuild();
   }
 
   rebuild() {
-    const CALC_VISIBLE_SLOTS = Math.ceil(window.innerWidth / 800);
+    const CALC_VISIBLE_SLOTS = Math.ceil(window.innerWidth / this.max_width);
 
     if (CALC_VISIBLE_SLOTS != this._visible_slots) {
       this._visible_slots = CALC_VISIBLE_SLOTS;

@@ -21,7 +21,7 @@
         v-show="layout.getShow(index)"
         :style="layout.getStyle(index)"
       >
-        <div class="item main">
+        <div class="item" :class="itemClass">
           <Render :vnode="component"></Render>
         </div>
       </div>
@@ -47,13 +47,15 @@ import Queue from "./services/Queue";
 import Layout from "./services/Layout";
 
 export default {
+  props: ["item-class", "item-max-width"],
+
   data: () => ({
     layout: undefined,
     queue: undefined,
   }),
 
   beforeMount() {
-    this.layout = new Layout(this.$slots.default.length);
+    this.layout = new Layout(this.$slots.default.length, this.itemMaxWidth);
     this.queue = new Queue(
       {
         left: this.layout.left.bind(this.layout),
@@ -82,6 +84,5 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../../styles.scss"
 @import "./layout.style.scss"
 </style>

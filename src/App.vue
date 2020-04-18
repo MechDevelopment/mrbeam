@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Layout>
+    <Layout item-class="main" item-max-width="800">
       <Info />
       <Input />
       <Chart />
