@@ -32,7 +32,7 @@
       <button @click="queue.add(['left'])">LEFT</button>
 
       <span v-for="(component, index) in $slots.default" :key="index + 'dots'">
-        <button @click="layout.dots(index, queue)">
+        <button @click="queue.add(layout.dots(index))">
           {{ layout.getShow(index) }}
         </button>
       </span>

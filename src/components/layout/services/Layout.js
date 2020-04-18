@@ -77,59 +77,58 @@ export default class Layout {
   // INSTRUCTIONS
 
   left() {
+    let remember = this._show_array;
+    remember.push(remember.shift());
+
     this._direction = "left";
-    this._show_array.push(this._show_array.shift());
-    let s = this._show_array;
-    this._show_array = [0, 0, 0, 0];
+    this._show_array = this._show_array.map((el) => 0);
 
     setTimeout(() => {
       this._style_array.push(this._style_array.shift());
-      this._show_array = s;
+      this._show_array = remember;
     });
   }
 
   right() {
+    let remember = this._show_array;
+    remember.unshift(remember.pop());
+
     this._direction = "right";
-    this._show_array.unshift(this._show_array.pop());
-    let s = this._show_array;
-    this._show_array = [0, 0, 0, 0];
+    this._show_array = this._show_array.map((el) => 0);
 
     setTimeout(() => {
       this._style_array.unshift(this._style_array.pop());
-      this._show_array = s;
+      this._show_array = remember;
     });
   }
 
-  dots(dot, queue) {
-    const init = this._initSlot();
+  dots(index) {
+    const INIT = this._initSlot();
+    const LEN = this._show_array.length;
 
-    if (init != dot) {
-      const len = this._show_array.length;
+    if (INIT == index) return [];
 
-      let left;
-      let right;
+    let aside_left;
+    let aside_right;
 
-      if (init < dot) {
-        left = init + len - dot;
-        right = dot - init;
-      }
+    if (INIT < index) {
+      aside_left = INIT + LEN - index;
+      aside_right = index - INIT;
+    } else {
+      aside_left = INIT - index;
+      aside_right = index + LEN - INIT;
+    }
 
-      if (init > dot) {
-        left = init - dot;
-        right = dot + len - init;
-      }
-
-      if (left == right) {
-        if (init < dot) {
-          queue.add([...Array(right).keys()].map((el) => "right"));
-        } else {
-          queue.add([...Array(left).keys()].map((el) => "left"));
-        }
-      } else if (left < right) {
-        queue.add([...Array(left).keys()].map((el) => "left"));
+    if (aside_left == aside_right) {
+      if (INIT < index) {
+        return [...Array(aside_right).keys()].map((el) => "right");
       } else {
-        queue.add([...Array(right).keys()].map((el) => "right"));
+        return [...Array(aside_left).keys()].map((el) => "left");
       }
+    } else if (aside_left < aside_right) {
+      return [...Array(aside_left).keys()].map((el) => "left");
+    } else {
+      return [...Array(aside_right).keys()].map((el) => "right");
     }
   }
 
