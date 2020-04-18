@@ -4,7 +4,7 @@ export default class Layout {
     this._visible_slots = undefined; // Кол-во видимых слотов
     this._control = true; // Включено ли управление
     this._show_array = undefined; // Логический массив показа слотов
-    this._style_array = { left: undefined, right: undefined }; // Массив стилей для слотов
+    this._style_array = undefined; // Массив стилей для слотов
     this._direction = "left"; // Направление анимации
 
     this.rebuild();
@@ -16,57 +16,23 @@ export default class Layout {
     if (CALC_VISIBLE_SLOTS != this._visible_slots) {
       this._visible_slots = CALC_VISIBLE_SLOTS;
       this._control = this._count_slots != this._visible_slots;
-      this.newBuild();
+      this._newBuild();
     }
   }
 
-  newBuild() {
-    const INIT_SLOT = this.initSlot();
+  _newBuild() {
+    const INIT = this._initSlot();
+    const N = this._count_slots;
+    const M = this._visible_slots;
 
-    // build show_slots
-    this._show_array = [];
-    for (let i = 0; i < this._count_slots; i++) {
-      if (i < this._visible_slots) this._show_array.push(1);
-      else this._show_array.push(0);
-    }
+    // Построение массива показа слотов
+    this._show_array = this._createShow(INIT, N, M);
 
-    // build _style_array
-    this._style_array = { left: [], right: [] };
-    let j = 0;
-    let left = "0%";
-    for (let i = 0; i < this._count_slots; i++) {
-      // direction left
-      if (this._show_array[i] == 1 || j == this._visible_slots) {
-        if (j == this._visible_slots)
-          left = `${(100 / this._visible_slots) * (j - 1)}%`;
-        else left = `${(100 / this._visible_slots) * j}%`;
-      } else {
-        left = "0%";
-      }
-      this._style_array.left.push({
-        width: `${100 / this._visible_slots}%`,
-        left: left,
-      });
-      // direction right
-
-      if (this._show_array[i] == 1 || j == this._visible_slots) {
-        if (j == this._visible_slots)
-          left = `${(100 / this._visible_slots) * 0}%`;
-        else left = `${(100 / this._visible_slots) * j}%`;
-      } else {
-        left = "0%";
-      }
-
-      j++;
-
-      this._style_array.right.push({
-        width: `${100 / this._visible_slots}%`,
-        left: left,
-      });
-    }
+    // Построение массива стилей для оберки слотов
+    this._style_array = this._createStyle(INIT, N, M);
   }
 
-  initSlot() {
+  _initSlot() {
     if (!this._show_array) return 0;
     const LAST = this._show_array.length - 1;
 
@@ -75,6 +41,37 @@ export default class Layout {
     } else {
       return this._show_array.indexOf(1, 0);
     }
+  }
+
+  _createShow(INIT, N, M) {
+    let array = [];
+    for (let i = 0; i < N; i++) array[i] = i < M ? 1 : 0;
+    for (let i = 0; i < INIT; i++) array.unshift(array.pop());
+    return array;
+  }
+
+  _createStyle(INIT, N, M) {
+    let array = [];
+
+    let aside_left = [];
+    let aside_right = [];
+    for (let i = 0; i < N; i++) {
+      aside_left[i] = i < M ? `${(100 / M) * i}%` : "0%";
+      aside_right[i] = i < M ? `${(100 / M) * i}%` : "0%";
+      if (i == M) aside_left[i] = `${(100 / M) * (i - 1)}%`;
+    }
+
+    for (let i = 0; i < INIT; i++) {
+      aside_left.unshift(aside_left.pop());
+      aside_right.unshift(aside_right.pop());
+    }
+
+    for (let i = 0; i < N; i++) {
+      let left = { width: `${100 / M}%`, left: aside_left[i] };
+      let right = { width: `${100 / M}%`, left: aside_right[i] };
+      array[i] = { left, right };
+    }
+    return array;
   }
 
   // INSTRUCTIONS
@@ -86,8 +83,7 @@ export default class Layout {
     this._show_array = [0, 0, 0, 0];
 
     setTimeout(() => {
-      this._style_array.right.push(this._style_array.right.shift());
-      this._style_array.left.push(this._style_array.left.shift());
+      this._style_array.push(this._style_array.shift());
       this._show_array = s;
     });
   }
@@ -99,14 +95,13 @@ export default class Layout {
     this._show_array = [0, 0, 0, 0];
 
     setTimeout(() => {
-      this._style_array.right.unshift(this._style_array.right.pop());
-      this._style_array.left.unshift(this._style_array.left.pop());
+      this._style_array.unshift(this._style_array.pop());
       this._show_array = s;
     });
   }
 
   dots(dot, queue) {
-    const init = this.initSlot();
+    const init = this._initSlot();
 
     if (init != dot) {
       const len = this._show_array.length;
@@ -153,6 +148,6 @@ export default class Layout {
   }
 
   getStyle(index) {
-    return this._style_array[this._direction][index];
+    return this._style_array[index][this._direction];
   }
 }
