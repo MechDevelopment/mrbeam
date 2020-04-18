@@ -52,6 +52,8 @@ export default {
   data: () => ({
     layout: undefined,
     queue: undefined,
+    xDown: null,
+    yDown: null,
   }),
 
   beforeMount() {
@@ -66,7 +68,9 @@ export default {
   },
 
   mounted() {
-    window.addEventListener("resize", this.layout.rebuild.bind(this.layout));
+    document.addEventListener("resize", this.layout.rebuild.bind(this.layout));
+    document.addEventListener("touchstart", this.handleTouchStart, false);
+    document.addEventListener("touchmove", this.handleTouchMove, false);
 
     document.onkeydown = (e) => {
       switch (e.keyCode) {
@@ -80,8 +84,33 @@ export default {
     };
   },
 
+  methods: {
+    handleTouchStart(evt) {
+      const firstTouch = evt.touches[0] || evt.originalEvent.touches[0];
+      this.xDown = firstTouch.clientX;
+      this.yDown = firstTouch.clientY;
+    },
+
+    handleTouchMove(evt) {
+      if (!this.xDown || !this.yDown) return;
+
+      var xDiff = this.xDown - evt.touches[0].clientX;
+      var yDiff = this.yDown - evt.touches[0].clientY;
+
+      if (Math.abs(xDiff) > Math.abs(yDiff)) {
+        if (xDiff > 0) this.queue.add(["right"]);
+        else this.queue.add(["left"]);
+      }
+
+      this.xDown = null;
+      this.yDown = null;
+    },
+  },
+
   beforeDestroy() {
-    window.removeEventListener("resize", this.layout.rebuild.bind(this.layout));
+    document.removeEventListener("resize", this.layout.rebuild.bind(this.layout));
+    document.removeEventListener("touchstart", this.handleTouchStart, false);
+    document.removeEventListener("touchmove", this.handleTouchMove, false);
   },
 
   components: {
