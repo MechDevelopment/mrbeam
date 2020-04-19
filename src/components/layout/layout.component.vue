@@ -68,7 +68,7 @@ export default {
   },
 
   mounted() {
-    document.addEventListener("resize", this.layout.rebuild.bind(this.layout));
+    window.addEventListener("resize", this.layout.rebuild.bind(this.layout), false);
     document.addEventListener("touchstart", this.handleTouchStart, false);
     document.addEventListener("touchmove", this.handleTouchMove, false);
 
@@ -108,7 +108,7 @@ export default {
   },
 
   beforeDestroy() {
-    document.removeEventListener("resize", this.layout.rebuild.bind(this.layout));
+    window.removeEventListener("resize", this.layout.rebuild.bind(this.layout));
     document.removeEventListener("touchstart", this.handleTouchStart, false);
     document.removeEventListener("touchmove", this.handleTouchMove, false);
   },

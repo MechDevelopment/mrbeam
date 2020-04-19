@@ -33,11 +33,15 @@
   }
 }
 
+
 html {
   overflow: hidden;
 }
 
 body {
+  @include themify() {
+    background: key("secondary");
+  }
   margin: 0px;
 }
 

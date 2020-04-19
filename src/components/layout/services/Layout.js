@@ -13,8 +13,9 @@ export default class Layout {
 
   rebuild() {
     const CALC_VISIBLE_SLOTS = Math.ceil(window.innerWidth / this.max_width);
-
+    console.log(CALC_VISIBLE_SLOTS)
     if (CALC_VISIBLE_SLOTS != this._visible_slots) {
+      
       this._visible_slots = CALC_VISIBLE_SLOTS;
       this._control = this._count_slots != this._visible_slots;
       this._newBuild();
