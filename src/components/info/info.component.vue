@@ -9,14 +9,29 @@
         data-inline="false"
       ></span>
     </span>
-    
+
     <span class="btn main" @click="changeLocale">
-      {{"L_RU-EN" | localize}}
+      {{ "L_RU-EN" | localize }}
     </span>
-    
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
+
+    <div class="titlepage">
+      <p>
+        Online beam calculator
+      </p>
+      <h1>Mr BEAM</h1>
+      <p>Create and analize complex beam</p>
+
+      <button><a href="#start">Manual</a></button>
+    </div>
+
+    <p id="start">{{"L_Lorem" | localize}}</p>
+    <p>{{"L_Lorem" | localize}}</p>
+    <p>{{"L_Lorem" | localize}}</p>
+    <p>{{"L_Lorem" | localize}}</p>
+    <p>{{"L_Lorem" | localize}}</p>
+    <p>{{"L_Lorem" | localize}}</p>
+    <p>{{"L_Lorem" | localize}}</p>
+    <p>{{"L_Lorem" | localize}}</p>
   </div>
 </template>
 
