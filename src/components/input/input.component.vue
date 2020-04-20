@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import circle from "../../shared/services/paper/circle";
+import { load } from "../../shared/services/paper/icons";
 export default {
   mounted() {
-    circle("beam");
+    load("beam", 10, 10, 10, 50);
   },
 };
 </script>
