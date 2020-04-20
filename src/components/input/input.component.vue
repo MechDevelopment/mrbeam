@@ -5,6 +5,7 @@
         <button>Load</button>
         <button>Random</button>
       </span>
+      <canvas id="beam" resize="true"></canvas>
     </div>
     <div class="form">
       <span class="toolset">
@@ -22,13 +23,17 @@
         <button>p</button>
         <input />
       </span>
-
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import circle from "../../shared/services/paper/circle";
+export default {
+  mounted() {
+    circle("beam");
+  },
+};
 </script>
 
 <style lang="sass" scoped>
