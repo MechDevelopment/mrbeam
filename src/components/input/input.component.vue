@@ -1,33 +1,29 @@
 <template>
   <div class="container">
-    INPUT
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
+    <div class="form">
+      <span>
+        <button>Load</button>
+        <button>Random</button>
+      </span>
+    </div>
+    <div class="form">
+      <span class="toolset">
+        <button>Load</button>
+        <button>Moment</button>
+        <button>Dist</button>
+        <button>Def</button>
+        <button>Mat</button>
+      </span>
+      <div></div>
+      <span class="toolset">
+        <button>x</button>
+        <input />
+        <div></div>
+        <button>p</button>
+        <input />
+      </span>
+
+    </div>
   </div>
 </template>
 
