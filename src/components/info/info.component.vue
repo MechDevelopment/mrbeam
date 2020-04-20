@@ -1,30 +1,19 @@
 <template>
   <div class="container">
-    INFO
-    <button class="main" @click="changeTheme">
-      {{ "L_Theme" | localize }}
-    </button>
-    <button class="main" @click="changeLocale">
-      {{ "L_Language" | localize }}
-    </button>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
+    <span class="btn main" @click="changeTheme">
+      <span
+        class="iconify"
+        data-icon="mdi-invert-colors"
+        data-width="20px"
+        data-height="20px"
+        data-inline="false"
+      ></span>
+    </span>
+    
+    <span class="btn main" @click="changeLocale">
+      {{"L_RU-EN" | localize}}
+    </span>
+    
     <p>
       {{ "L_Lorem" | localize }}
     </p>
