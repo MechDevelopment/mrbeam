@@ -28,10 +28,12 @@
 </template>
 
 <script>
-import { load } from "../../shared/services/paper/icons";
+import { load, distload } from "../../shared/services/paper/icons";
 export default {
   mounted() {
-    load("beam", 10, 10, 10, 50);
+    paper.setup(document.getElementById("beam"));
+    load(30, 50, 30, new Color("pink"));
+    distload(50, 50, 30, 30, new Color("lightblue"));
   },
 };
 </script>
