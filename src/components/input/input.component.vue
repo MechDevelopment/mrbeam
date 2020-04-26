@@ -28,13 +28,21 @@
 </template>
 
 <script>
-import { load, distload, moment } from "../../shared/services/paper/icons";
+import {
+  load,
+  distload,
+  moment,
+  defenition,
+  material,
+} from "../../shared/services/paper/icons";
 export default {
   mounted() {
     paper.setup(document.getElementById("beam"));
     load(30, 50, 30, new Color("pink"));
     distload(50, 50, 30, 30, new Color("lightblue"));
-    moment(110, 50, 30, new Color("lightgreen"))
+    moment(110, 50, 30, new Color("lightgreen"));
+    defenition(140, 50, 30, new Color("pink"));
+    material(190, 50, 30, new Color("lightblue"));
   },
 };
 </script>
