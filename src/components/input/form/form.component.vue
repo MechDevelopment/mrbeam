@@ -1,11 +1,11 @@
 <template>
   <div class="form">
     <span class="toolset">
-      <button class="main" @click="clickLoad">Load</button>
-      <button class="main" @click="clickMoment">Moment</button>
-      <button class="main" @click="clickDistload">Dist</button>
-      <button class="main" @click="clickDefenition">Def</button>
-      <button class="main" @click="clickMaterial">Mat</button>
+      <button class="main" @click="clickLoad"><IconLoad></IconLoad></button>
+      <button class="main" @click="clickMoment"><IconLoad></IconLoad></button>
+      <button class="main" @click="clickDistload"><IconLoad></IconLoad></button>
+      <button class="main" @click="clickDefenition"><IconLoad></IconLoad></button>
+      <button class="main" @click="clickMaterial"><IconLoad></IconLoad></button>
     </span>
 
     <div></div>
@@ -15,10 +15,13 @@
       <span v-if="form.type == 'input'">{{form.label}} <input /></span>
     </div>
 
+    <button>ADD UNIT</button>
   </div>
 </template>
 
 <script>
+import IconLoad from "./icons/icon.load"
+
 export default {
   data: () => ({
     unitNumber: 0,
@@ -65,6 +68,10 @@ export default {
       ];
     },
   },
+
+  components: {
+    IconLoad
+  }
 };
 </script>
 
