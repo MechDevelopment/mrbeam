@@ -1,0 +1,12 @@
+.toolset {
+  button {
+    height: 45px;
+    width: 60px;
+  }
+  :first-child {
+    border-radius: 100% 0 0 100%;
+  }
+  :last-child {
+    border-radius: 0 100% 100% 0;
+  }
+}
