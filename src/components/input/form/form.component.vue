@@ -1,11 +1,11 @@
 <template>
   <div class="form">
     <span class="toolset">
-      <button class="main" @click="clickLoad"><IconLoad></IconLoad></button>
-      <button class="main" @click="clickMoment"><IconLoad></IconLoad></button>
-      <button class="main" @click="clickDistload"><IconLoad></IconLoad></button>
-      <button class="main" @click="clickDefenition"><IconLoad></IconLoad></button>
-      <button class="main" @click="clickMaterial"><IconLoad></IconLoad></button>
+      <button class="main" @click="clickLoad"><div class="svg-icon"></div></button>
+      <button class="main" @click="clickMoment"><div class="svg-icon"></div></button>
+      <button class="main" @click="clickDistload"><div class="svg-icon"></div></button>
+      <button class="main" @click="clickDefenition"><div class="svg-icon"></div></button>
+      <button class="main" @click="clickMaterial"><div class="svg-icon"></div></button>
     </span>
 
     <div></div>
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import IconLoad from "./icons/icon.load"
 
 export default {
   data: () => ({
@@ -67,10 +66,6 @@ export default {
         { type: "input", label: "A" }
       ];
     },
-  },
-
-  components: {
-    IconLoad
   }
 };
 </script>

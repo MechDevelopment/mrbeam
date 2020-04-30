@@ -12,3 +12,12 @@
     border-radius: 0 100% 100% 0;
   }
 }
+
+.svg-icon {
+  width: 30px;
+  height: 30px;
+  mask-image: url("./icons/icon.load.svg");
+  @include themify() {
+    background: key("accent");
+  }
+}
