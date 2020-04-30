@@ -14,7 +14,6 @@ export default class Layout {
   rebuild() {
     const CALC_VISIBLE_SLOTS = Math.ceil(window.innerWidth / this.max_width);
     if (CALC_VISIBLE_SLOTS != this._visible_slots) {
-      
       this._visible_slots = CALC_VISIBLE_SLOTS;
       this._control = this._count_slots != this._visible_slots;
       this._newBuild();
@@ -103,6 +102,14 @@ export default class Layout {
     });
   }
 
+  createArr(n, value) {
+    let result = [];
+    for (let i = 0; i < n; i++) {
+      result.push(value);
+    }
+    return result;
+  }
+
   dots(index) {
     const INIT = this._initSlot();
     const LEN = this._show_array.length;
@@ -122,14 +129,14 @@ export default class Layout {
 
     if (aside_left == aside_right) {
       if (INIT < index) {
-        return [...Array(aside_right).keys()].map((el) => "right");
+        return this.createArr(aside_right, "right");
       } else {
-        return [...Array(aside_left).keys()].map((el) => "left");
+        return this.createArr(aside_left, "left");
       }
     } else if (aside_left < aside_right) {
-      return [...Array(aside_left).keys()].map((el) => "left");
+      return this.createArr(aside_left, "left");
     } else {
-      return [...Array(aside_right).keys()].map((el) => "right");
+      return this.createArr(aside_right, "right");
     }
   }
 
@@ -150,5 +157,4 @@ export default class Layout {
   getStyle(index) {
     return this._style_array[index][this._direction];
   }
-
 }
