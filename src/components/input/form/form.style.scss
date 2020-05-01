@@ -1,8 +1,19 @@
+.icon-load {
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-image: url("../../../assets/icons/icon.load.svg");
+}
+
+
 .toolset {
-  button {
-    height: 45px;
-    width: 60px;
-    border: none;
+  div {
+    border: 1px solid black;
+    display: inline-table;
+    height: 35px;
+    width: 50px;
+    padding: 0px;
+    vertical-align: center;
+
     box-shadow: 1px 1px 1px gray;
   }
   :first-child {
@@ -14,10 +25,9 @@
 }
 
 .svg-icon {
+  display: flex;
+  vertical-align: center;
+  justify-content: center;
   width: 30px;
   height: 30px;
-  mask-image: url("./icons/icon.load.svg");
-  @include themify() {
-    background: key("accent");
-  }
 }

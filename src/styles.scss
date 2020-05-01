@@ -9,6 +9,13 @@
   }
 }
 
+.main-invert {
+  @include themify() {
+    background: key("accent");
+    color: key("main");
+  }
+}
+
 .primary {
   @include themify() {
     background: key("primary");
