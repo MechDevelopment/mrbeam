@@ -49,7 +49,7 @@
     <span>{{ unitNumber }}</span>
 
     <div v-for="(form, index) in unitInput" :key="index + 'unitInput'">
-      <span v-if="form.type == 'input'">{{ form.label }} <input /></span>
+      <span v-if="form.type == 'input'">{{ form.label }} <input class="input"/></span>
     </div>
 
     <div class="button success">ADD UNIT</div>
