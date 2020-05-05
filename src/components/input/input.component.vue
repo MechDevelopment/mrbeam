@@ -2,8 +2,8 @@
   <div class="container">
     <div class="form">
       <span>
-        <button>Load</button>
-        <button>Random</button>
+        <div class="button">Load</div>
+        <div class="button">Random</div>
       </span>
       <canvas id="beam" resize="true"></canvas>
     </div>

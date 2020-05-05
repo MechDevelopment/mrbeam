@@ -21,7 +21,7 @@
       <h1>Mr BEAM</h1>
       <p>Create and analize complex beam</p>
 
-      <button><a href="#start">Manual</a></button>
+      <div class="button primary" href="#start">Manual</div>
     </div>
 
     <p id="start">{{"L_Lorem" | localize}}</p>

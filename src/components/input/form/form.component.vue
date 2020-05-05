@@ -52,7 +52,7 @@
       <span v-if="form.type == 'input'">{{ form.label }} <input /></span>
     </div>
 
-    <button>ADD UNIT</button>
+    <div class="button success">ADD UNIT</div>
   </div>
 </template>
 
