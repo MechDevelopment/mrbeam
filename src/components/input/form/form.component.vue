@@ -49,7 +49,9 @@
     <span>{{ unitNumber }}</span>
 
     <div v-for="(form, index) in unitInput" :key="index + 'unitInput'">
-      <span v-if="form.type == 'input'">{{ form.label }} <input class="input"/></span>
+      <span v-if="form.type == 'input'"
+        >{{ form.label }} <input class="input"
+      /></span>
     </div>
 
     <div class="button success">ADD UNIT</div>
@@ -65,7 +67,7 @@ export default {
       { type: "input", label: "y" },
     ],
   }),
-
+ 
   methods: {
     clickLoad() {
       this.unitNumber = 0;

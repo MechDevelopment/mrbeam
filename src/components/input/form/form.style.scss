@@ -4,30 +4,10 @@
   mask-image: url("../../../assets/icons/icon.load.svg");
 }
 
-
-.toolset {
-  div {
-    border: 1px solid black;
-    display: inline-table;
-    height: 35px;
-    width: 50px;
-    padding: 0px;
-    vertical-align: center;
-
-    box-shadow: 1px 1px 1px gray;
-  }
-  :first-child {
-    border-radius: 100% 0 0 100%;
-  }
-  :last-child {
-    border-radius: 0 100% 100% 0;
-  }
-}
-
 .svg-icon {
   display: flex;
   vertical-align: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
 }
