@@ -54,7 +54,7 @@
       /></span>
     </div>
 
-    <div class="button success">ADD UNIT</div>
+    <div class="button but-accent">ADD UNIT</div>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <span class="btn main" @click="changeTheme">
+    <div class="btn main margin" @click="changeTheme">
       <span
         class="iconify"
         data-icon="mdi-invert-colors"
@@ -8,30 +8,42 @@
         data-height="20px"
         data-inline="false"
       ></span>
-    </span>
+    </div>
 
-    <span class="btn main" @click="changeLocale">
+        <div class="btn main " @click="changeLocale">
       {{ "L_RU-EN" | localize }}
-    </span>
+    </div>
 
     <div class="titlepage">
       <p>
-        Online beam calculator
+        {{ "L_title-up" | localize }}
       </p>
       <h1>Mr BEAM</h1>
-      <p>Create and analize complex beam</p>
+      <p>{{ "L_title-down" | localize }}</p>
 
-      <div class="button primary" href="#start">Manual</div>
+      <div class="button but-accent" href="#start">
+        <span
+          class="iconify"
+          data-icon="ic:baseline-keyboard-arrow-down"
+          data-inline="false"
+        ></span>
+        {{ "L_manual" | localize }}
+        <span
+          class="iconify"
+          data-icon="ic:baseline-keyboard-arrow-down"
+          data-inline="false"
+        ></span>
+      </div>
     </div>
 
-    <p id="start">{{"L_Lorem" | localize}}</p>
-    <p>{{"L_Lorem" | localize}}</p>
-    <p>{{"L_Lorem" | localize}}</p>
-    <p>{{"L_Lorem" | localize}}</p>
-    <p>{{"L_Lorem" | localize}}</p>
-    <p>{{"L_Lorem" | localize}}</p>
-    <p>{{"L_Lorem" | localize}}</p>
-    <p>{{"L_Lorem" | localize}}</p>
+    <p id="start">{{ "L_Lorem" | localize }}</p>
+    <p>{{ "L_Lorem" | localize }}</p>
+    <p>{{ "L_Lorem" | localize }}</p>
+    <p>{{ "L_Lorem" | localize }}</p>
+    <p>{{ "L_Lorem" | localize }}</p>
+    <p>{{ "L_Lorem" | localize }}</p>
+    <p>{{ "L_Lorem" | localize }}</p>
+    <p>{{ "L_Lorem" | localize }}</p>
   </div>
 </template>
 

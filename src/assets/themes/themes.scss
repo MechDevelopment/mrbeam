@@ -1,17 +1,19 @@
 $themes: (
   light: (
     main: #FFFFFF,
-    primary: #e96c4c,
+    primary: #ff6b3f,
     secondary: #f5f5f5,
     accent: #11191e,
-    success: #35b72a
+    success: #35b72a,
+    but-accent: #e25f37
   ),
   dark: (
     main: #141e24,
-    primary: #e96c4c,
+    primary: #ff6b3f,
     secondary: #11191e,
     accent: #f5f5f5,
-    success: #e96c4c
+    success: #ff6b3f,
+    but-accent: #e25f37
   )
 );
     
