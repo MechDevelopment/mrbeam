@@ -1,3 +1,9 @@
+
+.form {
+  border: 1px dashed #ccc;
+  text-align: center;
+}
+
 .icon-load {
   mask-image: url("../../../assets/icons/icon.load.svg");
 }
@@ -18,10 +24,6 @@ span {
   font-size: 18pt;
 }
 
-.form {
-  border: 1px dashed #ccc;
-  text-align: center;
-}
 
 .svg-icon {
   display: flex;
