@@ -58,12 +58,18 @@
         data-inline="false"
         data-width="20"
         data-height="20"
-      ></span
-      >Add unit
+      ></span>
+      {{ "L_Add" | localize }}
     </div>
     <div class="button but-success">
-      <span class="iconify" data-icon="clarity:calculator-line" data-inline="false" data-width="20" data-height="20"></span>
-      Calculate
+      <span
+        class="iconify"
+        data-icon="clarity:calculator-line"
+        data-inline="false"
+        data-width="20"
+        data-height="20"
+      ></span>
+      {{ "L_Calculate" | localize }}
     </div>
   </div>
 </template>

@@ -13,7 +13,7 @@
           data-width="20"
           data-height="20"
         ></span>
-        Download
+        {{"L_Download" | localize}}
       </div>
       <div class="button but-success">
         <span
@@ -23,7 +23,7 @@
           data-width="20"
           data-height="20"
         ></span
-        >Clear
+        > {{"L_Clear" | localize}}
       </div>
     </span>
   </div>

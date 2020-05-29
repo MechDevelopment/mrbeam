@@ -9,7 +9,7 @@
           data-width="20"
           data-height="20"
         ></span
-        > Load
+        > {{"L_Load" | localize}}
       </div>
       <div class="button but-success">
         <span
@@ -19,7 +19,7 @@
           data-width="20"
           data-height="20"
         ></span
-        > Random
+        > {{"L_Random" | localize}}
       </div>
     </span>
     <!-- <canvas id="beam" resize="true"></canvas> -->
