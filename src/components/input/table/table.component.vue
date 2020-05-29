@@ -1,12 +1,20 @@
 <template>
-  <div class="table-form">Table</div>
+  <div class="table-form">
+    <div class="card"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+    <span>
+      <div class="button">Download</div>
+      <div class="button">Clear</div>
+    </span>
+  </div>
 </template>
 
 <script>
 export default {
   data: () => ({}),
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
 
