@@ -2,46 +2,44 @@
   <div class="form">
     <span class="toolset">
       <div :class="unitNumber == 0 ? 'main-invert' : 'main'" @click="clickLoad">
-        <div
+        <span
           class="icon-load svg-icon"
           :class="unitNumber == 0 ? 'main' : 'main-invert'"
-        ></div>
+        ></span>
       </div>
       <div
         :class="unitNumber == 1 ? 'main-invert' : 'main'"
         @click="clickMoment"
       >
-        <div
-          class="icon-load svg-icon"
+        <span
+          class="svg-icon icon-moment"
           :class="unitNumber == 1 ? 'main' : 'main-invert'"
-        ></div>
+        ></span>
       </div>
       <div
         :class="unitNumber == 2 ? 'main-invert' : 'main'"
         @click="clickDistload"
       >
-        <div
-          class="icon-load svg-icon"
+        <span
+          class="svg-icon icon-distload"
           :class="unitNumber == 2 ? 'main' : 'main-invert'"
-        ></div>
+        ></span>
       </div>
       <div
         :class="unitNumber == 3 ? 'main-invert' : 'main'"
         @click="clickDefenition"
       >
-        <div
-          class="icon-load svg-icon"
+        <span
+          class="svg-icon icon-defenition"
           :class="unitNumber == 3 ? 'main' : 'main-invert'"
-        ></div>
+        ></span>
       </div>
       <div
+      class="EJ math"
         :class="unitNumber == 4 ? 'main-invert' : 'main'"
         @click="clickMaterial"
       >
-        <div
-          class="icon-load svg-icon"
-          :class="unitNumber == 4 ? 'main' : 'main-invert'"
-        ></div>
+        EJ
       </div>
     </span>
 
@@ -67,7 +65,7 @@ export default {
       { type: "input", label: "y" },
     ],
   }),
- 
+
   methods: {
     clickLoad() {
       this.unitNumber = 0;

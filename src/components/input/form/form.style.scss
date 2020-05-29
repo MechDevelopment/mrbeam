@@ -1,13 +1,38 @@
 .icon-load {
-  mask-position: center;
-  mask-repeat: no-repeat;
   mask-image: url("../../../assets/icons/icon.load.svg");
 }
+
+.icon-moment {
+  mask-image: url("../../../assets/icons/icon.moment.svg");
+}
+
+.icon-distload {
+  mask-image: url("../../../assets/icons/icon.distload.svg");
+}
+
+.icon-defenition {
+  mask-image: url("../../../assets/icons/icon.defenition.svg");
+}
+
+span {
+  font-size: 18pt;
+}
+
+
 
 .svg-icon {
   display: flex;
   vertical-align: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 32px;
+  padding: 0 0 0 0;
+  mask-position: center, center;
+  mask-repeat: space;
+}
+
+.EJ {
+  font-size: 20pt;
+  width: 48px;
+  height: 32px;
 }
