@@ -1,7 +1,31 @@
 
 .form {
-  border: 1px dashed #ccc;
   text-align: center;
+}
+
+
+
+span {
+  font-family: 'Overlock', cursive;
+  font-size: 18pt;
+}
+
+
+.svg-icon {
+  display: flex;
+  vertical-align: center;
+  justify-content: center;
+  width: 48px;
+  height: 34px;
+  padding: 0 0 0 0;
+  mask-position: center, center;
+  mask-repeat: space;
+}
+
+.EJ {
+  font-size: 20pt;
+  width: 48px;
+  height: 32px;
 }
 
 .icon-load {
@@ -20,24 +44,6 @@
   mask-image: url("../../../assets/icons/icon.defenition.svg");
 }
 
-span {
-  font-size: 18pt;
-}
-
-
-.svg-icon {
-  display: flex;
-  vertical-align: center;
-  justify-content: center;
-  width: 48px;
-  height: 32px;
-  padding: 0 0 0 0;
-  mask-position: center, center;
-  mask-repeat: space;
-}
-
-.EJ {
-  font-size: 20pt;
-  width: 48px;
-  height: 32px;
+.icon-material {
+  mask-image: url("../../../assets/icons/icon.material.svg");
 }

@@ -35,11 +35,13 @@
         ></span>
       </div>
       <div
-        class="EJ math"
         :class="unitNumber == 4 ? 'main-invert' : 'main'"
         @click="clickMaterial"
       >
-        EJ
+        <span
+          class="svg-icon icon-material"
+          :class="unitNumber == 4 ? 'main' : 'main-invert'"
+        ></span>
       </div>
     </span>
 
@@ -102,10 +104,10 @@ export default {
     clickDistload() {
       this.unitNumber = 2;
       this.unitInput = [
-        { type: "input", label: "x1" },
-        { type: "input", label: "P1" },
-        { type: "input", label: "x2" },
-        { type: "input", label: "P2" },
+        { type: "input", label: "x<sub>1</sub>" },
+        { type: "input", label: "P<sub>1</sub>" },
+        { type: "input", label: "x<sub>2</sub>" },
+        { type: "input", label: "P<sub>2</sub>" },
       ];
     },
     clickDefenition() {
