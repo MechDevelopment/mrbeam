@@ -49,6 +49,13 @@
   }
 }
 
+.but-success {
+  @include themify() {
+    background: key("but-success");
+    color: #11191e;
+  }
+}
+
 html {
   overflow: hidden;
 }

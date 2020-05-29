@@ -1,41 +1,22 @@
 <template>
   <div class="container">
-    <div class="form">
-      <span>
-        <div class="button">Load</div>
-        <div class="button">Random</div>
-      </span>
-      <canvas id="beam" resize="true"></canvas>
-    </div>
+    <Beam></Beam>
     <Form></Form>
-     </div>
+    <Table></Table>
+  </div>
 </template>
 
 <script>
-import Form from "./form/form.component"
+import Form from "./form/form.component";
+import Beam from "./beam/beam.component";
+import Table from "./table/table.component";
 
-import {
-  load,
-  distload,
-  moment,
-  defenition,
-  material,
-} from "../../shared/services/paper/icons";
 export default {
-  mounted() {
-    paper.setup(document.getElementById("beam"));
-    load(30, 50, 30, new Color("#203752"));
-    distload(90, 50, 30, 30, new Color("#203752"));
-    moment(60, 50, 30, new Color("#203752"));
-    defenition(140, 50, 30, new Color("#203752"));
-    material(190, 50, 30, new Color("#203752"));
-
-    let svg = project.exportSVG();
-    console.log(svg)
-  },
   components: {
-    Form
-  }
+    Form,
+    Beam,
+    Table
+  },
 };
 </script>
 
