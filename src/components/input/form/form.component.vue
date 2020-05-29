@@ -35,7 +35,7 @@
         ></span>
       </div>
       <div
-      class="EJ math"
+        class="EJ math"
         :class="unitNumber == 4 ? 'main-invert' : 'main'"
         @click="clickMaterial"
       >
@@ -44,7 +44,6 @@
     </span>
 
     <div></div>
-    <span>{{ unitNumber }}</span>
 
     <div v-for="(form, index) in unitInput" :key="index + 'unitInput'">
       <span v-if="form.type == 'input'"
@@ -52,7 +51,20 @@
       /></span>
     </div>
 
-    <div class="button but-accent">ADD UNIT</div>
+    <div class="button but-accent">
+      <span
+        class="iconify"
+        data-icon="carbon:add"
+        data-inline="false"
+        data-width="20"
+        data-height="20"
+      ></span
+      >Add unit
+    </div>
+    <div class="button but-success">
+      <span class="iconify" data-icon="clarity:calculator-line" data-inline="false" data-width="20" data-height="20"></span>
+      Calculate
+    </div>
   </div>
 </template>
 

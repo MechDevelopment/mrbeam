@@ -10,7 +10,7 @@
       ></span>
     </div>
 
-        <div class="btn main " @click="changeLocale">
+    <div class="btn main " @click="changeLocale">
       {{ "L_RU-EN" | localize }}
     </div>
 
@@ -19,6 +19,7 @@
         {{ "L_title-up" | localize }}
       </p>
       <h1>Mr BEAM</h1>
+
       <p>{{ "L_title-down" | localize }}</p>
 
       <div class="button but-accent" href="#start">

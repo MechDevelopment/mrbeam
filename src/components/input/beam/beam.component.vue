@@ -1,8 +1,26 @@
 <template>
   <div class="wrap-canvas">
     <span class="wrap-buttons">
-      <div class="button but-success">Load</div>
-      <div class="button but-success">Random</div>
+      <div class="button but-success">
+        <span
+          class="iconify"
+          data-icon="ant-design:cloud-upload-outlined"
+          data-inline="false"
+          data-width="20"
+          data-height="20"
+        ></span
+        > Load
+      </div>
+      <div class="button but-success">
+        <span
+          class="iconify"
+          data-icon="fa-solid:dice"
+          data-inline="false"
+          data-width="20"
+          data-height="20"
+        ></span
+        > Random
+      </div>
     </span>
     <!-- <canvas id="beam" resize="true"></canvas> -->
   </div>
