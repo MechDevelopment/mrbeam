@@ -29,45 +29,62 @@
           <input class="input" v-model="models.P" />
         </div>
       </div>
-      <span
-        class="iconify hint"
-        data-icon="bi:question-circle"
-        data-inline="false"
-        data-width="20"
-        data-height="20"
-      ></span>
     </div>
 
     <div class="inputs" v-show="unit_type == 'moment'">
-      <div>
-        <div class="input-wrapper">
-          <span class="input-label">x</span>
-          <input class="input" v-model="models.X" />
-        </div>
-        <div class="input-wrapper">
-          <span class="input-label">M</span>
-          <input class="input" v-model="models.M" />
-        </div>
+      <div class="input-wrapper">
+        <span class="input-label">x</span>
+        <input class="input" v-model="models.X" />
       </div>
-      <span
-        class="iconify hint"
-        data-icon="bi:question-circle"
-        data-inline="false"
-        data-width="20"
-        data-height="20"
-      ></span>
+      <div class="input-wrapper">
+        <span class="input-label">M</span>
+        <input class="input" v-model="models.M" />
+      </div>
     </div>
 
-    <div v-show="unit_type == 'distload'">
-      {{ unit_type }}
+    <div class="inputs" v-show="unit_type == 'distload'">
+      <div class="input-wrapper">
+        <span class="input-label">x<sub>0</sub></span>
+        <input class="input" v-model="models.X" />
+        <span class="input-label">x<sub>1</sub></span>
+        <input class="input" v-model="models.X1" />
+      </div>
+      <div class="input-wrapper">
+        <span class="input-label">P<sub>0</sub></span>
+        <input class="input" v-model="models.P" />
+        <span class="input-label">P<sub>1</sub></span>
+        <input class="input" v-model="models.P1" />
+      </div>
     </div>
 
-    <div v-show="unit_type == 'defenition'">
-      {{ unit_type }}
+    <div class="inputs" v-show="unit_type == 'defenition'">
+      <span class="radio-buttons">
+        <span class="svg-icon icon-defenition main-invert radio-icon"></span
+        ><input type="radio" />
+        <span class="svg-icon icon-defenition main-invert radio-icon"></span
+        ><input type="radio" />
+        <span class="svg-icon icon-defenition main-invert radio-icon"></span
+        ><input type="radio" />
+      </span>
+      <div class="input-wrapper">
+        <span class="input-label">x</span>
+        <input class="input" v-model="models.X" />
+      </div>
     </div>
 
-    <div v-show="unit_type == 'material'">
-      {{ unit_type }}
+    <div class="inputs" v-show="unit_type == 'material'">
+      <div class="input-wrapper">
+        <span class="input-label">E</span>
+        <input class="input" v-model="models.E" />
+      </div>
+      <div class="input-wrapper">
+        <span class="input-label">J</span>
+        <input class="input" v-model="models.J" />
+      </div>
+      <div class="input-wrapper">
+        <span class="input-label">A</span>
+        <input class="input" v-model="models.A" />
+      </div>
     </div>
 
     <div class="button but-accent" @click="clickAdd">

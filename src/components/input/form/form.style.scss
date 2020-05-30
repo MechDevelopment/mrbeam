@@ -2,8 +2,40 @@
   text-align: center;
 }
 
-.inputs {
+.radio-buttons {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radio-icon {
+  mask-size: 100%;
+  max-height: 25px;
+  max-width: 25px;
+}
+
+input[type=radio] {
+  margin-right:20px;
+  margin-top: 0;
+}
+
+input[type=radio]:last-of-type {
+  margin-right: 0;
+}
+
+input[type=radio]:checked{
+
+}
+
+.clear {
+  color: #ccc;
+  margin-left: -28px;
+  margin-bottom: -3px;
+  cursor: pointer;
+}
+
+.inputs {
+  display: inline-block;
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -15,13 +47,17 @@
   cursor: pointer;
 }
 
+sub {
+  font-size: 10pt;
+}
+
 .input-label {
   display: inline-block;
   margin: 3px;
   width: 25px;
   text-align: right;
   font-family: "Overlock", cursive;
-  font-size: 18pt;
+  font-size: 16pt;
 }
 
 .svg-icon {
@@ -33,12 +69,6 @@
   padding: 0 0 0 0;
   mask-position: center, center;
   mask-repeat: space;
-}
-
-.EJ {
-  font-size: 20pt;
-  width: 48px;
-  height: 32px;
 }
 
 .icon-load {
