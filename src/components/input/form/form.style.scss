@@ -3,16 +3,26 @@
 }
 
 .inputs {
-  display: block;
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
+.hint {
+  padding: 2px;
+  margin-left: 20px;
+  cursor: pointer;
+}
 
-
-span {
-  font-family: 'Overlock', cursive;
+.input-label {
+  display: inline-block;
+  margin: 3px;
+  width: 25px;
+  text-align: right;
+  font-family: "Overlock", cursive;
   font-size: 18pt;
 }
-
 
 .svg-icon {
   display: flex;

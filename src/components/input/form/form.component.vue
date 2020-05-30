@@ -19,18 +19,43 @@
 
     <!-- INPUTS -->
     <div class="inputs" v-show="unit_type == 'load'">
-      <span class="input-wrapper">
-        <span class="input-label">x</span>
-        <input class="input" v-model="models.X" />
-      </span>
-      <span class="input-wrapper">
-        <span class="input-label">P</span>
-        <input class="input" v-model="models.P" />
-      </span>
+      <div>
+        <div class="input-wrapper">
+          <span class="input-label">x</span>
+          <input class="input" v-model="models.X" />
+        </div>
+        <div class="input-wrapper">
+          <span class="input-label">P</span>
+          <input class="input" v-model="models.P" />
+        </div>
+      </div>
+      <span
+        class="iconify hint"
+        data-icon="bi:question-circle"
+        data-inline="false"
+        data-width="20"
+        data-height="20"
+      ></span>
     </div>
 
-    <div v-show="unit_type == 'moment'">
-      {{ unit_type }}
+    <div class="inputs" v-show="unit_type == 'moment'">
+      <div>
+        <div class="input-wrapper">
+          <span class="input-label">x</span>
+          <input class="input" v-model="models.X" />
+        </div>
+        <div class="input-wrapper">
+          <span class="input-label">M</span>
+          <input class="input" v-model="models.M" />
+        </div>
+      </div>
+      <span
+        class="iconify hint"
+        data-icon="bi:question-circle"
+        data-inline="false"
+        data-width="20"
+        data-height="20"
+      ></span>
     </div>
 
     <div v-show="unit_type == 'distload'">
@@ -85,13 +110,24 @@ export default {
           console.log(this.unit_type, this.models.X, this.models.M);
           break;
         case "distload":
-          console.log(this.unit_type, this.models.X, this.models.P, this.models.X1, this.models.P1);
+          console.log(
+            this.unit_type,
+            this.models.X,
+            this.models.P,
+            this.models.X1,
+            this.models.P1
+          );
           break;
         case "defenition":
           console.log(this.unit_type, this.models.X, this.models.D);
           break;
         case "material":
-          console.log(this.unit_type, this.models.E, this.models.J, this.models.A);
+          console.log(
+            this.unit_type,
+            this.models.E,
+            this.models.J,
+            this.models.A
+          );
           break;
         default:
           break;
