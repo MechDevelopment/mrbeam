@@ -1,6 +1,5 @@
 <template>
   <div class="form">
-
     <!-- TOOLSET -->
     <span class="toolset">
       <div
@@ -19,33 +18,34 @@
     </span>
 
     <!-- INPUTS -->
-    <div v-show="unit_type == 'load'">
-      {{unit_type}}
+    <div class="inputs" v-show="unit_type == 'load'">
+      <span class="input-wrapper">
+        <span class="input-label">x</span>
+        <input class="input" v-model="models.X" />
+      </span>
+      <span class="input-wrapper">
+        <span class="input-label">P</span>
+        <input class="input" v-model="models.P" />
+      </span>
     </div>
 
     <div v-show="unit_type == 'moment'">
-      {{unit_type}}
+      {{ unit_type }}
     </div>
 
     <div v-show="unit_type == 'distload'">
-      {{unit_type}}
+      {{ unit_type }}
     </div>
 
     <div v-show="unit_type == 'defenition'">
-      {{unit_type}}
+      {{ unit_type }}
     </div>
 
     <div v-show="unit_type == 'material'">
-      {{unit_type}}
+      {{ unit_type }}
     </div>
 
-    <!-- <div v-for="(form, index) in unitInput" :key="index + 'unitInput'">
-      <span v-if="form.type == 'input'"
-        >{{ form.label }} <input class="input"
-      /></span>
-    </div> -->
-
-    <div class="button but-accent">
+    <div class="button but-accent" @click="clickAdd">
       <span
         class="iconify"
         data-icon="carbon:add"
@@ -73,47 +73,29 @@ export default {
   data: () => ({
     UNIT_TYPES: ["load", "moment", "distload", "defenition", "material"],
     unit_type: "load",
-    unitInput: [
-      { type: "input", label: "x" },
-      { type: "input", label: "y" },
-    ],
+    models: { X: "", P: "", X1: "", P1: "", M: "", D: "", E: "", J: "", A: "" },
   }),
-
   methods: {
-    clickLoad() {
-      this.unitNumber = 0;
-      this.unitInput = [
-        { type: "input", label: "x" },
-        { type: "input", label: "P" },
-      ];
-    },
-    clickMoment() {
-      this.unitNumber = 1;
-      this.unitInput = [
-        { type: "input", label: "x" },
-        { type: "input", label: "M" },
-      ];
-    },
-    clickDistload() {
-      this.unitNumber = 2;
-      this.unitInput = [
-        { type: "input", label: "x<sub>1</sub>" },
-        { type: "input", label: "P<sub>1</sub>" },
-        { type: "input", label: "x<sub>2</sub>" },
-        { type: "input", label: "P<sub>2</sub>" },
-      ];
-    },
-    clickDefenition() {
-      this.unitNumber = 3;
-      this.unitInput = [{ type: "input", label: "x" }];
-    },
-    clickMaterial() {
-      this.unitNumber = 4;
-      this.unitInput = [
-        { type: "input", label: "E" },
-        { type: "input", label: "J" },
-        { type: "input", label: "A" },
-      ];
+    clickAdd() {
+      switch (this.unit_type) {
+        case "load":
+          console.log(this.unit_type, this.models.X, this.models.P);
+          break;
+        case "moment":
+          console.log(this.unit_type, this.models.X, this.models.M);
+          break;
+        case "distload":
+          console.log(this.unit_type, this.models.X, this.models.P, this.models.X1, this.models.P1);
+          break;
+        case "defenition":
+          console.log(this.unit_type, this.models.X, this.models.D);
+          break;
+        case "material":
+          console.log(this.unit_type, this.models.E, this.models.J, this.models.A);
+          break;
+        default:
+          break;
+      }
     },
   },
 };
