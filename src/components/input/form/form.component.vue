@@ -1,57 +1,49 @@
 <template>
   <div class="form">
+
+    <!-- TOOLSET -->
     <span class="toolset">
-      <div :class="unitNumber == 0 ? 'main-invert' : 'main'" @click="clickLoad">
-        <span
-          class="icon-load svg-icon"
-          :class="unitNumber == 0 ? 'main' : 'main-invert'"
-        ></span>
-      </div>
       <div
-        :class="unitNumber == 1 ? 'main-invert' : 'main'"
-        @click="clickMoment"
+        v-for="unit in UNIT_TYPES"
+        :key="unit"
+        :class="unit_type == unit ? 'main-invert' : 'main'"
+        @click="unit_type = unit"
       >
         <span
-          class="svg-icon icon-moment"
-          :class="unitNumber == 1 ? 'main' : 'main-invert'"
-        ></span>
-      </div>
-      <div
-        :class="unitNumber == 2 ? 'main-invert' : 'main'"
-        @click="clickDistload"
-      >
-        <span
-          class="svg-icon icon-distload"
-          :class="unitNumber == 2 ? 'main' : 'main-invert'"
-        ></span>
-      </div>
-      <div
-        :class="unitNumber == 3 ? 'main-invert' : 'main'"
-        @click="clickDefenition"
-      >
-        <span
-          class="svg-icon icon-defenition"
-          :class="unitNumber == 3 ? 'main' : 'main-invert'"
-        ></span>
-      </div>
-      <div
-        :class="unitNumber == 4 ? 'main-invert' : 'main'"
-        @click="clickMaterial"
-      >
-        <span
-          class="svg-icon icon-material"
-          :class="unitNumber == 4 ? 'main' : 'main-invert'"
+          class="svg-icon"
+          :class="
+            unit_type == unit ? `main icon-${unit}` : `main-invert icon-${unit}`
+          "
         ></span>
       </div>
     </span>
 
-    <div></div>
+    <!-- INPUTS -->
+    <div v-show="unit_type == 'load'">
+      {{unit_type}}
+    </div>
 
-    <div v-for="(form, index) in unitInput" :key="index + 'unitInput'">
+    <div v-show="unit_type == 'moment'">
+      {{unit_type}}
+    </div>
+
+    <div v-show="unit_type == 'distload'">
+      {{unit_type}}
+    </div>
+
+    <div v-show="unit_type == 'defenition'">
+      {{unit_type}}
+    </div>
+
+    <div v-show="unit_type == 'material'">
+      {{unit_type}}
+    </div>
+
+    <!-- <div v-for="(form, index) in unitInput" :key="index + 'unitInput'">
       <span v-if="form.type == 'input'"
         >{{ form.label }} <input class="input"
       /></span>
-    </div>
+    </div> -->
 
     <div class="button but-accent">
       <span
@@ -79,7 +71,8 @@
 <script>
 export default {
   data: () => ({
-    unitNumber: 0,
+    UNIT_TYPES: ["load", "moment", "distload", "defenition", "material"],
+    unit_type: "load",
     unitInput: [
       { type: "input", label: "x" },
       { type: "input", label: "y" },
