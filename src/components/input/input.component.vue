@@ -2,7 +2,7 @@
   <div class="container">
     <Beam></Beam>
     <Form></Form>
-    <Table></Table>
+    <!-- <Table></Table> -->
   </div>
 </template>
 

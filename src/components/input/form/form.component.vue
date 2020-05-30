@@ -17,7 +17,7 @@
       </div>
     </span>
 
-    <!-- INPUTS -->
+    <!-- LOAD -->
     <div class="inputs" v-show="unit_type == 'load'">
       <div>
         <div class="input-wrapper">
@@ -31,6 +31,7 @@
       </div>
     </div>
 
+    <!-- MOMENT -->
     <div class="inputs" v-show="unit_type == 'moment'">
       <div class="input-wrapper">
         <span class="input-label">x</span>
@@ -42,29 +43,38 @@
       </div>
     </div>
 
+    <!-- DISTLOAD -->
     <div class="inputs" v-show="unit_type == 'distload'">
       <div class="input-wrapper">
         <span class="input-label">x<sub>0</sub></span>
         <input class="input" v-model="models.X" />
+      </div>
+      <div class="input-wrapper">
         <span class="input-label">x<sub>1</sub></span>
         <input class="input" v-model="models.X1" />
       </div>
       <div class="input-wrapper">
-        <span class="input-label">P<sub>0</sub></span>
-        <input class="input" v-model="models.P" />
-        <span class="input-label">P<sub>1</sub></span>
-        <input class="input" v-model="models.P1" />
+        <div v-show="true">
+          <span class="input-label">q</span>
+          <input class="input" v-model="models.Q0" />
+        </div>
+        <div v-show="false">
+          <span class="input-label">q<sub>0</sub></span>
+          <input class="input" v-model="models.Q0" />
+          <span class="input-label">q<sub>1</sub></span>
+          <input class="input" v-model="models.Q1" />
+        </div>
       </div>
     </div>
 
+    <!-- DEFENITION -->
     <div class="inputs" v-show="unit_type == 'defenition'">
       <span class="radio-buttons">
-        <span class="svg-icon icon-defenition main-invert radio-icon"></span
-        ><input type="radio" />
-        <span class="svg-icon icon-defenition main-invert radio-icon"></span
-        ><input type="radio" />
-        <span class="svg-icon icon-defenition main-invert radio-icon"></span
-        ><input type="radio" />
+        <span class="svg-icon icon-defenition main-invert radio-icon"></span>
+
+        <span class="svg-icon icon-defenition main-invert radio-icon"></span>
+
+        <span class="svg-icon icon-defenition main-invert radio-icon"></span>
       </span>
       <div class="input-wrapper">
         <span class="input-label">x</span>
@@ -72,6 +82,7 @@
       </div>
     </div>
 
+    <!-- MATERIAL -->
     <div class="inputs" v-show="unit_type == 'material'">
       <div class="input-wrapper">
         <span class="input-label">E</span>
@@ -115,7 +126,7 @@ export default {
   data: () => ({
     UNIT_TYPES: ["load", "moment", "distload", "defenition", "material"],
     unit_type: "load",
-    models: { X: "", P: "", X1: "", P1: "", M: "", D: "", E: "", J: "", A: "" },
+    models: { X: "", P: "", X1: "", Q0: "", M: "", D: "", E: "", J: "", A: "" },
   }),
   methods: {
     clickAdd() {
