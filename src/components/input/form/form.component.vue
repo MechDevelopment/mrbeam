@@ -22,11 +22,11 @@
       <div>
         <div class="input-wrapper">
           <span class="input-label">x</span>
-          <input class="input" v-model="models.X" />
+          <input class="input" v-model="models.X" inputmode="numeric" />
         </div>
         <div class="input-wrapper">
           <span class="input-label">P</span>
-          <input class="input" v-model="models.P" />
+          <input class="input" v-model="models.P" inputmode="numeric" />
         </div>
       </div>
     </div>
@@ -35,11 +35,11 @@
     <div class="inputs" v-show="unit_type == 'moment'">
       <div class="input-wrapper">
         <span class="input-label">x</span>
-        <input class="input" v-model="models.X" />
+        <input class="input" v-model="models.X" inputmode="numeric" />
       </div>
       <div class="input-wrapper">
         <span class="input-label">M</span>
-        <input class="input" v-model="models.M" />
+        <input class="input" v-model="models.M" inputmode="numeric" />
       </div>
     </div>
 
@@ -47,22 +47,22 @@
     <div class="inputs" v-show="unit_type == 'distload'">
       <div class="input-wrapper">
         <span class="input-label">x<sub>0</sub></span>
-        <input class="input" v-model="models.X" />
+        <input class="input" v-model="models.X" inputmode="numeric" />
       </div>
       <div class="input-wrapper">
         <span class="input-label">x<sub>1</sub></span>
-        <input class="input" v-model="models.X1" />
+        <input class="input" v-model="models.X1" inputmode="numeric" />
       </div>
       <div class="input-wrapper">
         <div v-show="true">
           <span class="input-label">q</span>
-          <input class="input" v-model="models.Q0" />
+          <input class="input" v-model="models.Q0" inputmode="numeric" />
         </div>
         <div v-show="false">
           <span class="input-label">q<sub>0</sub></span>
-          <input class="input" v-model="models.Q0" />
+          <input class="input" v-model="models.Q0" inputmode="numeric" />
           <span class="input-label">q<sub>1</sub></span>
-          <input class="input" v-model="models.Q1" />
+          <input class="input" v-model="models.Q1" inputmode="numeric" />
         </div>
       </div>
     </div>
@@ -78,7 +78,7 @@
       </span>
       <div class="input-wrapper">
         <span class="input-label">x</span>
-        <input class="input" v-model="models.X" />
+        <input class="input" v-model="models.X" inputmode="numeric" />
       </div>
     </div>
 
@@ -86,15 +86,15 @@
     <div class="inputs" v-show="unit_type == 'material'">
       <div class="input-wrapper">
         <span class="input-label">E</span>
-        <input class="input" v-model="models.E" />
+        <input class="input" v-model="models.E" inputmode="numeric" />
       </div>
       <div class="input-wrapper">
         <span class="input-label">J</span>
-        <input class="input" v-model="models.J" />
+        <input class="input" v-model="models.J" inputmode="numeric" />
       </div>
       <div class="input-wrapper">
         <span class="input-label">A</span>
-        <input class="input" v-model="models.A" />
+        <input class="input" v-model="models.A" inputmode="numeric" />
       </div>
     </div>
 
