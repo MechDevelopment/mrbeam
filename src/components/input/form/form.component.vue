@@ -72,7 +72,7 @@
       <span class="radio-buttons">
         <span class="svg-icon icon-defenition main-invert radio-icon"></span>
 
-        <span class="svg-icon icon-defenition main-invert radio-icon"></span>
+        <span class="svg-icon icon-fixed main-invert radio-icon"></span>
 
         <span class="svg-icon icon-defenition main-invert radio-icon"></span>
       </span>
