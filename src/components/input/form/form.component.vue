@@ -19,8 +19,8 @@
 
     <!-- LOAD -->
     <div class="inputs" v-show="unit_type == 'load'">
-      <Textfield :model="models.X" label="x"></Textfield>
-      <Textfield :model="models.P" label="P"></Textfield>
+      <Textfield v-model="models.X" label="x"></Textfield>
+      <Textfield v-model="models.P" label="P"></Textfield>
     </div>
 
     <!-- MOMENT -->
@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import Textfield from "./textfield/textfield.component";
+import Textfield from "./textfield.component";
 
 export default {
   data: () => ({
