@@ -19,16 +19,8 @@
 
     <!-- LOAD -->
     <div class="inputs" v-show="unit_type == 'load'">
-      <div>
-        <div class="input-wrapper">
-          <span class="input-label">x</span>
-          <input class="input" v-model="models.X" inputmode="numeric" />
-        </div>
-        <div class="input-wrapper">
-          <span class="input-label">P</span>
-          <input class="input" v-model="models.P" inputmode="numeric" />
-        </div>
-      </div>
+      <Textfield :model="models.X" label="x"></Textfield>
+      <Textfield :model="models.P" label="P"></Textfield>
     </div>
 
     <!-- MOMENT -->
@@ -122,6 +114,8 @@
 </template>
 
 <script>
+import Textfield from "./textfield/textfield.component";
+
 export default {
   data: () => ({
     UNIT_TYPES: ["load", "moment", "distload", "defenition", "material"],
@@ -162,10 +156,12 @@ export default {
       }
     },
   },
+  components: {
+    Textfield,
+  },
 };
 </script>
 
 <style lang="sass" scoped>
-@import "../../../styles.scss"
 @import "./form.style.scss"
 </style>

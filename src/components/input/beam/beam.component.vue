@@ -49,6 +49,5 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../../../styles.scss"
 @import "./beam.style.scss"
 </style>
