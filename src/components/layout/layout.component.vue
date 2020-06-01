@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="divapp">
     <!-- SLOTS BEHAVIOR -->
     <transition
       v-for="(component, index) in $slots.default"
@@ -68,9 +68,10 @@ export default {
   },
 
   mounted() {
+    const divapp = document.getElementById("divapp")
     window.addEventListener("resize", this.layout.rebuild.bind(this.layout), false);
-    document.addEventListener("touchstart", this.handleTouchStart, false);
-    document.addEventListener("touchmove", this.handleTouchMove, false);
+    divapp.addEventListener("touchstart", this.handleTouchStart, false);
+    divapp.addEventListener("touchmove", this.handleTouchMove, false);
 
     document.onkeydown = (e) => {
       switch (e.keyCode) {
