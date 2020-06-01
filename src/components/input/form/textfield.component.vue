@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="label">{{ label }}</span>
+    <span class="label" v-html="label"></span>
     <input
       v-bind:value="value"
       v-on="inputListeners"

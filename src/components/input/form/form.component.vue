@@ -25,38 +25,15 @@
 
     <!-- MOMENT -->
     <div class="inputs" v-show="unit_type == 'moment'">
-      <div class="input-wrapper">
-        <span class="input-label">x</span>
-        <input class="input" v-model="models.X" inputmode="numeric" />
-      </div>
-      <div class="input-wrapper">
-        <span class="input-label">M</span>
-        <input class="input" v-model="models.M" inputmode="numeric" />
-      </div>
+      <Textfield v-model="models.X" label="x"></Textfield>
+      <Textfield v-model="models.M" label="M"></Textfield>
     </div>
 
     <!-- DISTLOAD -->
     <div class="inputs" v-show="unit_type == 'distload'">
-      <div class="input-wrapper">
-        <span class="input-label">x<sub>0</sub></span>
-        <input class="input" v-model="models.X" inputmode="numeric" />
-      </div>
-      <div class="input-wrapper">
-        <span class="input-label">x<sub>1</sub></span>
-        <input class="input" v-model="models.X1" inputmode="numeric" />
-      </div>
-      <div class="input-wrapper">
-        <div v-show="true">
-          <span class="input-label">q</span>
-          <input class="input" v-model="models.Q0" inputmode="numeric" />
-        </div>
-        <div v-show="false">
-          <span class="input-label">q<sub>0</sub></span>
-          <input class="input" v-model="models.Q0" inputmode="numeric" />
-          <span class="input-label">q<sub>1</sub></span>
-          <input class="input" v-model="models.Q1" inputmode="numeric" />
-        </div>
-      </div>
+      <Textfield v-model="models.X" label="x<sub>0</sub>"></Textfield>
+      <Textfield v-model="models.X1" label="x<sub>1</sub>"></Textfield>
+      <Textfield v-model="models.Q0" label="q"></Textfield>
     </div>
 
     <!-- DEFENITION -->
@@ -68,26 +45,14 @@
 
         <span class="svg-icon icon-hinge main-invert radio-icon"></span>
       </span>
-      <div class="input-wrapper">
-        <span class="input-label">x</span>
-        <input class="input" v-model="models.X" inputmode="numeric" />
-      </div>
+      <Textfield v-model="models.X" label="x"></Textfield>
     </div>
 
     <!-- MATERIAL -->
     <div class="inputs" v-show="unit_type == 'material'">
-      <div class="input-wrapper">
-        <span class="input-label">E</span>
-        <input class="input" v-model="models.E" inputmode="numeric" />
-      </div>
-      <div class="input-wrapper">
-        <span class="input-label">J</span>
-        <input class="input" v-model="models.J" inputmode="numeric" />
-      </div>
-      <div class="input-wrapper">
-        <span class="input-label">A</span>
-        <input class="input" v-model="models.A" inputmode="numeric" />
-      </div>
+      <Textfield v-model="models.E" label="E"></Textfield>
+      <Textfield v-model="models.J" label="J"></Textfield>
+      <Textfield v-model="models.A" label="A"></Textfield>
     </div>
 
     <div class="button but-accent" @click="clickAdd">
