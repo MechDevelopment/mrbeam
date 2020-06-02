@@ -84,37 +84,48 @@ import Textfield from "./textfield.component";
 export default {
   data: () => ({
     UNIT_TYPES: ["load", "moment", "distload", "defenition", "material"],
+    id: 0,
     unit_type: "load",
     models: { X: "", P: "", X1: "", Q0: "", M: "", D: "", E: "", J: "", A: "" },
   }),
   methods: {
     clickAdd() {
+      this.id++;
       switch (this.unit_type) {
         case "load":
-          console.log(this.unit_type, this.models.X, this.models.P);
+          this.$store.commit("addElement", {
+            id: this.id,
+            type: this.unit_type,
+            value: { X: this.models.X, P: this.models.P },
+          });
           break;
         case "moment":
-          console.log(this.unit_type, this.models.X, this.models.M);
+          this.$store.commit("addElement", {
+            id: this.id,
+            type: this.unit_type,
+            value: { X: this.models.X, M: this.models.M },
+          });
           break;
         case "distload":
-          console.log(
-            this.unit_type,
-            this.models.X,
-            this.models.P,
-            this.models.X1,
-            this.models.P1
-          );
+          this.$store.commit("addElement", {
+            id: this.id,
+            type: this.unit_type,
+            value: { X: this.models.X, X1: this.models.X1, Q0: this.models.Q0 },
+          });
           break;
         case "defenition":
-          console.log(this.unit_type, this.models.X, this.models.D);
+          this.$store.commit("addElement", {
+            id: this.id,
+            type: this.unit_type,
+            value: { X: this.models.X, D: this.models.D },
+          });
           break;
         case "material":
-          console.log(
-            this.unit_type,
-            this.models.E,
-            this.models.J,
-            this.models.A
-          );
+          this.$store.commit("addElement", {
+            id: this.id,
+            type: this.unit_type,
+            value: { E: this.models.E, J: this.models.J, A: this.models.A },
+          });
           break;
         default:
           break;

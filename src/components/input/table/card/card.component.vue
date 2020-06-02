@@ -41,8 +41,7 @@ export default {
       }
     },
     clickDelete() {
-      console.log("card", this.card_id, "has been deleted");
-      this.$el.parentNode.removeChild(this.$el);
+      this.$store.commit("deleteElementById", this.card_id);
     },
   },
 };
