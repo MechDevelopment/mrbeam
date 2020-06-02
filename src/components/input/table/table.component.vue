@@ -1,10 +1,14 @@
 <template>
   <div class="table-form">
     <div v-for="element in elements" :key="element.id">
-      <Card :card_id="element.id" :type="element.type" :values="element.value"></Card>
+      <Card
+        :card_id="element.id"
+        :type="element.type"
+        :values="element.value"
+      ></Card>
     </div>
 
-    <span>
+    <span v-show="elements.length">
       <div class="button but-success">
         <span
           class="iconify"
@@ -15,7 +19,7 @@
         ></span>
         {{ "L_Download" | localize }}
       </div>
-      <div class="button but-success">
+      <div class="button but-success" @click="clickClear">
         <span
           class="iconify"
           data-icon="ic:outline-delete"
@@ -30,18 +34,21 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
 import Card from "./card/card.component";
 
 export default {
   computed: {
-...mapGetters(["elements"])
+    ...mapGetters(["elements"]),
   },
-  data: () => ({
-    load_value: {X: 12, P: 32}
-  }),
-  mounted() {},
+
+  methods: {
+    clickClear() {
+      this.$store.commit("clearElements");
+    }
+  },
+
   components: {
     Card,
   },

@@ -10,8 +10,9 @@ export default new Vuex.Store({
   },
   mutations: {
     setLocale: (state, locale) => (state.locale = locale),
-    addElement: (state, element) => (state.elements.unshift(element)),
-    deleteElementById: (state, id) => (state.elements = state.elements.filter(el => el.id != id)),
+    addElement: (state, element) => state.elements.unshift(element),
+    deleteElementById: (state, id) => (state.elements = state.elements.filter((el) => el.id != id)),
+    clearElements: (state) => (state.elements = []),
   },
   actions: {},
   modules: {},
