@@ -68,8 +68,12 @@ export default {
   },
 
   mounted() {
-    const divapp = document.getElementById("divapp")
-    window.addEventListener("resize", this.layout.rebuild.bind(this.layout), false);
+    const divapp = document.getElementById("divapp");
+    window.addEventListener(
+      "resize",
+      this.layout.rebuild.bind(this.layout),
+      false
+    );
     divapp.addEventListener("touchstart", this.handleTouchStart, false);
     divapp.addEventListener("touchmove", this.handleTouchMove, false);
 
@@ -95,12 +99,17 @@ export default {
     handleTouchMove(evt) {
       if (!this.xDown || !this.yDown) return;
 
-      var xDiff = this.xDown - evt.touches[0].clientX;
-      var yDiff = this.yDown - evt.touches[0].clientY;
+      let xDiff = this.xDown - evt.touches[0].clientX;
+      let yDiff = this.yDown - evt.touches[0].clientY;
 
-      if (Math.abs(xDiff) > Math.abs(yDiff)) {
-        if (xDiff > 0) this.queue.add(["right"]);
-        else this.queue.add(["left"]);
+
+      if (Math.abs(xDiff) > 25) {
+        if (Math.abs(xDiff) > Math.abs(yDiff)) {
+          if (xDiff > 0) this.queue.add(["right"]);
+          else this.queue.add(["left"]);
+        }
+      } else {
+        return;
       }
 
       this.xDown = null;
