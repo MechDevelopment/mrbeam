@@ -1,6 +1,6 @@
 <template>
   <div class="wrap-canvas">
-    <span class="wrap-buttons">
+    <span class="wrap-buttons" v-show="!elements.length">
       <div class="button but-success">
         <span
           class="iconify"
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import {
   load,
   distload,
@@ -35,6 +37,9 @@ import {
   material,
 } from "../../../shared/services/paper/icons";
 export default {
+  computed: {
+    ...mapGetters(["elements"]),
+  },
   mounted() {
     // paper.setup(document.getElementById("beam"));
     // load(30, 50, 30, new Color("#203752"));
