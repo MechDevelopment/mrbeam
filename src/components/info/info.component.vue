@@ -10,7 +10,7 @@
       ></span>
     </div>
 
-    <div class="btn main " @click="changeLocale">
+    <div class="btn main unselectable" @click="changeLocale">
       {{ "L_RU-EN" | localize }}
     </div>
 
