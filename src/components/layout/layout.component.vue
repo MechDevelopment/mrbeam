@@ -51,7 +51,13 @@
     </div>
 
     <!-- PHONE BAR -->
-    <div v-else class="phone-bar main"></div>
+    <div v-else class="phone-bar main">
+      <span v-for="(component, index) in $slots.default" :key="index + 'dots'">
+        <span class="" @click="queue.add(layout.dots(index))">
+          {{ layout.getShow(index) }}
+        </span>
+      </span>
+    </div>
   </div>
 </template>
 

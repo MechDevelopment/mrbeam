@@ -37,6 +37,25 @@
   bottom: 0;
   height: 40px;
   width: 100%;
+  text-align: center;
+  > span {
+    display: inline-block;
+    height: 100%;
+    width: 24%;
+
+    border-right: 1px solid transparent;
+    border-color: #dbdbdb;
+
+    span {
+      display: block;
+      padding: 10px;
+      height: 100%;
+    }
+  }
+
+  > :last-child {
+    border: none;
+  }
 }
 
 // SLIDERS ANIMATION
