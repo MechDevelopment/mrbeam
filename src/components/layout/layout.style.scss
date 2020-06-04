@@ -38,6 +38,7 @@
   height: 40px;
   width: 100%;
   text-align: center;
+
   > span {
     display: inline-block;
     height: 100%;
@@ -46,9 +47,9 @@
     border-right: 1px solid transparent;
     border-color: #dbdbdb;
 
-    span {
+    > span {
       display: block;
-      padding: 10px;
+      padding: 6px;
       height: 100%;
     }
   }

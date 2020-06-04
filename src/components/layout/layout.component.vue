@@ -25,10 +25,7 @@
                 { height: 'calc(100% - 40px)' },
                 layout.getStyle(index)
               )
-            : Object.assign(
-                { height: '100%' },
-                layout.getStyle(index)
-              )
+            : Object.assign({ height: '100%' }, layout.getStyle(index))
         "
       >
         <div class="item" :class="itemClass">
@@ -54,7 +51,27 @@
     <div v-else class="phone-bar main">
       <span v-for="(component, index) in $slots.default" :key="index + 'dots'">
         <span class="" @click="queue.add(layout.dots(index))">
-          {{ layout.getShow(index) }}
+          <span v-show="layout.getShow(index) == 0"
+            ><span
+              class="iconify"
+              :data-icon="icon[index][0]"
+              data-inline="false"
+              data-width="25"
+              data-height="25"
+            ></span
+          ></span>
+
+          <span v-show="layout.getShow(index) != 0">
+            <span
+              class="iconify"
+              :data-icon="icon[index][1]"
+              data-inline="false"
+              data-width="25"
+              data-height="25"
+            ></span
+          ></span>
+
+          <!-- {{ layout.getShow(index) }} -->
         </span>
       </span>
     </div>
@@ -69,6 +86,12 @@ export default {
   props: ["item-class", "item-max-width"],
 
   data: () => ({
+    icon: [
+      ["clarity-file-group-line", "clarity-file-group-solid"],
+      ["clarity-calculator-line", "clarity-calculator-solid"],
+      ["clarity-analytics-line", "clarity-analytics-solid"],
+      ["clarity-clipboard-line", "clarity-clipboard-solid"],
+    ],
     layout: undefined,
     queue: undefined,
     xDown: null,
