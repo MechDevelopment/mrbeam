@@ -2,7 +2,7 @@
   <div class="container">
     <!-- STATE BAR -->
     <div class="state-bar">
-      <div class="btn main margin" @click="changeTheme">
+      <div class="state-icon main" @click="changeTheme">
         <span
           class="iconify"
           data-icon="mdi-invert-colors"
@@ -12,13 +12,13 @@
         ></span>
       </div>
 
-      <div class="btn main unselectable" @click="changeLocale">
+      <div class="state-icon main unselectable" @click="changeLocale">
         {{ "L_RU-EN" | localize }}
       </div>
     </div>
     
     <!-- TITLEPAGE -->
-    <div class="titlepage">
+    <div class="titlepage unselectable">
       <p>
         {{ "L_title-up" | localize }}
       </p>
@@ -26,7 +26,7 @@
 
       <p>{{ "L_title-down" | localize }}</p>
 
-      <div class="button but-accent" href="#start">
+      <a class="button but-accent" href="#start">
         <span
           class="iconify"
           data-icon="ic:baseline-keyboard-arrow-down"
@@ -38,12 +38,13 @@
           data-icon="ic:baseline-keyboard-arrow-down"
           data-inline="false"
         ></span>
-      </div>
+      </a>
     </div>
 
     <!-- INFO BAR -->
     <div class="info-bar">
-      <p id="start">{{ "L_Lorem" | localize }}</p>
+      <div class="anchor" id="start"></div>
+      <p >{{ "L_Lorem" | localize }}</p>
       <p>{{ "L_Lorem" | localize }}</p>
       <p>{{ "L_Lorem" | localize }}</p>
       <p>{{ "L_Lorem" | localize }}</p>
