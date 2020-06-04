@@ -1,19 +1,23 @@
 <template>
   <div class="container">
-    <div class="btn main margin" @click="changeTheme">
-      <span
-        class="iconify"
-        data-icon="mdi-invert-colors"
-        data-width="20px"
-        data-height="20px"
-        data-inline="false"
-      ></span>
-    </div>
+    <!-- STATE BAR -->
+    <div class="state-bar">
+      <div class="btn main margin" @click="changeTheme">
+        <span
+          class="iconify"
+          data-icon="mdi-invert-colors"
+          data-width="20px"
+          data-height="20px"
+          data-inline="false"
+        ></span>
+      </div>
 
-    <div class="btn main unselectable" @click="changeLocale">
-      {{ "L_RU-EN" | localize }}
+      <div class="btn main unselectable" @click="changeLocale">
+        {{ "L_RU-EN" | localize }}
+      </div>
     </div>
-
+    
+    <!-- TITLEPAGE -->
     <div class="titlepage">
       <p>
         {{ "L_title-up" | localize }}
@@ -37,14 +41,17 @@
       </div>
     </div>
 
-    <p id="start">{{ "L_Lorem" | localize }}</p>
-    <p>{{ "L_Lorem" | localize }}</p>
-    <p>{{ "L_Lorem" | localize }}</p>
-    <p>{{ "L_Lorem" | localize }}</p>
-    <p>{{ "L_Lorem" | localize }}</p>
-    <p>{{ "L_Lorem" | localize }}</p>
-    <p>{{ "L_Lorem" | localize }}</p>
-    <p>{{ "L_Lorem" | localize }}</p>
+    <!-- INFO BAR -->
+    <div class="info-bar">
+      <p id="start">{{ "L_Lorem" | localize }}</p>
+      <p>{{ "L_Lorem" | localize }}</p>
+      <p>{{ "L_Lorem" | localize }}</p>
+      <p>{{ "L_Lorem" | localize }}</p>
+      <p>{{ "L_Lorem" | localize }}</p>
+      <p>{{ "L_Lorem" | localize }}</p>
+      <p>{{ "L_Lorem" | localize }}</p>
+      <p>{{ "L_Lorem" | localize }}</p>
+    </div>
   </div>
 </template>
 
