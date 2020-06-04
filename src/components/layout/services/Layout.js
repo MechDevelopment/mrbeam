@@ -71,6 +71,7 @@ export default class Layout {
       let right = { width: `${100 / M}%`, left: aside_right[i] };
       array[i] = { left, right };
     }
+
     return array;
   }
 
@@ -156,5 +157,9 @@ export default class Layout {
 
   getStyle(index) {
     return this._style_array[index][this._direction];
+  }
+
+  getCountVisible() {
+    return Math.ceil(window.innerWidth / this.max_width);
   }
 }

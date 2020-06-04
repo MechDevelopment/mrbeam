@@ -11,7 +11,7 @@
   margin: 10px;
   overflow-y: auto;
 }
-.dots {
+.dots-bar {
   position: fixed;
   bottom: 20px;
   height: 27px;
@@ -30,6 +30,13 @@
       width: 27px;
     }
   }
+}
+
+.phone-bar {
+  position: fixed;
+  bottom: 0;
+  height: 40px;
+  width: 100%;
 }
 
 // SLIDERS ANIMATION

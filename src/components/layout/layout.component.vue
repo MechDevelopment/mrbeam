@@ -19,7 +19,17 @@
       <div
         class="wrap"
         v-show="layout.getShow(index)"
-        :style="layout.getStyle(index)"
+        :style="
+          layout.getCountVisible() == 1
+            ? Object.assign(
+                { height: 'calc(100% - 40px)' },
+                layout.getStyle(index)
+              )
+            : Object.assign(
+                { height: '100%' },
+                layout.getStyle(index)
+              )
+        "
       >
         <div class="item" :class="itemClass">
           <Render :vnode="component"></Render>
@@ -27,8 +37,8 @@
       </div>
     </transition>
 
-    <!-- DOTS BEHAVIOR -->
-    <div v-if="layout.getControl()" class="dots">
+    <!-- DOTS BAR -->
+    <div v-if="layout.getCountVisible() != 1" class="dots-bar">
       <button @click="queue.add(['left'])">LEFT</button>
 
       <span v-for="(component, index) in $slots.default" :key="index + 'dots'">
@@ -39,6 +49,9 @@
 
       <button @click="queue.add(['right'])">RIGHT</button>
     </div>
+
+    <!-- PHONE BAR -->
+    <div v-else class="phone-bar main"></div>
   </div>
 </template>
 
@@ -101,7 +114,6 @@ export default {
 
       let xDiff = this.xDown - evt.touches[0].clientX;
       let yDiff = this.yDown - evt.touches[0].clientY;
-
 
       if (Math.abs(xDiff) > 25) {
         if (Math.abs(xDiff) > Math.abs(yDiff)) {
