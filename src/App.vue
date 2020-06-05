@@ -16,6 +16,7 @@ import Input from "./components/input/input.component";
 import Chart from "./components/chart/chart.component";
 import Data from "./components/data/data.component";
 
+
 export default {
   components: {
     Layout,

@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap-canvas">
+  <div class="wrap-canvas" v-resize="onResize">
     <span class="wrap-buttons" v-show="!elements.length">
       <div class="button but-success">
         <span
@@ -22,8 +22,8 @@
         {{ "L_Random" | localize }}
       </div>
     </span>
-    <span class="main" v-show="elements.length" id="svg_root"></span>
-    <canvas v-show="false" id="beam" resize="true"></canvas>
+    <!-- <span class="main" v-show="elements.length" id="svg_root"></span> -->
+    <canvas v-show="elements.length" id="beam" resize="true"></canvas>
   </div>
 </template>
 
@@ -39,7 +39,13 @@ import {
 } from "../../../shared/services/paper/icons";
 
 import { createBeam } from "../../../shared/services/paper/beam";
+
+import resize from "vue-resize-directive";
+
 export default {
+  directives: {
+    resize,
+  },
   data: () => ({
     beamSVG: undefined,
   }),
@@ -58,14 +64,22 @@ export default {
   },
   methods: {
     updateBeam() {
+      // Подключаем paper js
       paper.setup(document.getElementById("beam"));
-      createBeam(Math.floor(Math.random() * Math.floor(100)), 100);
 
-      if (document.getElementById("svg_root").children[0]) {
-        document.getElementById("svg_root").children[0].remove();
-      }
+      const WRAP = document.getElementsByClassName("wrap-canvas")[0];
+      
+      createBeam(0, 0, WRAP.clientWidth, 150);
 
-      document.getElementById("svg_root").appendChild(project.exportSVG());
+      // if (document.getElementById("svg_root").children[0]) {
+      //   document.getElementById("svg_root").children[0].remove();
+      // }
+
+      // document.getElementById("svg_root").appendChild(project.exportSVG());
+    },
+
+    onResize() {
+      this.updateBeam();
     },
   },
 };
