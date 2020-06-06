@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap-canvas" v-on:resize="onResize">
+  <div class="wrap-canvas">
     <span class="wrap-buttons" v-show="!elements.length">
       <div class="button but-success">
         <span
@@ -23,11 +23,14 @@
       </div>
     </span>
     <!-- <span class="main" v-show="elements.length" id="svg_root"></span> -->
-    <canvas v-show="elements.length" id="beam" resize="true"></canvas>
+    <canvas id="beam" resize="true"></canvas>
   </div>
 </template>
 
 <script>
+// CONST
+const CANVAS_HEIGHT = 150;
+
 import { mapGetters } from "vuex";
 
 import {
@@ -48,45 +51,44 @@ export default {
     ...mapGetters(["elements"]),
   },
   mounted() {
-    this.updateBeam();
-    // load(30, 50, 30, new Color("#203752"));
-    // distload(90, 50, 30, 30, new Color("#203752"));
-    // moment(60, 50, 30, new Color("#203752"));
-    // defenition(140, 50, 30, new Color("#203752"));
-    // material(190, 50, 30, new Color("#203752"));
-    // let svg = project.exportSVG();
-    // console.log(svg);
+    // Listeners
+    window.addEventListener("resize", this.onResize);
+
+    // Connect paper js
+    paper.setup(document.getElementById("beam"));
   },
+
   methods: {
     updateBeam() {
-
-      // Подключаем paper js
-      paper.setup(document.getElementById("beam"));
-
-      const WRAP = document.getElementsByClassName("wrap-canvas")[0];
+      project.clear();
       
-      createBeam(0, 0, WRAP.clientWidth, 150);
+      setTimeout(() => {
+        // Check size
+        const WIDTH = document.getElementById("beam").offsetWidth;
+        project.view.setViewSize(new Size(WIDTH, CANVAS_HEIGHT));
 
-      // if (document.getElementById("svg_root").children[0]) {
-      //   document.getElementById("svg_root").children[0].remove();
-      // }
 
-      // document.getElementById("svg_root").appendChild(project.exportSVG());
+        createBeam(0, 0, WIDTH, CANVAS_HEIGHT);
+      });
+
     },
 
     onResize() {
-      this.updateBeam();
-      console.log("resize")
+      if (this.elements.length) this.updateBeam();
     },
   },
 
-
   watch: {
     elements() {
-      this.updateBeam();
-      console.log("watch")
-    }
-  }
+      // Clean the project if there are no elements
+      if (!this.elements.length) project.clear();
+      else this.updateBeam();      
+    },
+  },
+
+  beforeDestroy() {
+    window.removeEventListener("resize", this.onResize);
+  },
 };
 </script>
 
