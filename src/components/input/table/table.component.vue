@@ -4,6 +4,7 @@
       <Card
         :card_id="element.id"
         :type="element.type"
+        :x="element.x"
         :values="element.value"
       ></Card>
     </div>

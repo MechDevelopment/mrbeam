@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <span class="card-icon main-invert" :class="`icon-${type}`"></span>
-    <span class="card-values math">{{ cardValues(values) }}</span>
+    <span class="card-values math">{{ cardValues(x, values) }}</span>
     <div class="card-delete" @click="clickDelete">
       <span
         class="iconify"
@@ -16,24 +16,24 @@
 
 <script>
 export default {
-  props: ["card_id", "type", "values"],
+  props: ["card_id", "type", "x", "values"],
   methods: {
-    cardValues(v){
+    cardValues(x, v){
       switch (this.type) {
         case "load":
-          return `x: ${v.X}     P: ${v.P}`;
+          return `x: ${x[0]}     P: ${v[0]}`;
           break;
         case "moment":
-          return `x: ${v.X}     M: ${v.M}`;
+          return `x: ${x[0]}     M: ${v[0]}`;
           break;
         case "distload":
-          return `x: ${v.X}     x: ${v.X0}     q: ${v.Q}`;
+          return `x: ${x[0]}     x: ${x[1]}     q: ${v[0]}`;
           break;
         case "defenition":
-          return `x: ${v.X}`;
+          return `x: ${x[0]}`;
           break;
         case "material":
-          return `E: ${v.E}     J: ${v.J}     A: ${v.A}`;
+          return `x: ${x[0]}     x: ${x[1]}      E: ${v[0]}     J: ${v[1]}     A: ${v[2]}`;
           break;
         default:
           return ""
