@@ -11,7 +11,7 @@
         ></span>
         {{ "L_Load" | localize }}
       </div>
-      <div class="button but-success">
+      <div class="button but-success" @click="clickRandom">
         <span
           class="iconify"
           data-icon="fa-solid:dice"
@@ -61,20 +61,29 @@ export default {
   methods: {
     updateBeam() {
       project.clear();
-      
+
       setTimeout(() => {
         // Check size
         const WIDTH = document.getElementById("beam").offsetWidth;
         project.view.setViewSize(new Size(WIDTH, CANVAS_HEIGHT));
 
-
         createBeam(0, 0, WIDTH, CANVAS_HEIGHT);
       });
-
     },
 
     onResize() {
       if (this.elements.length) this.updateBeam();
+    },
+
+    clickRandom() {
+      console.log("Random start!!!");
+      fetch("http://localhost:3000/generate")
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+        });
     },
   },
 
@@ -82,7 +91,7 @@ export default {
     elements() {
       // Clean the project if there are no elements
       if (!this.elements.length) project.clear();
-      else this.updateBeam();      
+      else this.updateBeam();
     },
   },
 
