@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap-canvas" v-resize="onResize">
+  <div class="wrap-canvas" v-on:resize="onResize">
     <span class="wrap-buttons" v-show="!elements.length">
       <div class="button but-success">
         <span
@@ -40,12 +40,7 @@ import {
 
 import { createBeam } from "../../../shared/services/paper/beam";
 
-import resize from "vue-resize-directive";
-
 export default {
-  directives: {
-    resize,
-  },
   data: () => ({
     beamSVG: undefined,
   }),
@@ -64,6 +59,7 @@ export default {
   },
   methods: {
     updateBeam() {
+
       // Подключаем paper js
       paper.setup(document.getElementById("beam"));
 
@@ -80,8 +76,17 @@ export default {
 
     onResize() {
       this.updateBeam();
+      console.log("resize")
     },
   },
+
+
+  watch: {
+    elements() {
+      this.updateBeam();
+      console.log("watch")
+    }
+  }
 };
 </script>
 
