@@ -50,6 +50,8 @@
 
     <!-- MATERIAL -->
     <div class="inputs" v-show="unit_type == 'material'">
+      <Textfield v-model="models.X" label="x<sub>0</sub>"></Textfield>
+      <Textfield v-model="models.X1" label="x<sub>1</sub>"></Textfield>
       <Textfield v-model="models.E" label="E"></Textfield>
       <Textfield v-model="models.J" label="J"></Textfield>
       <Textfield v-model="models.A" label="A"></Textfield>
@@ -86,45 +88,51 @@ export default {
     UNIT_TYPES: ["load", "moment", "distload", "defenition", "material"],
     id: 0,
     unit_type: "load",
-    models: { X: "", P: "", X1: "", Q0: "", M: "", D: "", E: "", J: "", A: "" },
+    models: { X: "", P: "", X1: "", Q0: "", M: "", D: 1, E: "", J: "", A: "" },
   }),
+
   methods: {
     clickAdd() {
-      this.id++;
       switch (this.unit_type) {
         case "load":
           this.$store.commit("addElement", {
-            id: this.id,
+            id: Date.now(),
             type: this.unit_type,
-            value: { X: this.models.X, P: this.models.P },
+            x: [this.models.X],
+            value: [this.models.P],
           });
           break;
         case "moment":
           this.$store.commit("addElement", {
-            id: this.id,
+            id: Date.now(),
             type: this.unit_type,
-            value: { X: this.models.X, M: this.models.M },
+            x: [this.models.X],
+            value: [this.models.M],
           });
           break;
         case "distload":
+          this.models.Q1 = this.models.Q0;
           this.$store.commit("addElement", {
-            id: this.id,
+            id: Date.now(),
             type: this.unit_type,
-            value: { X: this.models.X, X1: this.models.X1, Q0: this.models.Q0 },
+            x: [this.models.X, this.models.X1],
+            value: [this.models.Q0, this.models.Q1],
           });
           break;
-        case "defenition":
+        case "support":
           this.$store.commit("addElement", {
-            id: this.id,
+            id: Date.now(),
             type: this.unit_type,
-            value: { X: this.models.X, D: this.models.D },
+            x: [this.models.X],
+            value: [this.models.D],
           });
           break;
         case "material":
           this.$store.commit("addElement", {
-            id: this.id,
+            id: Date.now(),
             type: this.unit_type,
-            value: { E: this.models.E, J: this.models.J, A: this.models.A },
+            x: [this.models.X, this.models.X1],
+            value: [this.models.E, this.models.J, this.models.A],
           });
           break;
         default:
