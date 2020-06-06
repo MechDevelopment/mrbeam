@@ -127,7 +127,7 @@ class Generator {
 
     sortUnits(units);
     createId(units);
-    
+
     return units;
   }
 }
@@ -147,14 +147,14 @@ function createCoord(count_of_units, section) {
 function createLoad(units, coords, isAngle) {
   for (let i = 0; i < coords.length; i++) {
     let angle = isAngle ? randint(0, 360) : 90;
-    units.push(create([coords[i]], 1, [randint(-3, 3) * 50, angle]));
+    units.push(create([coords[i]], "load", [randint(-3, 3) * 50, angle]));
   }
 }
 
 /** Set moment in all nodes */
 function createMoment(units, coords) {
   for (let i = 0; i < coords.length; i++) {
-    units.push(create([coords[i]], 2, [randint(-3, 3) * 50]));
+    units.push(create([coords[i]], "moment", [randint(-3, 3) * 50]));
   }
 }
 
@@ -164,7 +164,7 @@ function createDistload(units, coords) {
   const H = Math.abs(coords[coords.length - 1] - coords[0]) / COUNT;
   for (let i = 0; i < COUNT; i++) {
     units.push(
-      create([(coords[0] + i * H) >> 0, (coords[0] + (i + 1) * H) >> 0], 4, [
+      create([(coords[0] + i * H) >> 0, (coords[0] + (i + 1) * H) >> 0], "distload", [
         randint(-3, 3) * 50,
         randint(-3, 3) * 50,
       ])
@@ -178,7 +178,7 @@ function createMaterial(units, coords) {
   const H = Math.abs(coords[coords.length - 1] - coords[0]) / COUNT;
   for (let i = 0; i < COUNT; i++) {
     units.push(
-      create([(coords[0] + i * H) >> 0, (coords[0] + (i + 1) * H) >> 0], 5, [
+      create([(coords[0] + i * H) >> 0, (coords[0] + (i + 1) * H) >> 0], "material", [
         randint(6, 12) * 1e6,
         randint(1000, 9999) / 10000,
         randint(1000, 9999) / 1000,
@@ -195,7 +195,7 @@ function createOneLoad(units, coords, isAngle) {
   for (let i = 0; i < COUNT; i++) {
     let r = randint(0, coords.length - 1);
     let angle = isAngle ? randint(0, 360) : 90;
-    units.push(create([coords[r]], 1, [randint(-3, 3) * 50, angle]));
+    units.push(create([coords[r]], "load", [randint(-3, 3) * 50, angle]));
   }
 }
 
@@ -204,14 +204,14 @@ function createOneMoment(units, coords) {
   const COUNT = randint(1, 2);
   for (let i = 0; i < COUNT; i++) {
     let r = randint(0, coords.length - 1);
-    units.push(create([coords[r]], 2, [randint(-3, 3) * 50]));
+    units.push(create([coords[r]], "moment", [randint(-3, 3) * 50]));
   }
 }
 
 /** Set one distload */
 function createOneDistload(units, coords) {
   units.push(
-    create([coords[0], coords[coords.length - 1]], 4, [
+    create([coords[0], coords[coords.length - 1]], "distload", [
       randint(-3, 3) * 50,
       randint(-3, 3) * 50,
     ])
@@ -221,7 +221,7 @@ function createOneDistload(units, coords) {
 /** Set one material */
 function createOneMaterial(units, coords) {
   units.push(
-    create([coords[0], coords[coords.length - 1]], 5, [12e6, 0.04909, 0.7854])
+    create([coords[0], coords[coords.length - 1]], "material", [12e6, 0.04909, 0.7854])
   );
 }
 
@@ -235,30 +235,30 @@ function createDefenition(units, coords, isJoint) {
     if (randint(0, 1)) {
       // Fixed
       // At start
-      units.push(create([coords[0]], 3, [3]));
-      units.push(create([coords[0 + 1]], 3, [4]));
-      units.push(create([coords[N - shift]], 3, [1]));
+      units.push(create([coords[0]], "defenition", [3]));
+      units.push(create([coords[0 + 1]], "defenition", [4]));
+      units.push(create([coords[N - shift]], "defenition", [1]));
     } else {
       // Swivel
-      units.push(create([coords[0]], 3, [2]));
-      units.push(create([coords[0 + 1]], 3, [4]));
-      units.push(create([coords[N - shift]], 3, [1]));
+      units.push(create([coords[0]], "defenition", [2]));
+      units.push(create([coords[0 + 1]], "defenition", [4]));
+      units.push(create([coords[N - shift]], "defenition", [1]));
     }
   } else {
     if (randint(0, 1)) {
       // Fixed
       if (randint(0, 1)) {
         // At start
-        units.push(create([coords[0]], 3, [3]));
+        units.push(create([coords[0]], "defenition", [3]));
       } else {
         // In the end
-        units.push(create([coords[N]], 3, [3]));
+        units.push(create([coords[N]], "defenition", [3]));
       }
     } else {
       // Swivel
       let shift = randint(0, ((N - 1) / 2) >> 0);
-      units.push(create([coords[0 + shift]], 3, [2]));
-      units.push(create([coords[N - shift]], 3, [1]));
+      units.push(create([coords[0 + shift]], "defenition", [2]));
+      units.push(create([coords[N - shift]], "defenition", [1]));
     }
   }
 }
@@ -269,11 +269,11 @@ function createEmpty(units, coords) {
   sortUnits(units);
   // In the end
   if (units[units.length - 1].x[0] != coords[N]) {
-    units.push(create([coords[N]], 1, [0, 0]));
+    units.push(create([coords[N]], "load", [0, 0]));
   }
   // At start
   if (units[0].x[0] != coords[0]) {
-    units.push(create([coords[0]], 1, [0, 0]));
+    units.push(create([coords[0]], "load", [0, 0]));
   }
 }
 
