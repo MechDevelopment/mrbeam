@@ -76,9 +76,11 @@ export default {
     },
 
     clickRandom() {
+      const URL = "https://mrbeam2.herokuapp.com/generate"
       console.log("Random start!!!");
-      fetch("http://localhost:3000/generate")
+      fetch(URL)
         .then((response) => {
+          console.log(response);
           return response.json();
         })
         .then((data) => {
