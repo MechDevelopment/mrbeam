@@ -5,7 +5,7 @@ const app = require("express")();
 const http = require("http").createServer(app);
 
 app.use("/", serveStatic(path.join(__dirname, "../dist")));
-
+app.use(express.json());
 // Middleware
 app.use(function(req, res, next) {
   if (req.headers.origin == "http://localhost:8080") {
@@ -31,8 +31,8 @@ app.get("/generate", (req, res) => {
 
 app.post("/calculate", (req, res) => {
   const BC = new BeamService();
-
-  console.log(req)
+  if(!req.body) return response.sendStatus(400);
+  console.log(req.body)
   (async () => {
     await BC.import(req.body);
     res.send(BC.getResults());
