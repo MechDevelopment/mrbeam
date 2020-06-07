@@ -14,7 +14,7 @@ app.use(function(req, res, next) {
     "https://mrbeam2.herokuapp.com/generate",
   ];
 
-  console.log(req.headers.origin);
+  console.log(req);
 
   for (let i = 0; i < origins.length; i++) {
     let origin = origins[i];
