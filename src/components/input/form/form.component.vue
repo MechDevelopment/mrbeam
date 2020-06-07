@@ -67,7 +67,7 @@
       ></span>
       {{ "L_Add" | localize }}
     </div>
-    <div class="button but-success">
+    <div class="button but-success" @click="clickCalculate">
       <span
         class="iconify"
         data-icon="clarity:calculator-line"
@@ -138,6 +138,22 @@ export default {
         default:
           break;
       }
+    },
+
+    clickCalculate() {
+      console.log("calculate...")
+      const URL = "https://mrbeam2.herokuapp.com/calculate";
+      fetch(URL, {
+        method: 'POST',
+        body: JSON.stringify(this.$store.getters.elements)
+      })
+        .then((response) => {
+          console.log(response);
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+        });
     },
   },
   components: {
