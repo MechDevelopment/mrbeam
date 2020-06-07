@@ -54,7 +54,7 @@ function separation(units) {
   let group_1 = [];
   let group_2 = [];
   for (let i = 0; i < units.length; i++) {
-    if ([1, 2, 3].includes(units[i].type)) {
+    if (["load", "moment", "defenition"].includes(units[i].type)) {
       group_1.push(units[i]);
     } else {
       group_2.push(units[i]);
@@ -82,7 +82,7 @@ function preparation(group_1, group_2) {
   function empty(x) {
     return {
       x: [x],
-      type: 1,
+      type: "load",
       value: [0, 0],
     };
   }
@@ -94,13 +94,13 @@ function preparation(group_1, group_2) {
     }
 
     // Create distributed load as a function
-    if (group_2[i].type === 4 && typeof group_2[i].value != typeof Function) {
+    if (group_2[i].type === "distload" && typeof group_2[i].value != typeof Function) {
       let distload = dist_func(group_2[i].x, group_2[i].value);
       group_2[i].value = distload;
     }
 
     // Create material as instance class Material
-    if (group_2[i].type === 5 && !(group_2[i].value instanceof Object)) {
+    if (group_2[i].type === "material" && !(group_2[i].value instanceof Object)) {
       group_2[i].value = {
         E: group_2[i].value[0],
         J: group_2[i].value[1],
@@ -126,13 +126,13 @@ function sortUnits(units) {
 /** Filling instance by type and value */
 function decryption(instance, type, value) {
   switch (type) {
-    case 1:
+    case "load":
       instance.load += value[0];
       break;
-    case 2:
+    case "moment":
       instance.moment += value[0];
       break;
-    case 3:
+    case "defenition":
       switch (value[0]) {
         case 1:
           instance.def = [1, 1, 1];
@@ -148,10 +148,10 @@ function decryption(instance, type, value) {
           break;
       }
       break;
-    case 4:
+    case "distload":
       instance.distload.push(value);
       break;
-    case 5:
+    case "material":
       instance.material = {
         E: value[0],
         J: value[1],
