@@ -84,6 +84,7 @@ export default {
         })
         .then((data) => {
           console.log(data);
+          this.$store.commit("setElements", data);
         });
     },
   },

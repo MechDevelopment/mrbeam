@@ -280,7 +280,7 @@ function createEmpty(units, coords) {
 /** Add id for units */
 function createId(units) {
   for (let i = 0; i < units.length; i++) {
-    units[i].id = i;
+    units[i].id = Date.now() - i;
   }
 }
 
