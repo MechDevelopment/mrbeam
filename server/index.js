@@ -29,17 +29,12 @@ app.get("/generate", (req, res) => {
   res.send( BeamService.generate(5));
 });
 
-app.get("/calculate", (req, res) => {
-
-  const gen = BeamService.generate(5);
-  const BC = new BeamService();
-  
+app.post("/calculate", (req, res) => {
+  const BC = new BeamService();  
   (async () => {
-    console.log("import...")
-    await BC.import(gen);
+    await BC.import(req.body);
     res.send(BC.getResults());
   })();
-
 });
 
 //

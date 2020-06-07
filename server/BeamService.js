@@ -30,10 +30,6 @@ class BeamService {
     return Generator.generate(5, [0, 5]);
   }
 }
-const gen = BeamService.generate(5);
-
-const BC = new BeamService();
-BC.import(gen);
 
 module.exports = function() {
   return BeamService;
