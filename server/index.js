@@ -8,25 +8,8 @@ app.use("/", serveStatic(path.join(__dirname, "../dist")));
 
 // Middleware
 app.use(function(req, res, next) {
-  let origins = [
-    "http://localhost:8080",
-    "https://mrbeam2.herokuapp.com",
-    "https://mrbeam2.herokuapp.com/generate",
-  ];
-
-  console.log(req);
-
-  for (let i = 0; i < origins.length; i++) {
-    let origin = origins[i];
-
-    if (req.headers.origin) {
-      if (req.headers.origin.indexOf(origin) > -1) {
-        res.header("Access-Control-Allow-Origin", req.headers.origin);
-      }
-    }
-  }
-
   // hosts
+  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
   res.header("Access-Control-Allow-Origin", "https://mrbeam2.herokuapp.com");
 
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
