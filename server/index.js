@@ -19,10 +19,15 @@ app.use(function(req, res, next) {
   for (let i = 0; i < origins.length; i++) {
     let origin = origins[i];
 
-    if (req.headers.origin.indexOf(origin) > -1) {
-      res.header("Access-Control-Allow-Origin", req.headers.origin);
+    if (req.headers.origin) {
+      if (req.headers.origin.indexOf(origin) > -1) {
+        res.header("Access-Control-Allow-Origin", req.headers.origin);
+      }
     }
   }
+
+  // hosts
+  res.header("Access-Control-Allow-Origin", "https://mrbeam2.herokuapp.com");
 
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.header(
