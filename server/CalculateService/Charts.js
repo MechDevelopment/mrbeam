@@ -21,7 +21,6 @@ function chartResults(elems) {
     );
   }
 
-  console.log(elems);
   return {
     labels,
     shear,
