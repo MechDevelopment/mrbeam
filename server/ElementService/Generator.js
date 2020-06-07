@@ -310,4 +310,4 @@ function sortUnits(units) {
 
 module.exports = function() {
   return new Generator();
-};
+}

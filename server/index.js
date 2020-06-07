@@ -8,8 +8,6 @@ app.use("/", serveStatic(path.join(__dirname, "../dist")));
 
 // Middleware
 app.use(function(req, res, next) {
-  // hosts
-  console.log(req.headers.origin)
   if (req.headers.origin == "http://localhost:8080") {
     res.header("Access-Control-Allow-Origin", "http://localhost:8080");
   } else {
@@ -25,12 +23,18 @@ app.use(function(req, res, next) {
 });
 
 ///
-const generator = require("./ElementService/Generator")();
+const BeamService = require("./BeamService")();
 
 app.get("/generate", (req, res) => {
-  generator.setSettings("ones");
-  let g = generator.generate(5, [0, 5]);
-  res.send(g);
+  res.send( BeamService.generate(5));
+});
+
+app.post("/calculate", (req, res) => {
+  const BC = new BeamService();  
+  (async () => {
+    await BC.import(JSON. parse(req.body));
+    res.send(BC.getResults());
+  })();
 });
 
 //
