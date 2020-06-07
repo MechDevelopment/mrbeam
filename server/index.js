@@ -23,12 +23,23 @@ app.use(function(req, res, next) {
 });
 
 ///
-const generator = require("./ElementService/Generator")();
+const BeamService = require("./BeamService")();
 
 app.get("/generate", (req, res) => {
-  generator.setSettings("ones");
-  let g = generator.generate(5, [0, 5]);
-  res.send(g);
+  res.send( BeamService.generate(5));
+});
+
+app.get("/calculate", (req, res) => {
+
+  const gen = BeamService.generate(5);
+  const BC = new BeamService();
+  
+  (async () => {
+    console.log("import...")
+    await BC.import(gen);
+    res.send(BC.getResults());
+  })();
+
 });
 
 //

@@ -7,9 +7,16 @@
  *  4. chart results creation / создание результатов и графиков
  */
 
-import { element, node } from "./FElements";
-import { supporting, globalM, globalV, solve, reaction } from "./FAlgebra";
-import { chartResults } from "./FCharts";
+const element = require("../CalculateService/Elements").element()
+const node = require("../CalculateService/Elements").node()
+
+const supporting = require("./Algebra").supporting()
+const globalM = require("./Algebra").globalM()
+const globalV = require("./Algebra").globalV()
+const solve = require("./Algebra").solve()
+const reaction = require("./Algebra").reaction()
+
+const chartResults =  require("./Charts")()
 
 function beamCalculate(elems, split_coeff = 0.1) {
   // fragmenetation
@@ -57,4 +64,6 @@ function fragmentation(elems, split_coeff) {
   }
 }
 
-export default beamCalculate;
+module.exports = function() {
+  return beamCalculate;
+}

@@ -38,4 +38,7 @@ function chartResults(elems) {
   };
 }
 
-export { chartResults };
+module.exports = function() {
+  return chartResults;
+}
+

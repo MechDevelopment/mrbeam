@@ -92,4 +92,12 @@ function fdistload(x1, x2, l, distload) {
   return dist;
 }
 
-export { element, node };
+module.exports = {
+  element: function() {
+    return element;
+  },
+  node: function() {
+    return node;
+  }
+};
+

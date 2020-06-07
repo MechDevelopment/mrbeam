@@ -1,7 +1,9 @@
-import { element, node } from "../FemService/FElements";
+const element = require("../CalculateService/Elements").element()
+const node = require("../CalculateService/Elements").node()
 
 /** Parse Units to instances of class Element */
 function parseUnits(units) {
+
   // Separation of units
   let [group_1, group_2] = separation(units);
 
@@ -169,4 +171,7 @@ function isCollision(elem, group_2, i, j) {
   let [y1, y2] = p2;
   return y1 <= x1 && y2 >= x2;
 }
-export default parseUnits;
+
+module.exports = function() {
+  return parseUnits;
+}
