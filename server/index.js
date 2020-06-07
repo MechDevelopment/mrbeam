@@ -1,13 +1,16 @@
 const serveStatic = require("serve-static");
 const path = require("path");
-
-const app = require("express")();
+const express = require("express")
+const app = express();
 const http = require("http").createServer(app);
 
 app.use("/", serveStatic(path.join(__dirname, "../dist")));
 
+app.use(express.json());
+
 // Middleware
 app.use(function(req, res, next) {
+
   if (req.headers.origin == "http://localhost:8080") {
     res.header("Access-Control-Allow-Origin", "http://localhost:8080");
   } else {
@@ -30,9 +33,10 @@ app.get("/generate", (req, res) => {
 });
 
 app.post("/calculate", (req, res) => {
-  const BC = new BeamService();  
+  const BC = new BeamService();
+  if(!req.body) return response.sendStatus(400);
   (async () => {
-    await BC.import(JSON. parse(req.body));
+    await BC.import(req.body);
     res.send(BC.getResults());
   })();
 });
