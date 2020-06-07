@@ -32,7 +32,7 @@ app.get("/generate", (req, res) => {
 app.post("/calculate", (req, res) => {
   const BC = new BeamService();
 
-  console.log(req.body)
+  console.log(req)
   (async () => {
     await BC.import(req.body);
     res.send(BC.getResults());
