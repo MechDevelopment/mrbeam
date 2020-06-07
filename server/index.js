@@ -9,6 +9,7 @@ app.use("/", serveStatic(path.join(__dirname, "../dist")));
 // Middleware
 app.use(function(req, res, next) {
   // hosts
+  res.header("Access-Control-Allow-Origin", "http://192.168.1.3:8080");
   res.header("Access-Control-Allow-Origin", "http://localhost:8080");
   res.header("Access-Control-Allow-Origin", "https://mrbeam2.herokuapp.com");
 
