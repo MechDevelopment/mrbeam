@@ -5,7 +5,11 @@ const app = require("express")();
 const http = require("http").createServer(app);
 
 app.use("/", serveStatic(path.join(__dirname, "../dist")));
-app.use(require("express").json());
+
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Middleware
 app.use(function(req, res, next) {
   if (req.headers.origin == "http://localhost:8080") {
