@@ -9,9 +9,12 @@ app.use("/", serveStatic(path.join(__dirname, "../dist")));
 // Middleware
 app.use(function(req, res, next) {
   // hosts
-  res.header("Access-Control-Allow-Origin", "http://192.168.1.3:8080");
-  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
-  res.header("Access-Control-Allow-Origin", "https://mrbeam2.herokuapp.com");
+  console.log(req.headers.origin)
+  if (req.headers.origin == "http://localhost:8080") {
+    res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+  } else {
+    res.header("Access-Control-Allow-Origin", "https://mrbeam2.herokuapp.com");
+  }
 
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.header(
