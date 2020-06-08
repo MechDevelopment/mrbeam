@@ -1,5 +1,26 @@
 <template>
   <div class="wrap-canvas">
+    <span class="wrap-icons" v-show="elements.length">
+      <div >
+        <span
+          class="iconify"
+          data-icon="ant-design:cloud-upload-outlined"
+          data-inline="false"
+          data-width="25"
+          data-height="25"
+        ></span>
+      </div>
+      <div @click="clickRandom">
+        <span
+          class="iconify"
+          data-icon="fa-solid:dice"
+          data-inline="false"
+          data-width="25"
+          data-height="25"
+        ></span>
+      </div>
+    </span>
+
     <span class="wrap-buttons" v-show="!elements.length">
       <div class="button but-success">
         <span

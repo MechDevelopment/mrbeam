@@ -1,14 +1,5 @@
 <template>
   <div class="table-form">
-    <div v-for="element in elements" :key="element.id">
-      <Card
-        :card_id="element.id"
-        :type="element.type"
-        :x="element.x"
-        :values="element.value"
-      ></Card>
-    </div>
-
     <span v-show="elements.length">
       <div class="button but-success">
         <span
@@ -31,6 +22,15 @@
         {{ "L_Clear" | localize }}
       </div>
     </span>
+    
+    <div v-for="element in elements" :key="element.id">
+      <Card
+        :card_id="element.id"
+        :type="element.type"
+        :x="element.x"
+        :values="element.value"
+      ></Card>
+    </div>
   </div>
 </template>
 
