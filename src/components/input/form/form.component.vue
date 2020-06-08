@@ -141,8 +141,6 @@ export default {
     },
 
     clickCalculate() {
-      console.log("calculate...");
-      console.log(JSON.stringify(this.$store.getters.elements));
       const URL = "https://mrbeam2.herokuapp.com/calculate";
       fetch(URL, {
         method: "POST",
@@ -153,11 +151,10 @@ export default {
         body: JSON.stringify(this.$store.getters.elements),
       })
         .then((response) => {
-          console.log(response);
           return response.json();
         })
         .then((data) => {
-          console.log(data);
+          this.$store.commit("setSolution", data);
         });
     },
   },
