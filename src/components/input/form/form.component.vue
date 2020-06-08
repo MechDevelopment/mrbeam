@@ -67,7 +67,7 @@
       ></span>
       {{ "L_Add" | localize }}
     </div>
-    <div class="button but-success" @click="clickCalculate">
+    <div v-show="this.elements.length" class="button but-success" @click="clickCalculate">
       <span
         class="iconify"
         data-icon="clarity:calculator-line"
@@ -81,9 +81,14 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Textfield from "./textfield.component";
 
 export default {
+  computed: {
+    ...mapGetters(["elements"]),
+  },
+
   data: () => ({
     UNIT_TYPES: ["load", "moment", "distload", "defenition", "material"],
     id: 0,
@@ -148,7 +153,7 @@ export default {
           "Content-Type": "application/json;charset=utf-8",
         },
 
-        body: JSON.stringify(this.$store.getters.elements),
+        body: JSON.stringify(this.elements),
       })
         .then((response) => {
           return response.json();
