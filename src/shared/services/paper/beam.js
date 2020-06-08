@@ -1,35 +1,49 @@
-const HEIGHT = 75;
-const PADDING = 50;
+class PaperBeam {
+  constructor(canvasHeight = 75, padding = 50) {
+    // constants
+    this.canvasHeight = canvasHeight;
+    this.padding = padding;
 
-function createBeam(elements, canvasWidth) {
-  const beamSize = getBeamSize(elements);
-  console.log(beamSize);
-  beamSize.points.forEach(el => paperPoint(getX(el, beamSize, canvasWidth)))
-  console.log(getX(1, beamSize, canvasWidth), canvasWidth);
+    // variables
+    this.elements = undefined;
+    this.canvasWidth = undefined;
+    this.beamSize = undefined;
+  }
 
-  paperPoint();
+  createBeam(elements, canvasWidth) {
+    // variables
+    this.elements = elements;
+    this.canvasWidth = canvasWidth;
+    this.beamSize = this._getBeamSize();
 
-  let rect = new Path.Rectangle(0, 0, canvasWidth, HEIGHT * 2);
-  rect.strokeColor = "black";
-  rect.strokeWidth = 3;
+    console.table(this);
+
+    // draw
+    this.beamSize.points.forEach((el) => this._paperPoint(this._getX(el)));
+
+    let rect = new Path.Rectangle(0, 0, this.canvasWidth, this.canvasHeight * 2);
+    rect.strokeColor = "black";
+    rect.strokeWidth = 3;
+  }
+
+  _paperPoint(x) {
+    let point = Path.Circle(new Point(x, this.canvasHeight), 3);
+    point.strokeColor = "black";
+    point.strokeWidth = 2;
+  }
+
+  _getBeamSize() {
+    const points = Array.from(new Set(this.elements.map((el) => el.x).flat()));
+    let [x, y] = [Math.min(...points), Math.max(...points)];
+    let [length, center] = [y - x, (y + x) / 2];
+
+    return { x, y, length, center, points };
+  }
+
+  _getX(x) {
+    const scale = (this.canvasWidth - 2 * this.padding) / this.beamSize.length;
+    return (x - this.beamSize.x) * scale + this.padding;
+  }
 }
 
-function getBeamSize(elements) {
-  const xArray = elements.map((el) => el.x).flat();
-  let [x, y] = [Math.min(...xArray), Math.max(...xArray)];
-  let [length, center] = [y - x, (y + x) / 2];
-  return { x, y, length, center, points: Array.from(new Set(xArray)) };
-}
-
-function getX(x, beamSize, canvasWidth) {
-  const scale = (canvasWidth - 2 * PADDING) / beamSize.length;
-  return (x - beamSize.x) * scale + PADDING;
-}
-
-function paperPoint(x) {
-  let point = Path.Circle(new Point(x, HEIGHT), 3);
-  point.strokeColor = "black";
-  point.strokeWidth = 2;
-}
-
-export { createBeam };
+export default PaperBeam;

@@ -62,11 +62,13 @@ import {
   material,
 } from "../../../shared/services/paper/icons";
 
-import { createBeam } from "../../../shared/services/paper/beam";
+import PaperBeam from "../../../shared/services/paper/beam";
 
 export default {
   data: () => ({
     beamSVG: undefined,
+    PB: new PaperBeam(75, 50),
+    
   }),
   computed: {
     ...mapGetters(["elements"]),
@@ -88,7 +90,7 @@ export default {
         const WIDTH = document.getElementById("beam").offsetWidth;
         project.view.setViewSize(new Size(WIDTH, CANVAS_HEIGHT));
 
-        createBeam(this.elements, WIDTH);
+        this.PB.createBeam(this.elements, WIDTH);
       });
     },
 
