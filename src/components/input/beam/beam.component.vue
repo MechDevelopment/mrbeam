@@ -88,7 +88,7 @@ export default {
         const WIDTH = document.getElementById("beam").offsetWidth;
         project.view.setViewSize(new Size(WIDTH, CANVAS_HEIGHT));
 
-        createBeam(0, 0, WIDTH, CANVAS_HEIGHT);
+        createBeam(this.elements, 0, 0, WIDTH, CANVAS_HEIGHT);
       });
     },
 
@@ -100,11 +100,9 @@ export default {
       const URL = "https://mrbeam2.herokuapp.com/generate"
       fetch(URL)
         .then((response) => {
-          console.log(response);
           return response.json();
         })
         .then((data) => {
-          console.log(data);
           this.$store.commit("setElements", data);
         });
     },
