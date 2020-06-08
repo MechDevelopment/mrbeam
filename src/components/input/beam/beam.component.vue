@@ -1,5 +1,26 @@
 <template>
   <div class="wrap-canvas">
+    <span class="wrap-icons" v-show="elements.length">
+      <div >
+        <span
+          class="iconify"
+          data-icon="ant-design:cloud-upload-outlined"
+          data-inline="false"
+          data-width="25"
+          data-height="25"
+        ></span>
+      </div>
+      <div @click="clickRandom">
+        <span
+          class="iconify"
+          data-icon="fa-solid:dice"
+          data-inline="false"
+          data-width="25"
+          data-height="25"
+        ></span>
+      </div>
+    </span>
+
     <span class="wrap-buttons" v-show="!elements.length">
       <div class="button but-success">
         <span
@@ -67,7 +88,7 @@ export default {
         const WIDTH = document.getElementById("beam").offsetWidth;
         project.view.setViewSize(new Size(WIDTH, CANVAS_HEIGHT));
 
-        createBeam(0, 0, WIDTH, CANVAS_HEIGHT);
+        createBeam(this.elements, WIDTH);
       });
     },
 
@@ -79,11 +100,9 @@ export default {
       const URL = "https://mrbeam2.herokuapp.com/generate"
       fetch(URL)
         .then((response) => {
-          console.log(response);
           return response.json();
         })
         .then((data) => {
-          console.log(data);
           this.$store.commit("setElements", data);
         });
     },
