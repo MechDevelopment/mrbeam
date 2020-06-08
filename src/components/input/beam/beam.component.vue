@@ -88,7 +88,7 @@ export default {
         const WIDTH = document.getElementById("beam").offsetWidth;
         project.view.setViewSize(new Size(WIDTH, CANVAS_HEIGHT));
 
-        createBeam(this.elements, 0, 0, WIDTH, CANVAS_HEIGHT);
+        createBeam(this.elements, WIDTH);
       });
     },
 
