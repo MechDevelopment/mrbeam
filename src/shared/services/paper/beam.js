@@ -13,7 +13,8 @@ class PaperBeam {
     this.colors = {
       point: new Color("#f0bc18"),
       line: new Color("#f0bc18"),
-    }
+      text: new Color("#f0bc18"),
+    };
   }
 
   createBeam(elements, canvasWidth) {
@@ -34,16 +35,24 @@ class PaperBeam {
 
     // Points
     this.beamSize.points.forEach((el) => {
-      this._paperPoint(this._getX(el));
+      this._paperPoint(this._getX(el), el);
     });
-
-
   }
 
-  _paperPoint(x) {
+  _paperPoint(x, label) {
     let point = Path.Circle(new Point(x, this.canvasHeight), 3);
     point.strokeColor = this.colors.point;
     point.strokeWidth = 2;
+
+    let text = new PointText(new Point(x, this.canvasHeight + 50));
+    text.content = label;
+    text.style = {
+      fontFamily: "Overlock",
+      fontWeight: "bold",
+      fontSize: 14,
+      fillColor: this.colors.text,
+      justification: "center",
+    };
   }
 
   _paperLine(x, y) {
