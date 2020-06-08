@@ -8,6 +8,12 @@ class PaperBeam {
     this.elements = undefined;
     this.canvasWidth = undefined;
     this.beamSize = undefined;
+
+    // colors
+    this.colors = {
+      point: new Color("#f0bc18"),
+      line: new Color("#f0bc18"),
+    }
   }
 
   createBeam(elements, canvasWidth) {
@@ -19,22 +25,41 @@ class PaperBeam {
     console.table(this);
 
     // draw
-    this.beamSize.points.forEach((el) => this._paperPoint(this._getX(el)));
 
-    let rect = new Path.Rectangle(0, 0, this.canvasWidth, this.canvasHeight * 2);
-    rect.strokeColor = "black";
-    rect.strokeWidth = 3;
+    // Lines
+    this.beamSize.points.reduce((x, y) => {
+      this._paperLine(this._getX(x), this._getX(y));
+      return y;
+    });
+
+    // Points
+    this.beamSize.points.forEach((el) => {
+      this._paperPoint(this._getX(el));
+    });
+
+
   }
 
   _paperPoint(x) {
     let point = Path.Circle(new Point(x, this.canvasHeight), 3);
-    point.strokeColor = "black";
+    point.strokeColor = this.colors.point;
     point.strokeWidth = 2;
   }
 
+  _paperLine(x, y) {
+    let line = Path.Line(
+      new Point(x + 3, this.canvasHeight),
+      new Point(y - 3, this.canvasHeight)
+    );
+    line.strokeColor = this.colors.line;
+    line.strokeWidth = 4;
+  }
+
   _getBeamSize() {
-    const points = Array.from(new Set(this.elements.map((el) => el.x).flat()));
-    let [x, y] = [Math.min(...points), Math.max(...points)];
+    const setOfPoints = new Set(this.elements.map((el) => el.x).flat());
+    const points = Array.from(setOfPoints).sort((a, b) => a - b);
+
+    let [x, y] = [points[0], points[points.length - 1]];
     let [length, center] = [y - x, (y + x) / 2];
 
     return { x, y, length, center, points };
