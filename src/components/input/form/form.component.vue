@@ -141,11 +141,16 @@ export default {
     },
 
     clickCalculate() {
-      console.log("calculate...")
+      console.log("calculate...");
+      console.log(JSON.stringify(this.$store.getters.elements));
       const URL = "https://mrbeam2.herokuapp.com/calculate";
       fetch(URL, {
-        method: 'POST',
-        body: JSON.stringify(this.$store.getters.elements)
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+
+        body: JSON.stringify(this.$store.getters.elements),
       })
         .then((response) => {
           console.log(response);
