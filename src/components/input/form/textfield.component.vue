@@ -29,13 +29,13 @@ export default {
 
   methods: {
     onFocus() {
-      this.remember = this.value;  // Remember last value
-      this.value = "";             // Clear input
+      this.remember = this.value; // Remember last value
+      this.$emit("input", "");    // Clear input
     },
 
     onBlur() {
       if (this.value == "") {
-        this.value = this.remember; // restore value
+        this.$emit("input", this.remember); // restore value
       }
     },
   },
@@ -43,7 +43,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 sub {
   font-size: 10pt;
 }

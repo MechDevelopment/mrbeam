@@ -108,7 +108,6 @@ export default {
       X1: "0",
       Q0: "0",
       M: "0",
-      D: 1,
       E: "1",
       J: "1",
       A: "1",
@@ -145,12 +144,15 @@ export default {
             value: [this.models.Q0, this.models.Q1],
           });
           break;
-        case "support":
+        case "defenition":
+          let D = 1;
+          if (this.def_type == "defenition") D = 3;
+          else if (this.def_type == "hinge") D = 4;
           this.$store.commit("addElement", {
             id: Date.now(),
             type: this.unit_type,
             x: [this.models.X],
-            value: [this.models.D],
+            value: [D],
           });
           break;
         case "material":
