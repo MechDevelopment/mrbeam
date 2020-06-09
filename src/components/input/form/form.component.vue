@@ -41,11 +41,19 @@
       <!-- DEFENITION -->
       <div class="inputs" v-show="unit_type == 'defenition'">
         <span class="radio-buttons">
-          <span class="svg-icon icon-defenition main-invert radio-icon"></span>
-
-          <span class="svg-icon icon-fixed main-invert radio-icon"></span>
-
-          <span class="svg-icon icon-hinge main-invert radio-icon"></span>
+          <div
+            v-for="def in DEF_TYPES"
+            :key="def"
+            :class="def_type == def ? 'main-invert' : 'main'"
+            @click="def_type = def"
+          >
+            <span
+              class="svg-icon radio-icon"
+              :class="
+                def_type == def ? `main icon-${def}` : `main-invert icon-${def}`
+              "
+            ></span>
+          </div>
         </span>
         <Textfield v-model="models.X" label="x"></Textfield>
       </div>
@@ -70,6 +78,13 @@
         data-height="20"
       ></span>
       {{ "L_Add" | localize }}
+      <span
+        class="iconify"
+        data-icon="carbon:add"
+        data-inline="false"
+        data-width="20"
+        data-height="20"
+      ></span>
     </div>
   </div>
 </template>
@@ -98,6 +113,8 @@ export default {
       J: "1",
       A: "1",
     },
+    DEF_TYPES: ["defenition", "fixed", "hinge"],
+    def_type: "defenition",
   }),
 
   methods: {

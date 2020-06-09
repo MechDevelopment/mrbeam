@@ -6,16 +6,33 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-}
+  margin-bottom: 10px;
 
-.radio-icon {
-  mask-size: 100%;
-  max-height: 30px;
-  max-width: 30px;
-  margin-left:5px;
-  margin-right:5px;
-}
+  .radio-icon {
+    mask-size: 100%;
+    max-height: 30px;
+    max-width: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
 
+  div {
+    height: 45px;
+    width: 45px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 2px;
+    margin-right: 2px;
+
+    box-shadow: inset 0 1px 2px hsla(0, 0%, 4%, 0.1);
+    border: 1px solid transparent;
+    border-radius: 100px;
+    border-color: #dbdbdb;
+
+    cursor: pointer;
+  }
+}
 
 .inputs {
   display: inline-block;
@@ -23,7 +40,6 @@
   align-items: center;
   justify-content: center;
 }
-
 
 .svg-icon {
   display: flex;
@@ -63,4 +79,3 @@
 .icon-hinge {
   mask-image: url("../../../assets/icons/icon.hinge.svg");
 }
-
