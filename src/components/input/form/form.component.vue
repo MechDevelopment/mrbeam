@@ -93,7 +93,7 @@ export default {
     UNIT_TYPES: ["load", "moment", "distload", "defenition", "material"],
     id: 0,
     unit_type: "load",
-    models: { X: "", P: "", X1: "", Q0: "", M: "", D: 1, E: "", J: "", A: "" },
+    models: { X: "0", P: "0", X1: "0", Q0: "0", M: "0", D: 1, E: "1", J: "1", A: "1" },
   }),
 
   methods: {

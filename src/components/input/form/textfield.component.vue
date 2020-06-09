@@ -4,6 +4,8 @@
     <input
       v-bind:value="value"
       v-on="inputListeners"
+      v-on:focus="onFocus"
+      v-on:blur="onBlur"
       class="input"
       inputmode="numeric"
     />
@@ -13,10 +15,28 @@
 <script>
 export default {
   props: ["label", "value"],
+
+  data: () => ({
+    remember: undefined,
+  }),
+
   computed: {
     inputListeners() {
       const input = (event) => this.$emit("input", event.target.value);
       return Object.assign({}, this.$listeners, { input });
+    },
+  },
+
+  methods: {
+    onFocus() {
+      this.remember = this.value;
+      this.value = "";
+    },
+
+    onBlur() {
+      if (this.value == "") {
+        this.value = this.remember;
+      }
     },
   },
 };
