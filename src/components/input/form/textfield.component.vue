@@ -43,6 +43,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 sub {
   font-size: 10pt;
 }
@@ -50,6 +51,7 @@ sub {
 .label {
   display: inline-block;
   margin: 3px;
+  margin-left: -28px;
   width: 25px;
   text-align: right;
   font-family: "Overlock", cursive;

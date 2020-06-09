@@ -17,6 +17,7 @@
       </div>
     </span>
 
+    <!-- INPUTES -->
     <div>
       <!-- LOAD -->
       <div class="inputs" v-show="unit_type == 'load'">
@@ -70,7 +71,6 @@
       ></span>
       {{ "L_Add" | localize }}
     </div>
-
   </div>
 </template>
 
