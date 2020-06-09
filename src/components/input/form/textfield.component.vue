@@ -29,13 +29,13 @@ export default {
 
   methods: {
     onFocus() {
-      this.remember = this.value;
-      this.value = "";
+      this.remember = this.value;  // Remember last value
+      this.value = "";             // Clear input
     },
 
     onBlur() {
       if (this.value == "") {
-        this.value = this.remember;
+        this.value = this.remember; // restore value
       }
     },
   },

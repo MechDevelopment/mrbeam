@@ -17,46 +17,49 @@
       </div>
     </span>
 
-    <!-- LOAD -->
-    <div class="inputs" v-show="unit_type == 'load'">
-      <Textfield v-model="models.X" label="x"></Textfield>
-      <Textfield v-model="models.P" label="P"></Textfield>
+    <div>
+      <!-- LOAD -->
+      <div class="inputs" v-show="unit_type == 'load'">
+        <Textfield v-model="models.X" label="x"></Textfield>
+        <Textfield v-model="models.P" label="P"></Textfield>
+      </div>
+
+      <!-- MOMENT -->
+      <div class="inputs" v-show="unit_type == 'moment'">
+        <Textfield v-model="models.X" label="x"></Textfield>
+        <Textfield v-model="models.M" label="M"></Textfield>
+      </div>
+
+      <!-- DISTLOAD -->
+      <div class="inputs" v-show="unit_type == 'distload'">
+        <Textfield v-model="models.X" label="x<sub>0</sub>"></Textfield>
+        <Textfield v-model="models.X1" label="x<sub>1</sub>"></Textfield>
+        <Textfield v-model="models.Q0" label="q"></Textfield>
+      </div>
+
+      <!-- DEFENITION -->
+      <div class="inputs" v-show="unit_type == 'defenition'">
+        <span class="radio-buttons">
+          <span class="svg-icon icon-defenition main-invert radio-icon"></span>
+
+          <span class="svg-icon icon-fixed main-invert radio-icon"></span>
+
+          <span class="svg-icon icon-hinge main-invert radio-icon"></span>
+        </span>
+        <Textfield v-model="models.X" label="x"></Textfield>
+      </div>
+
+      <!-- MATERIAL -->
+      <div class="inputs" v-show="unit_type == 'material'">
+        <Textfield v-model="models.X" label="x<sub>0</sub>"></Textfield>
+        <Textfield v-model="models.X1" label="x<sub>1</sub>"></Textfield>
+        <Textfield v-model="models.E" label="E"></Textfield>
+        <Textfield v-model="models.J" label="J"></Textfield>
+        <Textfield v-model="models.A" label="A"></Textfield>
+      </div>
     </div>
 
-    <!-- MOMENT -->
-    <div class="inputs" v-show="unit_type == 'moment'">
-      <Textfield v-model="models.X" label="x"></Textfield>
-      <Textfield v-model="models.M" label="M"></Textfield>
-    </div>
-
-    <!-- DISTLOAD -->
-    <div class="inputs" v-show="unit_type == 'distload'">
-      <Textfield v-model="models.X" label="x<sub>0</sub>"></Textfield>
-      <Textfield v-model="models.X1" label="x<sub>1</sub>"></Textfield>
-      <Textfield v-model="models.Q0" label="q"></Textfield>
-    </div>
-
-    <!-- DEFENITION -->
-    <div class="inputs" v-show="unit_type == 'defenition'">
-      <span class="radio-buttons">
-        <span class="svg-icon icon-defenition main-invert radio-icon"></span>
-
-        <span class="svg-icon icon-fixed main-invert radio-icon"></span>
-
-        <span class="svg-icon icon-hinge main-invert radio-icon"></span>
-      </span>
-      <Textfield v-model="models.X" label="x"></Textfield>
-    </div>
-
-    <!-- MATERIAL -->
-    <div class="inputs" v-show="unit_type == 'material'">
-      <Textfield v-model="models.X" label="x<sub>0</sub>"></Textfield>
-      <Textfield v-model="models.X1" label="x<sub>1</sub>"></Textfield>
-      <Textfield v-model="models.E" label="E"></Textfield>
-      <Textfield v-model="models.J" label="J"></Textfield>
-      <Textfield v-model="models.A" label="A"></Textfield>
-    </div>
-
+    <!-- BUTTON -->
     <div class="button but-accent" @click="clickAdd">
       <span
         class="iconify"
@@ -67,16 +70,7 @@
       ></span>
       {{ "L_Add" | localize }}
     </div>
-    <div v-show="this.elements.length" class="button but-success" @click="clickCalculate">
-      <span
-        class="iconify"
-        data-icon="clarity:calculator-line"
-        data-inline="false"
-        data-width="20"
-        data-height="20"
-      ></span>
-      {{ "L_Calculate" | localize }}
-    </div>
+
   </div>
 </template>
 
@@ -93,7 +87,17 @@ export default {
     UNIT_TYPES: ["load", "moment", "distload", "defenition", "material"],
     id: 0,
     unit_type: "load",
-    models: { X: "0", P: "0", X1: "0", Q0: "0", M: "0", D: 1, E: "1", J: "1", A: "1" },
+    models: {
+      X: "0",
+      P: "0",
+      X1: "0",
+      Q0: "0",
+      M: "0",
+      D: 1,
+      E: "1",
+      J: "1",
+      A: "1",
+    },
   }),
 
   methods: {

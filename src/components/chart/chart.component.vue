@@ -1,9 +1,22 @@
 <template>
   <div class="container">
+    <div
+      v-show="this.elements.length"
+      class="button but-success"
+      @click="clickCalculate"
+    >
+      <span
+        class="iconify"
+        data-icon="clarity:calculator-line"
+        data-inline="false"
+        data-width="20"
+        data-height="20"
+      ></span>
+      {{ "L_Calculate" | localize }}
+    </div>
     <p>
       {{ solution }}
     </p>
-    
   </div>
 </template>
 
@@ -12,8 +25,28 @@ import { mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(["solution"]),
+    ...mapGetters(["solution", "elements"]),
   },
+
+  methods: {
+     clickCalculate() {
+      const URL = "https://mrbeam2.herokuapp.com/calculate";
+      fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+
+        body: JSON.stringify(this.elements),
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.$store.commit("setSolution", data);
+        });
+    },
+  }
 };
 </script>
 
