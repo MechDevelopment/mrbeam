@@ -120,6 +120,8 @@ export default {
     divapp.addEventListener("touchmove", this.handleTouchMove, false);
 
     document.onkeydown = (e) => {
+      if (e.target.className == "input") return;
+
       switch (e.keyCode) {
         case 37:
           this.queue.add(["left"]);
