@@ -51,13 +51,29 @@
       display: block;
       padding: 6px;
       height: 100%;
-      
+
       cursor: pointer;
     }
   }
 
   > :last-child {
     border: none;
+  }
+}
+
+.left-right-buttons {
+  > div {
+    position: fixed;
+    height: 100%;
+    width: 10px;
+
+    cursor: pointer;
+  }
+  .left {
+    left: 0;
+  }
+  .right {
+    right: 0;
   }
 }
 

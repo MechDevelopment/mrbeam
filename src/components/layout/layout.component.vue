@@ -34,6 +34,12 @@
       </div>
     </transition>
 
+    <!-- RIGHT AND LEFT BUTTONS -->
+    <div v-if="layout.getCountVisible() != 1" class="left-right-buttons">
+      <div class="left" @click="queue.add(['left'])"></div>
+      <div class="right" @click="queue.add(['right'])"></div>
+    </div>
+
     <!-- DOTS BAR -->
     <div v-if="layout.getCountVisible() != 1" class="dots-bar">
       <button @click="queue.add(['left'])">LEFT</button>
