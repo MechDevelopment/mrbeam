@@ -6,6 +6,7 @@
       v-on="inputListeners"
       v-on:focus="onFocus"
       v-on:blur="onBlur"
+      v-on:keyup.enter="onKeyEnter"
       class="input"
       inputmode="numeric"
     />
@@ -45,6 +46,11 @@ export default {
       } catch (error) {
         this.$emit("input", "Not a number!");
       }
+    },
+
+    onKeyEnter() {
+      // blur input
+      this.$el.getElementsByClassName("input")[0].blur();
     },
   },
 };
