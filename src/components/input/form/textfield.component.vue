@@ -30,12 +30,20 @@ export default {
   methods: {
     onFocus() {
       this.remember = this.value; // Remember last value
-      this.$emit("input", "");    // Clear input
+      this.$emit("input", ""); // Clear input
     },
 
     onBlur() {
       if (this.value == "") {
         this.$emit("input", this.remember); // restore value
+        return;
+      }
+
+      // Evaluate string value
+      try {
+        this.$emit("input", eval(this.value.replace("^", "**")));
+      } catch (error) {
+        this.$emit("input", "Not a number!");
       }
     },
   },
