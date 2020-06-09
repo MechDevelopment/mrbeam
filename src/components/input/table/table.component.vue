@@ -1,27 +1,25 @@
 <template>
   <div class="table-form">
-    <span v-show="elements.length">
-      <div class="button but-success">
+    <div class="but-icons" v-show="elements.length">
+      <div>
         <span
           class="iconify"
           data-icon="bx:bx-cloud-download"
           data-inline="false"
-          data-width="20"
-          data-height="20"
+          data-width="25"
+          data-height="25"
         ></span>
-        {{ "L_Download" | localize }}
       </div>
-      <div class="button but-success" @click="clickClear">
+      <div @click="clickClear">
         <span
           class="iconify"
           data-icon="ic:outline-delete"
           data-inline="false"
-          data-width="20"
-          data-height="20"
+          data-width="25"
+          data-height="25"
         ></span>
-        {{ "L_Clear" | localize }}
       </div>
-    </span>
+    </div>
     
     <div v-for="element in elements" :key="element.id">
       <Card

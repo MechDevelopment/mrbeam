@@ -27,13 +27,13 @@ export default {
           return `x: ${x[0]}     M: ${v[0]}`;
           break;
         case "distload":
-          return `x: ${x[0]}     x: ${x[1]}     q: ${v[0]}`;
+          return `x1: ${x[0]}     x2: ${x[1]}     q: ${v[0]}`;
           break;
         case "defenition":
-          return `x: ${x[0]}`;
+          return `x: ${x[0]}      D: ${v[0]}`;
           break;
         case "material":
-          return `x: ${x[0]}     x: ${x[1]}      E: ${v[0]}     J: ${v[1]}     A: ${v[2]}`;
+          return `x1: ${x[0]}     x2: ${x[1]}      E: ${v[0]}     J: ${v[1]}     A: ${v[2]}`;
           break;
         default:
           return ""
