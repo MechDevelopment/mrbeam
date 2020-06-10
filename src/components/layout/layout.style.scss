@@ -21,14 +21,14 @@
   
   .dots-bar {
     position: fixed;
-    bottom: 10px;
+    bottom: 5px;
     height: 28px;
     width: 96px;
     text-align: center;
     left: calc(50% - 96px / 2);
   
-    opacity: 0.15;
-    filter: alpha(opacity = 15);
+    opacity: 0.1;
+    filter: alpha(opacity = 10);
   
     span {
       display: inline-block;
@@ -53,6 +53,9 @@
 
 
 .phone-bar {
+  border-top: 1px solid transparent;
+  border-color: #dbdbdb;
+
   position: fixed;
   bottom: 0;
   height: 40px;

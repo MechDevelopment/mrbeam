@@ -22,7 +22,7 @@
         :style="
           layout.getCountVisible() == 1
             ? Object.assign(
-                { height: 'calc(100% - 40px)' },
+                { height: 'calc(100% - 30px)' },
                 layout.getStyle(index)
               )
             : Object.assign({ height: '100%' }, layout.getStyle(index))

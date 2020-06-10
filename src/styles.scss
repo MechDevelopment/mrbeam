@@ -76,6 +76,13 @@ body {
 
 .container {
   padding: 10px;
+  height: calc(100%-20px);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.container2 {
+  padding: 10px;
   height: 100%;
   -ms-overflow-style: none;
   scrollbar-width: none;
