@@ -14,20 +14,34 @@
 .dots-bar {
   position: fixed;
   bottom: 20px;
-  height: 27px;
+  height: 28px;
   width: 240px;
   text-align: center;
   left: calc(50% - 240px / 2);
 
-  button {
-    height: 27px;
-    width: 60px;
-  }
+  opacity: 0.15;
+  filter: alpha(opacity =20);
 
   span {
-    button {
-      height: 27px;
-      width: 27px;
+    display: inline-block;
+    
+    
+    
+
+    div {
+      display: flex;
+      vertical-align: center;
+      justify-content: center;
+
+      padding: 0 0 0 0;
+      mask-position: center, center;
+      mask-repeat: space;
+
+      height: 28px;
+      width: 24px;
+
+      cursor: pointer;
+      
     }
   }
 }
@@ -77,6 +91,13 @@
   }
 }
 
+.icon-dots0 {
+  mask-image: url("../../assets/icons/icon.dots0.svg");
+}
+
+.icon-dots1 {
+  mask-image: url("../../assets/icons/icon.dots1.svg");
+}
 // SLIDERS ANIMATION
 
 .animated {

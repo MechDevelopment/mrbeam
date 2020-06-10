@@ -42,15 +42,17 @@
 
     <!-- DOTS BAR -->
     <div v-if="layout.getCountVisible() != 1" class="dots-bar">
-      <button @click="queue.add(['left'])">LEFT</button>
+      <!-- <button @click="queue.add(['left'])">LEFT</button> -->
 
       <span v-for="(component, index) in $slots.default" :key="index + 'dots'">
-        <button @click="queue.add(layout.dots(index))">
-          {{ layout.getShow(index) }}
-        </button>
+        <div
+          @click="queue.add(layout.dots(index))"
+          class="main-invert"
+          :class="layout.getShow(index) ? 'icon-dots1' : 'icon-dots0'"
+        ></div>
       </span>
 
-      <button @click="queue.add(['right'])">RIGHT</button>
+      <!-- <button @click="queue.add(['right'])">RIGHT</button> -->
     </div>
 
     <!-- PHONE BAR -->
