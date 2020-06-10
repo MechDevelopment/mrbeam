@@ -36,14 +36,15 @@
 
     <!-- RIGHT AND LEFT BUTTONS -->
     <div v-if="layout.getCountVisible() != 1" class="left-right-buttons">
+      <span class="icon left"><div class="icon-left main-invert"></div></span>
+      <span class="icon right"><div class="icon-right main-invert"></div></span>
+
       <div class="left" @click="queue.add(['left'])"></div>
       <div class="right" @click="queue.add(['right'])"></div>
     </div>
 
     <!-- DOTS BAR -->
     <div v-if="layout.getCountVisible() != 1" class="dots-bar">
-      <!-- <span><div class="icon-left main-invert" @click="queue.add(['left'])"></div></span> -->
-
       <span v-for="(component, index) in $slots.default" :key="index + 'dots'">
         <div
           @click="queue.add(layout.dots(index))"
@@ -51,8 +52,6 @@
           :class="layout.getShow(index) ? 'icon-dots1' : 'icon-dots0'"
         ></div>
       </span>
-
-      <!-- <span><div class="icon-right main-invert" @click="queue.add(['right'])"></div></span> -->
     </div>
 
     <!-- PHONE BAR -->

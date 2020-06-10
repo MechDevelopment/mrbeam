@@ -13,7 +13,7 @@
 }
 
 .dots-bar:hover {
-  transition:  opacity 0.2s ease;
+  transition: opacity 0.2s ease;
   opacity: 1;
   filter: alpha(opacity = 100);
 }
@@ -45,7 +45,6 @@
       width: 24px;
 
       cursor: pointer;
-      
     }
   }
 }
@@ -78,8 +77,27 @@
     border: none;
   }
 }
-
+.left-right-buttons:hover {
+  opacity: 1;
+  filter: alpha(opacity = 100);
+}
 .left-right-buttons {
+  opacity: 0.15;
+  filter: alpha(opacity = 15);
+
+  .icon {
+    position: fixed;
+    top: calc(50% - 14px);
+
+    div {
+      height: 28px;
+      width: 14px;
+
+      mask-position: center, center;
+      mask-repeat: no-repeat;
+    }
+  }
+
   > div {
     position: fixed;
     height: 100%;
@@ -87,6 +105,7 @@
 
     cursor: pointer;
   }
+
   .left {
     left: 0;
   }
