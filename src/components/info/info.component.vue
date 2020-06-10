@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container2">
     <!-- STATE BAR -->
     <div class="state-bar">
       <div class="state-icon main" @click="changeTheme">

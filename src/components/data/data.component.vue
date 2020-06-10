@@ -1,38 +1,19 @@
 <template>
   <div class="container">
-    DATA
     <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
-    </p>
-    <p>
-      {{ "L_Lorem" | localize }}
+      {{ solution }}
     </p>
   </div>
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex";
+
+export default {
+  computed: {
+    ...mapGetters(["solution", "elements"]),
+  },
+};
 </script>
 
 <style lang="sass" scoped>

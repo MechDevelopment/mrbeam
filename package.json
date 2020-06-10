@@ -1,6 +1,6 @@
 {
   "name": "mrbeam",
-  "version": "0.2.0",
+  "version": "0.6.0",
   "private": true,
   "scripts": {
     "front": "vue-cli-service serve",

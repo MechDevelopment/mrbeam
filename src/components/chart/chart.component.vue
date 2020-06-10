@@ -14,9 +14,18 @@
       ></span>
       {{ "L_Calculate" | localize }}
     </div>
-    <p>
-      {{ solution }}
-    </p>
+
+    <div id="plotShear"></div>
+    Shear
+
+    <div id="plotMoment"></div>
+    Moment
+
+    <div id="plotDisplacement"></div>
+    Displacement
+
+    <div id="plotSlope"></div>
+    Slope
   </div>
 </template>
 
@@ -29,7 +38,7 @@ export default {
   },
 
   methods: {
-     clickCalculate() {
+    clickCalculate() {
       const URL = "https://mrbeam2.herokuapp.com/calculate";
       fetch(URL, {
         method: "POST",
@@ -44,9 +53,39 @@ export default {
         })
         .then((data) => {
           this.$store.commit("setSolution", data);
+
+          console.log(this.solution);
+          let shear = {
+            x: this.solution.labels,
+            y: this.solution.shear,
+            type: "scatter",
+          };
+
+          let moment = {
+            x: this.solution.labels,
+            y: this.solution.moment,
+            type: "scatter",
+          };
+
+          let displacement = {
+            x: this.solution.labels,
+            y: this.solution.displacement,
+            type: "scatter",
+          };
+
+          let slope = {
+            x: this.solution.labels,
+            y: this.solution.slopeDegrees,
+            type: "scatter",
+          }
+
+          Plotly.newPlot("plotShear", [shear]);
+          Plotly.newPlot("plotMoment", [moment]);
+          Plotly.newPlot("plotDisplacement", [displacement]);
+          Plotly.newPlot("plotSlope", [slope]);
         });
     },
-  }
+  },
 };
 </script>
 

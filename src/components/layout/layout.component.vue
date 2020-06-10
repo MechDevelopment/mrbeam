@@ -22,7 +22,7 @@
         :style="
           layout.getCountVisible() == 1
             ? Object.assign(
-                { height: 'calc(100% - 40px)' },
+                { height: 'calc(100% - 30px)' },
                 layout.getStyle(index)
               )
             : Object.assign({ height: '100%' }, layout.getStyle(index))
@@ -34,23 +34,37 @@
       </div>
     </transition>
 
-    <!-- RIGHT AND LEFT BUTTONS -->
-    <div v-if="layout.getCountVisible() != 1" class="left-right-buttons">
-      <div class="left" @click="queue.add(['left'])"></div>
-      <div class="right" @click="queue.add(['right'])"></div>
-    </div>
+    <!-- DOTS -->
+    <div v-if="layout.getCountVisible() != 1" class="dots">
+      <!-- LEFT-RIGHT BUTTONS -->
+      <div class="left-right-buttons">
+        <span class="icon left"
+          ><div class="icon-left main-invert" @click="queue.add(['left'])"></div
+        ></span>
+        <span class="icon right"
+          ><div
+            class="icon-right main-invert"
+            @click="queue.add(['right'])"
+          ></div
+        ></span>
 
-    <!-- DOTS BAR -->
-    <div v-if="layout.getCountVisible() != 1" class="dots-bar">
-      <button @click="queue.add(['left'])">LEFT</button>
+        <div class="left" @click="queue.add(['left'])"></div>
+        <div class="right" @click="queue.add(['right'])"></div>
+      </div>
 
-      <span v-for="(component, index) in $slots.default" :key="index + 'dots'">
-        <button @click="queue.add(layout.dots(index))">
-          {{ layout.getShow(index) }}
-        </button>
-      </span>
-
-      <button @click="queue.add(['right'])">RIGHT</button>
+      <!-- DOTS BAR -->
+      <div class="dots-bar">
+        <span
+          v-for="(component, index) in $slots.default"
+          :key="index + 'dots'"
+        >
+          <div
+            @click="queue.add(layout.dots(index))"
+            class="main-invert"
+            :class="layout.getShow(index) ? 'icon-dots1' : 'icon-dots0'"
+          ></div>
+        </span>
+      </div>
     </div>
 
     <!-- PHONE BAR -->
