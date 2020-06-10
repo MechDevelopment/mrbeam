@@ -42,7 +42,7 @@
 
     <!-- DOTS BAR -->
     <div v-if="layout.getCountVisible() != 1" class="dots-bar">
-      <!-- <button @click="queue.add(['left'])">LEFT</button> -->
+      <!-- <span><div class="icon-left main-invert" @click="queue.add(['left'])"></div></span> -->
 
       <span v-for="(component, index) in $slots.default" :key="index + 'dots'">
         <div
@@ -52,7 +52,7 @@
         ></div>
       </span>
 
-      <!-- <button @click="queue.add(['right'])">RIGHT</button> -->
+      <!-- <span><div class="icon-right main-invert" @click="queue.add(['right'])"></div></span> -->
     </div>
 
     <!-- PHONE BAR -->
