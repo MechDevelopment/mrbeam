@@ -14,12 +14,18 @@
       ></span>
       {{ "L_Calculate" | localize }}
     </div>
-    Shear
+
     <div id="plotShear"></div>
-    Moment
+    Shear
+
     <div id="plotMoment"></div>
-    Displacement
+    Moment
+
     <div id="plotDisplacement"></div>
+    Displacement
+
+    <div id="plotSlope"></div>
+    Slope
   </div>
 </template>
 
@@ -47,24 +53,37 @@ export default {
         })
         .then((data) => {
           this.$store.commit("setSolution", data);
+
+          console.log(this.solution);
+          let shear = {
+            x: this.solution.labels,
+            y: this.solution.shear,
+            type: "scatter",
+          };
+
+          let moment = {
+            x: this.solution.labels,
+            y: this.solution.moment,
+            type: "scatter",
+          };
+
+          let displacement = {
+            x: this.solution.labels,
+            y: this.solution.displacement,
+            type: "scatter",
+          };
+
+          let slope = {
+            x: this.solution.labels,
+            y: this.solution.slopeDegrees,
+            type: "scatter",
+          }
+
+          Plotly.newPlot("plotShear", [shear]);
+          Plotly.newPlot("plotMoment", [moment]);
+          Plotly.newPlot("plotDisplacement", [displacement]);
+          Plotly.newPlot("plotSlope", [slope]);
         });
-
-      let shear = {
-        x: this.solution.labels,
-        y: this.solution.shear,
-        type: "scatter",
-      };
-
-      let moment = {
-        x: this.solution.labels,
-        y: this.solution.moment,
-        type: "scatter",
-      };
-
-      var data = [shear,  moment];
-
-      Plotly.newPlot("plotShear", [shear]);
-      Plotly.newPlot("plotMoment", [moment]);
     },
   },
 };
