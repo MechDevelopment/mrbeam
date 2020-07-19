@@ -1,7 +1,7 @@
 <template>
   <div class="wrap-canvas">
     <span class="wrap-icons" v-show="elements.length">
-      <div >
+      <div>
         <span
           class="iconify"
           data-icon="ant-design:cloud-upload-outlined"
@@ -59,7 +59,7 @@ import {
   distload,
   moment,
   defenition,
-  material,
+  material
 } from "../../../shared/services/paper/icons";
 
 import PaperBeam from "../../../shared/services/paper/beam";
@@ -67,11 +67,10 @@ import PaperBeam from "../../../shared/services/paper/beam";
 export default {
   data: () => ({
     beamSVG: undefined,
-    PB: new PaperBeam(75, 50),
-    
+    PB: new PaperBeam(75, 50)
   }),
   computed: {
-    ...mapGetters(["elements"]),
+    ...mapGetters(["elements"])
   },
   mounted() {
     // Listeners
@@ -98,6 +97,18 @@ export default {
       if (this.elements.length) this.updateBeam();
     },
 
+    // clickRandom() {
+      // const URL = "https://mrbeam-api.herokuapp.com/generate";
+      // fetch(URL).then(res => res.json()).then(data => console.log(data));
+      // fetch(URL, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json;charset=utf-8" },
+      //   body: JSON.stringify({ complexity: 'elementary', beamLength: 10, unitsCount: 4 })
+      // })
+      //   .then(res => res.json())
+      //   .then(data => console.table(data));
+    // }
+
     clickRandom() {
       const URL = "https://mrbeam2.herokuapp.com/generate"
       fetch(URL)
@@ -115,12 +126,12 @@ export default {
       // Clean the project if there are no elements
       if (!this.elements.length) project.clear();
       else this.updateBeam();
-    },
+    }
   },
 
   beforeDestroy() {
     window.removeEventListener("resize", this.onResize);
-  },
+  }
 };
 </script>
 
